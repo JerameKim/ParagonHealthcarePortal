@@ -13,27 +13,33 @@ def root():
 
 @app.route('/doctors', methods=['PUT', 'POST', 'DELETE'])
 def doctors():
-    return render_template('doctors.html')
+    pass
+    #return render_template('doctors.html')
 
 @app.route('/patients', methods=['PUT', 'POST', 'DELETE'])
-def tutorial():
-    return render_template('patients.html')
+def patients():
+    pass
+    #return render_template('patients.html')
 
 @app.route('/procedures', methods=['PUT', 'POST', 'DELETE'])
-def tutorial():
-    return render_template('procedures.html')
+def procedures():
+    pass
+    #return render_template('procedures.html')
 
 @app.route('/departments', methods=['PUT', 'POST', 'DELETE'])
-def tutorial():
-    return render_template('departments.html')
+def departments():
+    pass
+    #return render_template('departments.html')
 
 @app.route('/appointments', methods=['PUT', 'POST', 'DELETE'])
-def tutorial():
-    return render_template('appointments.html')
+def appointments():
+    pass
+    #return render_template('appointments.html')
 
 @app.route('/doctors-procedures', methods=['PUT', 'POST', 'DELETE'])
-def tutorial():
-    return render_template('doctors_procedures.html')
+def doctors_procedures():
+    pass
+    #return render_template('doctors_procedures.html')
 
 # Listener
 
