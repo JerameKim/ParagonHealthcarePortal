@@ -11,35 +11,35 @@ app = Flask(__name__)
 def root():
     return render_template('home.html')
 
-@app.route('/doctors', methods=['PUT', 'POST', 'DELETE'])
+# @app.route('/doctors', methods=['PUT', 'POST', 'DELETE'])
+@app.route('/doctors')
 def doctors():
-    pass
-    #return render_template('doctors.html')
+    return render_template('doctors.html')
 
-@app.route('/patients', methods=['PUT', 'POST', 'DELETE'])
+# @app.route('/patients', methods=['PUT', 'POST', 'DELETE'])
+@app.route('/patients')
 def patients():
-    pass
-    #return render_template('patients.html')
+    return render_template('patients.html')
 
-@app.route('/procedures', methods=['PUT', 'POST', 'DELETE'])
+# @app.route('/procedures', methods=['PUT', 'POST', 'DELETE'])
+@app.route('/procedures')
 def procedures():
-    pass
-    #return render_template('procedures.html')
+    return render_template('procedures.html')
 
-@app.route('/departments', methods=['PUT', 'POST', 'DELETE'])
+# @app.route('/departments', methods=['PUT', 'POST', 'DELETE'])
+@app.route('/departments')
 def departments():
-    pass
-    #return render_template('departments.html')
+    return render_template('departments.html')
 
-@app.route('/appointments', methods=['PUT', 'POST', 'DELETE'])
+# @app.route('/appointments', methods=['PUT', 'POST', 'DELETE'])
+@app.route('/appointments')
 def appointments():
-    pass
-    #return render_template('appointments.html')
+    return render_template('appointments.html')
 
-@app.route('/doctors-procedures', methods=['PUT', 'POST', 'DELETE'])
+# @app.route('/doctors-procedures', methods=['PUT', 'POST', 'DELETE'])
+@app.route('/doctors-procedures')
 def doctors_procedures():
-    pass
-    #return render_template('doctors_procedures.html')
+    return render_template('doctors_procedures.html')
 
 # Listener
 

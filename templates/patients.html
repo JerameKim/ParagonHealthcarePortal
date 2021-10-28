@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+{%extends 'base.html'%}
+{%block head%}
+
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/styles.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patients</title>
+</head>
+{%endblock%}
+
+{%block body%}
+
+<body>
+    <h1>Patients</h1>
+    <div class="wrapper">
+        <div class="first">
+            <br>
+            <br>
+            <h3>Update Patient</h3>
+
+            <form>
+                <label for="patientID">Patient ID: </label><br>
+                <input type="text" id="patientID"><br><br>
+                <label for="patientFirst">Patient First: </label><br>
+                <input type="text" id="procedureName"><br><br>
+                <label for="patientLast">Patient Last: </label><br>
+                <input type="text" id="patientLast"><br><br>
+                <label for="patientDOB">Patient Birthday: </label><br>
+                <input type="text" id="patientDOB"><br><br>
+                <label for="doctorID">Doctor ID: </label><br>
+                <input type="text" id="doctorID"><br><br>
+            </form>
+            <br>
+            <button type="button" class="btn btn-primary">Update Patient</button>
+        </div>
+
+        <br>
+        <br>
+        <div class="second">
+            <h3>Add Patient</h3>
+
+            <form>
+                <label for="patientFirst">Patient First: </label><br>
+                <input type="text" id="procedureName"><br><br>
+                <label for="patientLast">Patient Last: </label><br>
+                <input type="text" id="patientLast"><br><br>
+                <label for="patientDOB">Patient Birthday: </label><br>
+                <input type="text" id="patientDOB"><br><br>
+                <label for="doctorID">Doctor ID: </label><br>
+                <input type="text" id="doctorID"><br><br>
+            </form>
+            <br>
+            <button type="button" class="btn btn-primary">Update Patient</button>
+        </div>
+    </div>
+    <hr>
+    <h3>All Patients</h3>
+    <table class="table">
+        <tr>
+            <th>Patient ID</th>
+            <th>Patient First</th>
+            <th>Patient Last</th>
+            <th>Patient DOB</th>
+            <th></th>
+        </tr>
+        <tr>
+            <td>5555</td>
+            <td>Andrew</td>
+            <td>Armadillo</td>
+            <td>01/01/1111</td>
+            <th><button type="button" class="btn btn-primary">Delete</button></th>
+        </tr>
+        <tr>
+            <td>4444</td>
+            <td>Zachary</td>
+            <td>Zucchini</td>
+            <td>02/02/2222</td>
+            <th><button type="button" class="btn btn-primary">Delete</button></th>
+        </tr>
+    </table>
+</body>
+{%endblock%}
+
+</html>

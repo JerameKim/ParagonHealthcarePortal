@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+{%extends 'base.html'%}
+
+{%block head%}
+
+<head>
+    <link rel="stylesheet" href="/static/styles.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Departments</title>
+</head>
+{%endblock%}
+{%block body%}
+
+<body>
+    <h1>Departments</h1>
+    <div class="wrapper">
+        <div class="first">
+            <br>
+            <br>
+            <h3>Update Department</h3>
+
+            <form>
+                <label for="departmentID">Department ID: </label><br>
+                <input type="text" id="departmentID"><br><br>
+                <label for="departmentName">Department Name: </label><br>
+                <input type="text" id="departmentName"><br><br>
+                <label for="departmentHead">Department Head: </label><br>
+                <input type="text" id="departmentHead"><br><br>
+                <label for="addressID">Address ID: </label><br>
+                <input type="text" id="addressID"><br><br>
+            </form>
+            <br>
+            <button type="button" class="btn btn-primary">Update Department</button>
+        </div>
+
+        <br>
+        <br>
+        <div class="second">
+            <h3>Add Department</h3>
+
+            <form>
+                <label for="departmentName">Department Name: </label><br>
+                <input type="text" id="departmentName"><br><br>
+                <label for="departmentHead">Department Head: </label><br>
+                <input type="text" id="departmentHead"><br><br>
+                <label for="addressID">Address ID: </label><br>
+                <input type="text" id="addressID"><br><br>
+            </form>
+            <br>
+            <button type="button" class="btn btn-primary">Update Department</button>
+        </div>
+    </div>
+    <hr>
+    <h3>All Departments</h3>
+    <table class="table">
+        <tr>
+            <th>Department ID</th>
+            <th>Department Name</th>
+            <th>Department Head</th>
+            <th>Department Address</th>
+            <th></th>
+        </tr>
+        <tr>
+            <td>0000</td>
+            <td>Pediatrics</td>
+            <td>Ken Jeong</td>
+            <td>12345 Pennsylvania Avenue</td>
+            <th><button type="button" class="btn btn-primary">Delete</button></th>
+        </tr>
+        <tr>
+            <td>1010</td>
+            <td>Surgery</td>
+            <td>Ace Ventura</td>
+            <td>54545 Oregon Lane</td>
+            <th><button type="button" class="btn btn-primary">Delete</button></th>
+        </tr>
+    </table>
+</body>
+{%endblock%}
+
+</html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+{%extends 'base.html'%}
+
+{%block head%}
+
+<head>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/static/styles.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appointments</title>
+</head>
+{%endblock%}
+
+{%block body%}
+
+<body>
+    <h1>Appointments</h1>
+    <div class="wrapper">
+        <div class="first">
+            <br>
+            <br>
+            <h3>Update Appointment</h3>
+
+            <form>
+                <label for="appointmentID">Appointment ID: </label><br>
+                <input type="text" id="appointmentID"><br><br>
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Patient Name
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="#">Darla Darling</a>
+                        <a class="dropdown-item" href="#">Sandra Sand</a>
+                        <a class="dropdown-item" href="#">Third Person</a>
+                    </div>
+                </div>
+                <br>
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Doctor Name
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="#">Flornce Flowers</a>
+                        <a class="dropdown-item" href="#">Doctor McDoctor</a>
+                        <a class="dropdown-item" href="#">Surgeon O'Surgeon</a>
+                    </div>
+                </div>
+                <br>
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Procedure Name
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="#">Hair implants</a>
+                        <a class="dropdown-item" href="#">Laser hair removal</a>
+                        <a class="dropdown-item" href="#">Hair Cut</a>
+                    </div>
+                </div>
+                <br>
+                <label for="appointmentDate">Appointment Date: </label><br>
+                <input type="text" id="appointmentDate"><br><br>
+            </form>
+            <br>
+            <button type="button" class="btn btn-primary">Update Appointment</button>
+        </div>
+
+        <br>
+        <br>
+        <div class="second">
+            <h3>Add Appointment</h3>
+
+            <form>
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Patient Name
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="#">Darla Darling</a>
+                        <a class="dropdown-item" href="#">Sandra Sand</a>
+                        <a class="dropdown-item" href="#">Third Person</a>
+                    </div>
+                </div>
+                <br>
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Doctor Name
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="#">Flornce Flowers</a>
+                        <a class="dropdown-item" href="#">Doctor McDoctor</a>
+                        <a class="dropdown-item" href="#">Surgeon O'Surgeon</a>
+                    </div>
+                </div>
+                <br>
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Procedure Name
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="#">Hair implants</a>
+                        <a class="dropdown-item" href="#">Laser hair removal</a>
+                        <a class="dropdown-item" href="#">Hair Cut</a>
+                    </div>
+                </div>
+                <br>
+                <label for="appointmentDate">Appointment Date: </label><br>
+                <input type="text" id="appointmentDate"><br><br>
+            </form>
+            <br>
+            <button type="button" class="btn btn-primary">Update Procedure</button>
+        </div>
+    </div>
+    <hr>
+    <h3>All Appointments</h3>
+    <table class="table">
+        <tr>
+            <th>appointmentID</th>
+            <th>Patient Name</th>
+            <th>Doctor Name</th>
+            <th>Procedure Name</th>
+            <th>Date</th>
+            <th></th>
+        </tr>
+        <tr>
+            <td>8888</td>
+            <td>Nicole Kidman</td>
+            <td>Brad Pitt</td>
+            <td>Ear surgery</td>
+            <td>04/04/4444</td>
+            <th><button type="button" class="btn btn-primary">Delete</button></th>
+        </tr>
+        <tr>
+            <td>8833</td>
+            <td>Tom Cruise</td>
+            <td>David Miscavige</td>
+            <td>Height Increase</td>
+            <td>03/03/333</td>
+            <th><button type="button" class="btn btn-primary">Delete</button></th>
+        </tr>
+    </table>
+</body>
+{%endblock%}
+
+</html>

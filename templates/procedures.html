@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+{%extends 'base.html'%}
+
+{%block head%}
+
+<head>
+    <link rel="stylesheet" href="/static/styles.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Procedures</title>
+</head>
+{%endblock%}
+
+{%block body%}
+
+<body>
+    <h1>Procedures</h1>
+    <div class="wrapper">
+        <div class="first">
+            <br>
+            <br>
+            <h3>Update Procedure</h3>
+
+            <form>
+                <label for="procedureID">procedureID: </label><br>
+                <input type="text" id="procedureID"><br><br>
+                <label for="procedureName">procedureName: </label><br>
+                <input type="text" id="procedureName"><br><br>
+                <label for="inPatient">inPatient: </label><br>
+                <input type="radio" id="patientFirst">True<br>
+                <input type="radio" id="patientFirst">False<br>
+            </form>
+            <br>
+            <button type="button" class="btn btn-primary">Update Procedure</button>
+        </div>
+
+        <br>
+        <br>
+        <div class="second">
+            <h3>Insert Procedure</h3>
+
+            <form>
+                <label for="procedureName">procedureName: </label><br>
+                <input type="text" id="procedureName"><br><br>
+                <label for="inPatient">inPatient: </label><br>
+                <input type="radio" id="patientFirst">True<br>
+                <input type="radio" id="patientFirst">False<br>
+            </form>
+            <br>
+            <button type="button" class="btn btn-primary">Update Procedure</button>
+        </div>
+    </div>
+    <hr>
+    <h3>All Procedures</h3>
+    <table class="table">
+        <tr>
+            <th>procedureID</th>
+            <th>procedureName</th>
+            <th>inPatient</th>
+            <th></th>
+        </tr>
+        <tr>
+            <td>5555</td>
+            <td>Nose Picking</td>
+            <td>False</td>
+            <th><button type="button" class="btn btn-primary">Delete</button></th>
+        </tr>
+        <tr>
+            <td>4444</td>
+            <td>Wart Removal</td>
+            <td>True</td>
+            <th><button type="button" class="btn btn-primary">Delete</button></th>
+        </tr>
+    </table>
+</body>
+{%endblock%}
+
+</html>

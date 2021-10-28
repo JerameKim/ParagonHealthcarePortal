@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+{%extends 'base.html'%}
+
+{%block head%}
+
+<head>
+    <link rel="stylesheet" href="/static/styles.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+{%endblock%}
+
+{%block body%}
+
+<body>
+    <h1>Doctors</h1>
+    <div class="wrapper">
+        <div class="first">
+            <br>
+            <br>
+            <h3>Update Doctor</h3>
+
+            <form>
+                <label for="doctorID">Doctor ID: </label><br>
+                <input type="text" id="patientID"><br><br>
+                <label for="patientFirst">Doctor First: </label><br>
+                <input type="text" id="procedureName"><br><br>
+                <label for="patientLast">Doctor Last: </label><br>
+                <input type="text" id="patientLast"><br><br>
+                <label for="patientDOB">Doctor Birthday: </label><br>
+                <input type="text" id="patientDOB"><br><br>
+                <label for="departmentID">Department ID: </label><br>
+                <input type="text" id="departmentID"><br><br>
+            </form>
+            <br>
+            <button type="button" class="btn btn-primary">Update Doctor</button>
+        </div>
+
+        <br>
+        <br>
+        <div class="second">
+            <h3>Add Doctor</h3>
+
+            <form>
+                <label for="doctorFirst">Doctor First: </label><br>
+                <input type="text" id="doctorFirst"><br><br>
+                <label for="doctorLast">Doctor Last: </label><br>
+                <input type="text" id="doctorLast"><br><br>
+                <label for="doctorDOB">Doctor Birthday: </label><br>
+                <input type="text" id="doctorDOB"><br><br>
+                <label for="departmentID">Department ID: </label><br>
+                <input type="text" id="departmentID"><br><br>
+            </form>
+            <br>
+            <button type="button" class="btn btn-primary">Update Doctor</button>
+        </div>
+    </div>
+    <hr>
+    <h3>All Doctors</h3>
+    <table class="table">
+        <tr>
+            <th>Doctor ID</th>
+            <th>Doctor First</th>
+            <th>Doctor Last</th>
+            <th>Doctor DOB</th>
+            <th>Department ID</th>
+            <th></th>
+        </tr>
+        <tr>
+            <td>5555</td>
+            <td>Perry</td>
+            <td>Cox</td>
+            <td>06/02/1960</td>
+            <td>898989</td>
+            <th><button type="button" class="btn btn-primary">Delete</button></th>
+        </tr>
+        <tr>
+            <td>4444</td>
+            <td>John</td>
+            <td>Dorian</td>
+            <td>02/02/2222</td>
+            <td>666168</td>
+            <th><button type="button" class="btn btn-primary">Delete</button></th>
+        </tr>
+    </table>
+</body>
+{%endblock%}
+
+</html>

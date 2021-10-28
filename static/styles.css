@@ -1,0 +1,25 @@
+body { 
+    padding: 30px; 
+}
+
+h1{ 
+    padding: 20px;
+}
+
+.wrapper {
+    width: 80%;
+    /* border: 1px solid black; */
+    overflow: hidden; 
+}
+.first {
+    padding: 30px;
+    width: 40%;
+    float:left; 
+    border-right: 1px solid grey;
+}
+.second {
+    padding: 30px;
+    padding-left: 50px;
+    width: 40%;
+    float: left; 
+}
