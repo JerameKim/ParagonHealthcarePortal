@@ -50,5 +50,6 @@ def doctors_procedures():
 
 if __name__ == "__main__":
     #port = int(os.environ.get('PORT', 55557))
-    app.run(debug=True)
-    # app.run(host="flip1.engr.oregonstate.edu", port=51515, debug=False) 
+    
+    #app.run(host="flip1.engr.oregonstate.edu", port=51515, debug=False)
+    app.run(host="flip1.engr.oregonstate.edu", port=51516, debug=True) 
