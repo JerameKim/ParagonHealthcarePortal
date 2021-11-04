@@ -5,6 +5,15 @@
 {%block head%}
 
 <head>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
     <link rel="stylesheet" href="/static/styles.css">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -29,8 +38,19 @@
                 <input type="text" id="departmentName"><br><br>
                 <label for="departmentHead">Department Head: </label><br>
                 <input type="text" id="departmentHead"><br><br>
-                <label for="addressID">Address ID: </label><br>
-                <input type="text" id="addressID"><br><br>
+                <form>
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Address: 
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="#">4757 East Greenway Road, Phoenix, AZ 85032</a>
+                            <a class="dropdown-item" href="#">44447 Miscavige Ct, Gilman Hot Springs, CA 92583</a>
+                            <a class="dropdown-item" href="#">167676 Main St, Carrolton, GA 30112</a>
+                        </div>
+                    </div>
+                </form>
             </form>
             <br>
             <button type="button" class="btn btn-primary">Update Department</button>
@@ -46,8 +66,17 @@
                 <input type="text" id="departmentName"><br><br>
                 <label for="departmentHead">Department Head: </label><br>
                 <input type="text" id="departmentHead"><br><br>
-                <label for="addressID">Address ID: </label><br>
-                <input type="text" id="addressID"><br><br>
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Address: 
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="#">4757 East Greenway Road, Phoenix, AZ 85032</a>
+                        <a class="dropdown-item" href="#">44447 Miscavige Ct, Gilman Hot Springs, CA 92583</a>
+                        <a class="dropdown-item" href="#">167676 Main St, Carrolton, GA 30112</a>
+                    </div>
+                </div>
             </form>
             <br>
             <button type="button" class="btn btn-primary">Update Department</button>
@@ -67,14 +96,14 @@
             <td>0000</td>
             <td>Pediatrics</td>
             <td>Ken Jeong</td>
-            <td>12345 Pennsylvania Avenue</td>
+            <td>4757 East Greenway Road, Phoenix, AZ 85032</td>
             <th><button type="button" class="btn btn-primary">Delete</button></th>
         </tr>
         <tr>
             <td>1010</td>
             <td>Surgery</td>
             <td>Ace Ventura</td>
-            <td>54545 Oregon Lane</td>
+            <td>44447 Miscavige Ct Gilman Hot Springs, CA 92583</td>
             <th><button type="button" class="btn btn-primary">Delete</button></th>
         </tr>
     </table>

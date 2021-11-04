@@ -36,6 +36,11 @@ def departments():
 def appointments():
     return render_template('appointments.html')
 
+# @app.route('/addresses', methods=['PUT', 'POST', 'DELETE'])
+@app.route('/addresses')
+def addresses():
+    return render_template('addresses.html')
+
 # @app.route('/doctors-procedures', methods=['PUT', 'POST', 'DELETE'])
 @app.route('/doctors-procedures')
 def doctors_procedures():
@@ -45,5 +50,5 @@ def doctors_procedures():
 
 if __name__ == "__main__":
     #port = int(os.environ.get('PORT', 55557))
-    
-    app.run(host="flip1.engr.oregonstate.edu", port=51515, debug=False) 
+    app.run(debug=True)
+    # app.run(host="flip1.engr.oregonstate.edu", port=51515, debug=False) 
