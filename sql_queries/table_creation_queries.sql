@@ -29,7 +29,7 @@ CREATE TABLE Doctors(
     FOREIGN KEY (departmentID) REFERENCES Departments(departmentID)
 );
 
-# This must be done as an alteration after Doctors is created, because Doctors must exist for the FOREIGN KEY statement to reference it.
+-- This must be done as an alteration after Doctors is created, because Doctors must exist for the FOREIGN KEY statement to reference it.
 ALTER TABLE Departments
 ADD FOREIGN KEY (departmentHead) REFERENCES Doctors(doctorID);
 
