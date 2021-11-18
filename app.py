@@ -8,9 +8,14 @@ import os
 app = Flask(__name__)
 
 app.config['MYSQL_HOST'] = 'classmysql.engr.oregonstate.edu'
-app.config['MYSQL_USER'] = 'cs340_coughlis'
-app.config['MYSQL_PASSWORD'] = '8340'
-app.config['MYSQL_DB'] = 'cs340_coughlis'
+# app.config['MYSQL_USER'] = 'cs340_coughlis'
+app.config['MYSQL_USER'] = 'cs340_kimjera'
+# app.config['MYSQL_PASSWORD'] = '8340'
+app.config['MYSQL_PASSWORD'] = '1572'
+
+# app.config['MYSQL_DB'] = 'cs340_coughlis'
+app.config['MYSQL_DB'] = 'cs340_kimjera'
+
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 
 mysql = MySQL(app)
@@ -33,25 +38,35 @@ def make_commands(sql_file):
 def insert_sample_data():
     cur = mysql.connection.cursor()
 
-    #Insert Addresses
+    # #Insert Addresses
     cur.execute('INSERT INTO Addresses (streetAddress, city, state, zipCode) VALUES ("123 Party Street","Cool Town", "WA", "54321")')
     cur.execute('INSERT INTO Addresses (streetAddress, city, state, zipCode) VALUES ("999 Random House Lane","Wherever", "GA", "01010")')
     cur.execute('INSERT INTO Addresses (streetAddress, city, state, zipCode) VALUES ("1 More Court","Beverly Hills", "WI", "44444")')
 
     # Insert Patients
-    cur.execute('INSERT INTO Patients (patientFirst, patientLast, patientDOB, patientDoc) VALUES ("Zachary","Zucchini", "1994-12-12", 1)')
-    cur.execute('INSERT INTO Patients (patientFirst, patientLast, patientDOB, patientDoc) VALUES ("Andrew","Armadillo", "1983-05-03", 1)')
-    cur.execute('INSERT INTO Patients (patientFirst, patientLast, patientDOB, patientDoc) VALUES ("Sally","Ride", "1951-05-26", 2)')
+    # cur.execute('INSERT INTO Patients (patientFirst, patientLast, patientDOB, patientDoc) VALUES ("Zachary","Zucchini", "1994-12-12", 1)')
+    # cur.execute('INSERT INTO Patients (patientFirst, patientLast, patientDOB, patientDoc) VALUES ("Andrew","Armadillo", "1983-05-03", 1)')
+    # cur.execute('INSERT INTO Patients (patientFirst, patientLast, patientDOB, patientDoc) VALUES ("Sally","Ride", "1951-05-26", 2)')
 
     # Insert Procedures
+    # cur.execute('INSERT INTO Procedures (prcedureName, inPatient) VALUES ("Eyebrow Removal", 1)')
 
     # Insert Departments
+    cur.execute('INSERT INTO Departments (departmentName, departmentHead, addressID) VALUES ("Bone Department", NULL, 1)')
+    cur.execute('INSERT INTO Departments (departmentName, departmentHead, addressID) VALUES ("Main Surgery", NULL, 2)')
+    cur.execute('INSERT INTO Departments (departmentName, departmentHead, addressID) VALUES ("Pharmacy", NULL, 2)')
+
 
     # Insert Doctors
+    # cur.execute('INSERT INTO Doctors (doctorFirst, doctorLast, doctorDOB, departmentID) VALUES ("Dorian", "Grey", "1999-09-09, 1)')
 
     # Insert Doctors_Procedures
+    # cur.execute('INSERT INTO Doctors_Procedures (procedureID, doctorID) VALUES (1, 1)')
 
     # Insert Appointments
+    # cur.execute('INSERT INTO Appointments (patientID, doctorID, procedureID, appointmentDate) VALUES (1, 1, 1, "2000-10-10")')
+
+    mysql.connection.commit()
 
 # Routes 
 @app.route('/')
@@ -65,6 +80,7 @@ def root():
     # Disable foreign key checks temporarily, because foreign key collisions are not important when dropping all entities
     cur.execute("SET FOREIGN_KEY_CHECKS=0")
     
+    # Drop all possible tables
     for table in table_names:
         drop_query = "DROP TABLE IF EXISTS %s" % table
         cur.execute(drop_query)
@@ -77,52 +93,80 @@ def root():
     
     mysql.connection.commit()
 
+    insert_sample_data()
+
     return render_template('home.html')
 
-# @app.route('/doctors', methods=['PUT', 'POST', 'DELETE'])
-@app.route('/doctors')
+@app.route('/doctors', methods=['GET', 'PUT', 'POST', 'DELETE'])
 def doctors():
-    return render_template('doctors.html')
+    cur = mysql.connection.cursor() 
 
-# @app.route('/patients', methods=['PUT', 'POST', 'DELETE'])
-@app.route('/patients')
+    cur.execute('SELECT * FROM Doctors') 
+    result = cur.fetchall()
+    mysql.connection.commit()
+    print(result)
+    return render_template('doctors.html', rows=result)
+
+@app.route('/patients', methods=['GET', 'PUT', 'POST', 'DELETE'])
 def patients():
-    return render_template('patients.html')
+    cur = mysql.connection.cursor()
+    
+    cur.execute('SELECT * FROM Patients')
+    result = cur.fetchall()
+    mysql.connection.commit()
+    # print(result)
+    return render_template('patients.html', rows=result)
 
-# @app.route('/procedures', methods=['PUT', 'POST', 'DELETE'])
-@app.route('/procedures')
+@app.route('/procedures', methods=['GET', 'PUT', 'POST', 'DELETE'])
 def procedures():
-    return render_template('procedures.html')
+    cur = mysql.connection.cursor()
+    
+    cur.execute('SELECT * FROM Procedures')
+    result = cur.fetchall()
+    mysql.connection.commit()
+    # print(result)
+    return render_template('procedures.html', rows=result)
 
-# @app.route('/departments', methods=['PUT', 'POST', 'DELETE'])
-@app.route('/departments')
+@app.route('/departments', methods=['GET', 'PUT', 'POST', 'DELETE'])
 def departments():
-    return render_template('departments.html')
+    cur = mysql.connection.cursor() 
 
-# @app.route('/appointments', methods=['PUT', 'POST', 'DELETE'])
-@app.route('/appointments')
+    cur.execute('SELECT * FROM Departments') 
+    result = cur.fetchall()
+    mysql.connection.commit()
+    print(result)
+    return render_template('departments.html', rows=result)
+
+@app.route('/appointments', methods=['GET', 'PUT', 'POST', 'DELETE'])
 def appointments():
-    return render_template('appointments.html')
+    cur = mysql.connection.cursor()
+    
+    cur.execute('SELECT * FROM Appointments')
+    result = cur.fetchall()
+    mysql.connection.commit()
+    # print(result)
+    return render_template('appointments.html', rows=result)
 
 @app.route('/addresses', methods=['GET','PUT', 'POST', 'DELETE'])
 #@app.route('/addresses')
 def addresses():
     cur = mysql.connection.cursor()
-
-    cur.execute('INSERT INTO Addresses (streetAddress, city, state, zipCode) VALUES ("123 Party Street","Cool Town", "WA", "54321")')
-    cur.execute('INSERT INTO Addresses (streetAddress, city, state, zipCode) VALUES ("999 Random House Lane","Wherever", "GA", "01010")')
-    cur.execute('INSERT INTO Addresses (streetAddress, city, state, zipCode) VALUES ("1 More Court","Beverly Hills", "WI", "44444")')
     
     cur.execute('SELECT * FROM Addresses')
     result = cur.fetchall()
     mysql.connection.commit()
-    print(result)
+    # print(result)
     return render_template('addresses.html', rows=result)
 
-# @app.route('/doctors-procedures', methods=['PUT', 'POST', 'DELETE'])
-@app.route('/doctors-procedures')
+@app.route('/doctors-procedures', methods=['GET', 'PUT', 'POST', 'DELETE'])
 def doctors_procedures():
-    return render_template('doctors_procedures.html')
+    cur = mysql.connection.cursor()
+    
+    cur.execute('SELECT * FROM Doctors_Procedures')
+    result = cur.fetchall()
+    mysql.connection.commit()
+    # print(result)
+    return render_template('doctors_procedures.html', rows=result)
 
 # Listener
 
