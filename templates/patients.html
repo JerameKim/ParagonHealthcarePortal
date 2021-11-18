@@ -38,18 +38,18 @@
 
             <form>
                 <label for="patientID">Patient ID: </label><br>
-                <input type="text" id="patientID"><br><br>
+                <input type="text" name="patientID" id="patientID"><br><br>
                 <label for="patientFirst">Patient First: </label><br>
-                <input type="text" id="procedureName"><br><br>
+                <input type="text" name="patientFirst" id="patientFirst"><br><br>
                 <label for="patientLast">Patient Last: </label><br>
-                <input type="text" id="patientLast"><br><br>
+                <input type="text" name="patientLast" id="patientLast"><br><br>
                 <label for="patientDOB">Patient Birthday: </label><br>
-                <input type="text" id="patientDOB"><br><br>
+                <input type="text" name="patientDOB" id="patientDOB"><br><br>
                 <label for="doctorID">Doctor ID (optional): </label><br>
-                <input type="text" id="doctorID"><br><br>
+                <input type="text" name="doctorID" id="doctorID"><br><br>
+                <input type="submit" class="btn btn-primary">
             </form>
             <br>
-            <button type="button" class="btn btn-primary">Update Patient</button>
         </div>
 
         <br>
@@ -57,18 +57,20 @@
         <div class="second">
             <h3>Add Patient</h3>
 
-            <form>
+            <form action="/patients" method="POST">
+                <label for="patientID">Patient ID: </label><br>
+                <input type="text" name="patientID" id="patientID"><br><br>
                 <label for="patientFirst">Patient First: </label><br>
-                <input type="text" id="procedureName"><br><br>
+                <input type="text" name="patientFirst" id="patientFirst"><br><br>
                 <label for="patientLast">Patient Last: </label><br>
-                <input type="text" id="patientLast"><br><br>
+                <input type="text" name="patientLast" id="patientLast"><br><br>
                 <label for="patientDOB">Patient Birthday: </label><br>
-                <input type="text" id="patientDOB"><br><br>
+                <input type="text" name="patientDOB" id="patientDOB"><br><br>
                 <label for="doctorID">Doctor ID (optional): </label><br>
-                <input type="text" id="doctorID"><br><br>
+                <input type="text" name="doctorID" id="doctorID"><br><br>
+                <input type="submit" class="btn btn-primary" >
             </form>
             <br>
-            <button type="button" class="btn btn-primary">Update Patient</button>
         </div>
     </div>
     <hr>
