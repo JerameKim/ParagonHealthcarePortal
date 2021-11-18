@@ -1,14 +1,34 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect
+from db_connector import connect_to_database, execute_query
 import os
 
 # Configuration
  
 app = Flask(__name__)
 
-# Routes 
+# Variable to store name of all Tables, to facilitate dropping all when starting up.
+table_names = ["Addresses", "Procedures","Departments","Doctors", "Patients", "Appointments", "Doctors_Procedures"]
 
+# Function to execute initial table creation queries
+def create_tables(sql_file):
+    fd = open(sql_file, 'r')
+    query_file = fd.read()
+    fd.close()
+
+    creationCommands = query_file.split(';')
+    print(creationCommands)
+
+# Routes 
 @app.route('/')
 def root():
+    db_connection = connect_to_database()
+
+    for table in table_names:
+        drop_query = "DROP TABLE IF EXISTS %s" % table
+        execute_query(db_connection, drop_query)
+
+    
+
     return render_template('home.html')
 
 # @app.route('/doctors', methods=['PUT', 'POST', 'DELETE'])
