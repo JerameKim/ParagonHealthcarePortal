@@ -96,22 +96,16 @@
             <th>Patient Primary Care Physician</th>
             <th></th>
         </tr>
+        {%for row in rows%}
         <tr>
-            <td>5555</td>
-            <td>Andrew</td>
-            <td>Armadillo</td>
-            <td>01/01/1111</td>
-            <td>Elmo Elkanasd</td>
+            <td>{{row["patientID"]}}</td>
+            <td>{{row["patientFirst"]}}</td>
+            <td>{{row["patientLast"]}}</td>
+            <td>{{row["patientDOB"]}}</td>
+            <td>{{row["patientDoc"]}}</td>
             <th><button type="button" class="btn btn-primary">Delete</button></th>
         </tr>
-        <tr>
-            <td>4444</td>
-            <td>Zachary</td>
-            <td>Zucchini</td>
-            <td>02/02/2222</td>
-            <td>Darla Dangerfield</td>
-            <th><button type="button" class="btn btn-primary">Delete</button></th>
-        </tr>
+        {%endfor%}
     </table>
 </body>
 {%endblock%}

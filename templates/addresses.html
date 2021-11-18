@@ -67,22 +67,16 @@
             <th>Zip Code</th>
             <th></th>
         </tr>
+        {%for row in rows%}
         <tr>
-            <td>28980</td>
-            <td>4761 Main Street</td>
-            <td>Ogden</td>
-            <td>UT</td>
-            <td>84201</td>
+            <td>{{row["addressID"]}}</td>
+            <td>{{row["streetAddress"]}}</td>
+            <td>{{row["city"]}}</td>
+            <td>{{row["state"]}}</td>
+            <td>{{row["zipCode"]}}</td>
             <th><button type="button" class="btn btn-primary">Delete</button></th>
         </tr>
-        <tr>
-            <td>176400</td>
-            <td>44447 Miscavige Ct</td>
-            <td>Gilman Hot Springs</td>
-            <td>CA</td>
-            <td>92583</td>
-            <th><button type="button" class="btn btn-primary">Delete</button></th>
-        </tr>
+        {%endfor%}
     </table>
 </body>
 {%endblock%}
