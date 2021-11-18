@@ -74,16 +74,13 @@
             <th>Procedure Name</th>
             <th></th>
         </tr>
+        {%for row in rows%}
         <tr>
-            <td>Fraiser Cane</td>
-            <td>Nose Hair Laser</td>
+            <td>{{row["doctorID"]}}</td>
+            <td>{{row["procedureID"]}}</td>
             <th><button type="button" class="btn btn-primary">Delete</button></th>
         </tr>
-        <tr>
-            <td>Miranda Bailey</td>
-            <td>Eyebrow Removal</td>
-            <th><button type="button" class="btn btn-primary">Delete</button></th>
-        </tr>
+        {%endfor%}
     </table>
 </body>
 {%endblock%}

@@ -92,20 +92,15 @@
             <th>Department Address</th>
             <th></th>
         </tr>
+        {%for row in rows%}
         <tr>
-            <td>0000</td>
-            <td>Pediatrics</td>
-            <td>Ken Jeong</td>
-            <td>4757 East Greenway Road, Phoenix, AZ 85032</td>
+            <td>{{row["departmentID"]}}</td>
+            <td>{{row["departmentName"]}}</td>
+            <td>{{row["departmentHead"]}}</td>
+            <td>{{row["addressID"]}}</td>
             <th><button type="button" class="btn btn-primary">Delete</button></th>
         </tr>
-        <tr>
-            <td>1010</td>
-            <td>Surgery</td>
-            <td>Ace Ventura</td>
-            <td>44447 Miscavige Ct Gilman Hot Springs, CA 92583</td>
-            <th><button type="button" class="btn btn-primary">Delete</button></th>
-        </tr>
+        {%endfor%}
     </table>
 </body>
 {%endblock%}

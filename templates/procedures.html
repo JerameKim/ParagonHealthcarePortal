@@ -61,18 +61,14 @@
             <th>Inpatient</th>
             <th></th>
         </tr>
+        {%for row in rows%}
         <tr>
-            <td>5555</td>
-            <td>Nose Picking</td>
-            <td>False</td>
+            <td>{{row["procedureID"]}}</td>
+            <td>{{row["procedureName"]}}</td>
+            <td>{{row["inPatient"]}}</td>
             <th><button type="button" class="btn btn-primary">Delete</button></th>
         </tr>
-        <tr>
-            <td>4444</td>
-            <td>Wart Removal</td>
-            <td>True</td>
-            <th><button type="button" class="btn btn-primary">Delete</button></th>
-        </tr>
+        {%endfor%}
     </table>
 </body>
 {%endblock%}

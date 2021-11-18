@@ -69,22 +69,16 @@
             <th>Department ID</th>
             <th></th>
         </tr>
+        {%for row in rows%}
         <tr>
-            <td>5555</td>
-            <td>Perry</td>
-            <td>Cox</td>
-            <td>06/02/1960</td>
-            <td>898989</td>
+            <td>{{row["doctorID"]}}</td>
+            <td>{{row["doctorFirst"]}}</td>
+            <td>{{row["doctorLast"]}}</td>
+            <td>{{row["doctorDOB"]}}</td>
+            <td>{{row["departmentID"]}}</td>
             <th><button type="button" class="btn btn-primary">Delete</button></th>
         </tr>
-        <tr>
-            <td>4444</td>
-            <td>John</td>
-            <td>Dorian</td>
-            <td>02/02/2222</td>
-            <td>666168</td>
-            <th><button type="button" class="btn btn-primary">Delete</button></th>
-        </tr>
+        {%endfor%}
     </table>
 </body>
 {%endblock%}

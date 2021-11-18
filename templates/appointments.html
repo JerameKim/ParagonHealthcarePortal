@@ -138,22 +138,16 @@
             <th>Date</th>
             <th></th>
         </tr>
+        {%for row in rows%}
         <tr>
-            <td>8888</td>
-            <td>Nicole Kidman</td>
-            <td>Brad Pitt</td>
-            <td>Ear surgery</td>
-            <td>04/04/4444</td>
+            <td>{{row["appointmentID"]}}</td>
+            <td>{{row["patientID"]}}</td>
+            <td>{{row["doctorID"]}}</td>
+            <td>{{row["procedureID"]}}</td>
+            <td>{{row["appointmentDate"]}}</td>
             <th><button type="button" class="btn btn-primary">Delete</button></th>
         </tr>
-        <tr>
-            <td>8833</td>
-            <td>Tom Cruise</td>
-            <td>David Miscavige</td>
-            <td>Height Increase</td>
-            <td>03/03/333</td>
-            <th><button type="button" class="btn btn-primary">Delete</button></th>
-        </tr>
+        {%endfor%}
     </table>
 </body>
 {%endblock%}
