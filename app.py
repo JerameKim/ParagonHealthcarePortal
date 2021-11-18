@@ -29,6 +29,7 @@ def make_commands(sql_file):
 
     return creationCommands
 
+# Under constructoion: was thinking we could call this to populate sample data in the home route down the road.
 def insert_sample_data():
     cur = mysql.connection.cursor()
 
@@ -108,8 +109,9 @@ def appointments():
 def addresses():
     cur = mysql.connection.cursor()
 
-    if request.method == 'PUT':
-        pass
+    cur.execute('INSERT INTO Addresses (streetAddress, city, state, zipCode) VALUES ("123 Party Street","Cool Town", "WA", "54321")')
+    cur.execute('INSERT INTO Addresses (streetAddress, city, state, zipCode) VALUES ("999 Random House Lane","Wherever", "GA", "01010")')
+    cur.execute('INSERT INTO Addresses (streetAddress, city, state, zipCode) VALUES ("1 More Court","Beverly Hills", "WI", "44444")')
     
     cur.execute('SELECT * FROM Addresses')
     result = cur.fetchall()
