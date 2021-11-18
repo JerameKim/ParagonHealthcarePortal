@@ -41,13 +41,13 @@ DELETE FROM Procedures WHERE procedureID = :procedureIDSelected
 -----------------------------------------------------------------------------------------------------
 
 -- Update Department from departmentID
-UPDATE Departments SET departmentName = :departmentNameUpdate, departmentHead = :departmentHeadUpdate, departmentAddress = :updateDepartmentAddress WHERE  departmentID = :departmentIDUpdate
+UPDATE Departments SET departmentName = :departmentNameUpdate, departmentHead = :departmentHeadUpdate, addressID = :updateDepartmentAddress WHERE  departmentID = :departmentIDUpdate
 
 -- Dropdown to find addresses 
 SELECT streetAddress, city, state, zipCode FROM Addresses
 
 -- Add Department
-INSERT INTO Departments (departmentName, departmentHead, departmentAddress) VALUES (:departmentNameAdd, :departmentHeadAdd, :departmentAddressAdd)
+INSERT INTO Departments (departmentName, departmentHead, addressID) VALUES (:departmentNameAdd, :departmentHeadAdd, :departmentAddressAdd)
 
 -- Delete Department by id 
 DELETE FROM Departments WHERE departmentID= :departmentIDSelected

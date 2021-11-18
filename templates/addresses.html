@@ -23,18 +23,19 @@
             <br>
             <h3>Update Address</h3>
 
-            <form>
+            <form action="/addresses" method = "POST">
                 <label for="streetAddress">Street Address: </label><br>
-                <input type="text" id="streetAddress"><br><br>
+                <input type="text" name="streetAddress" id="streetAddress"><br><br>
                 <label for="city">City: </label><br>
-                <input type="text" id="city"><br><br>
+                <input type="text" name="city" id="city"><br><br>
                 <label for="state">State: </label><br>
-                <input type="text" maxlength="2" id="state"><br><br>
+                <input type="text" name="state" maxlength="2" id="state"><br><br>
                 <label for="zipCode">Zip Code: </label><br>
-                <input type="number" min="00001" max="99950" id="zipCode"><br><br>
+                <input type="number" name="zipCode" min="00001" max="99950" id="zipCode"><br><br>
+                <input type="submit" value = "Submit">
             </form>
             <br>
-            <button type="button" class="btn btn-primary">Update Address</button>
+            <!-- <button type="button" class="btn btn-primary">Update Address</button> -->
         </div>
 
         <br>
