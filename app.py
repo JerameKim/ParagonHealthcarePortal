@@ -58,9 +58,9 @@ def insert_sample_data():
     cur.execute('INSERT INTO Procedures (procedureName, inPatient) VALUES ("Aura Manipulation", 0)')
 
     # Insert Departments
-    cur.execute('INSERT INTO Departments (departmentName, departmentHead, addressID) VALUES ("Bone Department", NULL, 1)')
-    cur.execute('INSERT INTO Departments (departmentName, departmentHead, addressID) VALUES ("Main Surgery", NULL, 2)')
-    cur.execute('INSERT INTO Departments (departmentName, departmentHead, addressID) VALUES ("Pharmacy", NULL, 2)')
+    # cur.execute('INSERT INTO Departments (departmentName, departmentHead, addressID) VALUES ("Bone Department", NULL, 1)')
+    # cur.execute('INSERT INTO Departments (departmentName, departmentHead, addressID) VALUES ("Main Surgery", NULL, 2)')
+    # cur.execute('INSERT INTO Departments (departmentName, departmentHead, addressID) VALUES ("Pharmacy", NULL, 2)')
 
     # Insert Some Doctors
     cur.execute('INSERT INTO Doctors (doctorFirst, doctorLast, doctorDOB, departmentID) VALUES ("Dorian", "Grey", "1999-09-09", 1)')
