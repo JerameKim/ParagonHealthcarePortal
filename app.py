@@ -139,13 +139,28 @@ def patients():
 
 @app.route('/procedures', methods=['GET', 'PUT', 'POST', 'DELETE'])
 def procedures():
-    cur = mysql.connection.cursor()
-    
-    cur.execute('SELECT * FROM Procedures')
-    result = cur.fetchall()
-    mysql.connection.commit()
-    # print(result)
-    return render_template('procedures.html', rows=result)
+    if request.method == 'GET':
+        cur = mysql.connection.cursor()
+        
+        cur.execute('SELECT * FROM Procedures')
+        result = cur.fetchall()
+        mysql.connection.commit()
+        # print(result)
+        return render_template('procedures.html', rows=result)
+    if request.method == "POST": 
+
+        procedureName = request.form['procedureName']
+        inPatient = request.form['inPatient']
+
+        cur = mysql.connection.cursor()
+        
+        cur.execute(f'INSERT INTO Procedures (procedureName, inPatient) VALUES ("{procedureName}", "{inPatient}")')
+        cur.execute('SELECT * FROM Procedures')
+
+        result = cur.fetchall()
+        mysql.connection.commit()
+        # print(result)
+        return render_template('procedures.html', rows=result)
 
 @app.route('/departments', methods=['GET', 'PUT', 'POST', 'DELETE'])
 def departments():
