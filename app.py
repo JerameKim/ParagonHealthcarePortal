@@ -74,11 +74,11 @@ def insert_sample_data():
 
 
     # Insert Doctors_Procedures
-    cur.execute('INSERT INTO Doctors_Procedures (procedureID, doctorID) VALUES (1, 1)')
+    # cur.execute('INSERT INTO Doctors_Procedures (procedureID, doctorID) VALUES (1, 1)')
     
 
     # Insert Appointments
-    cur.execute('INSERT INTO Appointments (patientID, doctorID, procedureID, appointmentDate) VALUES (1, 1, 1, "2000-10-10")')
+    # cur.execute('INSERT INTO Appointments (patientID, doctorID, procedureID, appointmentDate) VALUES (1, 1, 1, "2000-10-10")')
 
     mysql.connection.commit()
 
