@@ -12,8 +12,8 @@ mysql = MySQL(app)
 # MySQL configurations
 app.config['MYSQL_USER'] = 'bdc01a681ed1c7'
 app.config['MYSQL_PASSWORD'] = '9f14e493'
-app.config['MYSQL_HOST'] = 'heroku_c6e527edabca668'
-app.config['MYSQL_DB'] = 'us-cdbr-east-04.cleardb.com'
+app.config['MYSQL_DB'] = 'heroku_c6e527edabca668'
+app.config['MYSQL_HOST'] = 'us-cdbr-east-04.cleardb.com'
 mysql.init_app(app)
 
 # app.config['MYSQL_HOST'] = 'classmysql.engr.oregonstate.edu'
