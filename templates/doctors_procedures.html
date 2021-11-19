@@ -32,35 +32,31 @@
             <br>
             <h3>Assign a Procedure to a Doctor</h3>
 
-            <form>
+            <form action="/doctors-procedures" method="POST"> 
                 <label for="doctorID">Doctor Name: </label><br>
                 <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Select Name
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="#">Darla Darling</a>
-                        <a class="dropdown-item" href="#">Sandra Sand</a>
-                        <a class="dropdown-item" href="#">Third Person</a>
-                    </div>
+                    <select name="doctorID" id="doctorID">
+                        {% for doctor in doctor_list %}
+                            <option name="doctorName" value="{{doctor.doctorID}}" SELECTED> {{doctor.doctorFirst}} {{doctor.doctorLast}}</option>
+                        {% endfor %}
+                    </select>
                 </div>
                 <br>
-                <label for="procedureName">Procedure Name: </label><br>
+                <br>
+                <br>
+                <label for="procedureID">Procedure Name: </label><br>
                 <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Select Procedure
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="#">Nostril Addition</a>
-                        <a class="dropdown-item" href="#">Finger Addition</a>
-                        <a class="dropdown-item" href="#">Ear Removal</a>
-                    </div>
+                    <select name="procedureID" id="procedureID">
+                        {% for procedure in procedure_list %}
+                            <option name="procedureName" value="{{procedure.procedureID}}" SELECTED> {{procedure.procedureName}}</option>
+                        {% endfor %}
+                    </select>
                 </div>
+                <br>
+                <br>
+                <input type="submit" class="btn btn-primary">
             </form>
             <br>
-            <button type="button" class="btn btn-primary">Update Doctor</button>
         </div>
 
         <br>

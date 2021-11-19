@@ -43,13 +43,12 @@ def insert_sample_data():
     cur.execute('INSERT INTO Addresses (streetAddress, city, state, zipCode) VALUES ("999 Random House Lane","Wherever", "GA", "01010")')
     cur.execute('INSERT INTO Addresses (streetAddress, city, state, zipCode) VALUES ("1 More Court","Beverly Hills", "WI", "44444")')
 
-    # Insert Patients
-    # cur.execute('INSERT INTO Patients (patientFirst, patientLast, patientDOB, patientDoc) VALUES ("Zachary","Zucchini", "1994-12-12", 1)')
-    # cur.execute('INSERT INTO Patients (patientFirst, patientLast, patientDOB, patientDoc) VALUES ("Andrew","Armadillo", "1983-05-03", 1)')
-    # cur.execute('INSERT INTO Patients (patientFirst, patientLast, patientDOB, patientDoc) VALUES ("Sally","Ride", "1951-05-26", 2)')
 
     # Insert Procedures
-    # cur.execute('INSERT INTO Procedures (prcedureName, inPatient) VALUES ("Eyebrow Removal", 1)')
+    cur.execute('INSERT INTO Procedures (procedureName, inPatient) VALUES ("Eyebrow Removal", 1)')
+    cur.execute('INSERT INTO Procedures (procedureName, inPatient) VALUES ("Eyebrow Addition", 2)')
+    cur.execute('INSERT INTO Procedures (procedureName, inPatient) VALUES ("Aura Manipulation", 3)')
+
 
     # Insert Departments
     cur.execute('INSERT INTO Departments (departmentName, departmentHead, addressID) VALUES ("Bone Department", NULL, 1)')
@@ -61,15 +60,18 @@ def insert_sample_data():
     cur.execute('INSERT INTO Doctors (doctorFirst, doctorLast, doctorDOB, departmentID) VALUES ("Frasier", "Crane", "2000-01-01", 2)')
     cur.execute('INSERT INTO Doctors (doctorFirst, doctorLast, doctorDOB, departmentID) VALUES ("Simon", "Garfunkle", "2040-11-11", 2)')
 
-
+    # Insert Patients
+    cur.execute('INSERT INTO Patients (patientFirst, patientLast, patientDOB, patientDoc) VALUES ("Zachary","Zucchini", "1994-12-12", 1)')
+    cur.execute('INSERT INTO Patients (patientFirst, patientLast, patientDOB, patientDoc) VALUES ("Andrew","Armadillo", "1983-05-03", 1)')
+    cur.execute('INSERT INTO Patients (patientFirst, patientLast, patientDOB, patientDoc) VALUES ("Sally","Ride", "1951-05-26", 2)')
 
 
     # Insert Doctors_Procedures
-    # cur.execute('INSERT INTO Doctors_Procedures (procedureID, doctorID) VALUES (1, 1)')
+    cur.execute('INSERT INTO Doctors_Procedures (procedureID, doctorID) VALUES (1, 1)')
     
 
     # Insert Appointments
-    # cur.execute('INSERT INTO Appointments (patientID, doctorID, procedureID, appointmentDate) VALUES (1, 1, 1, "2000-10-10")')
+    cur.execute('INSERT INTO Appointments (patientID, doctorID, procedureID, appointmentDate) VALUES (1, 1, 1, "2000-10-10")')
 
     mysql.connection.commit()
 
@@ -226,13 +228,50 @@ def departments():
 
 @app.route('/appointments', methods=['GET', 'PUT', 'POST', 'DELETE'])
 def appointments():
-    cur = mysql.connection.cursor()
-    
-    cur.execute('SELECT * FROM Appointments')
-    result = cur.fetchall()
-    mysql.connection.commit()
-    # print(result)
-    return render_template('appointments.html', rows=result)
+    if request.method == 'GET':
+        cur = mysql.connection.cursor()
+        cur.execute('SELECT * FROM Appointments')
+        all_appointments = cur.fetchall()
+
+        cur.execute('SELECT * FROM Patients')
+        all_patients = cur.fetchall()
+
+        cur.execute('SELECT * FROM Doctors')
+        all_doctors = cur.fetchall()
+
+        cur.execute('SELECT * FROM Procedures')
+        all_procedures = cur.fetchall()
+
+        mysql.connection.commit()
+
+        return render_template('appointments.html', rows=all_appointments, patient_list = all_patients, doctor_list = all_doctors, procedure_list=all_procedures)
+
+    if request.method == "POST": 
+
+        patientID = request.form['patientID']
+        doctorID = request.form['doctorID']
+        procedureID = request.form['procedureID']
+        appointmentDate = request.form['appointmentDate']
+
+        cur = mysql.connection.cursor()
+        
+        cur.execute(f'INSERT INTO Appointments (patientID, doctorID, procedureID, appointmentDate) VALUES ("{patientID}", "{doctorID}", "{procedureID}", "{appointmentDate}")')
+        
+        cur.execute('SELECT * FROM Appointments')
+        all_appointments = cur.fetchall()
+
+        cur.execute('SELECT * FROM Patients')
+        all_patients = cur.fetchall()
+
+        cur.execute('SELECT * FROM Doctors')
+        all_doctors = cur.fetchall()
+
+        cur.execute('SELECT * FROM Procedures')
+        all_procedures = cur.fetchall()
+
+        mysql.connection.commit()
+
+        return render_template('appointments.html', rows=all_appointments, patient_list = all_patients, doctor_list = all_doctors, procedure_list=all_procedures)
 
 @app.route('/addresses', methods=['GET','PUT', 'POST', 'DELETE'])
 # def show_addresses():
@@ -265,13 +304,45 @@ def addresses():
 
 @app.route('/doctors-procedures', methods=['GET', 'PUT', 'POST', 'DELETE'])
 def show_doctors_procedures():
-    cur = mysql.connection.cursor()
-    
-    cur.execute('SELECT * FROM Doctors_Procedures')
-    result = cur.fetchall()
-    mysql.connection.commit()
-    # print(result)
-    return render_template('doctors_procedures.html', rows=result)
+    if request.method == 'GET': 
+        cur = mysql.connection.cursor()
+        
+        cur.execute('SELECT * FROM Doctors_Procedures')
+        result = cur.fetchall()
+
+        cur.execute('SELECT * FROM Procedures')
+        all_procedures = cur.fetchall()
+
+        cur.execute('SELECT * FROM Doctors')
+        all_doctors = cur.fetchall()
+
+
+        mysql.connection.commit()
+        # print(result)
+        return render_template('doctors_procedures.html', rows=result, procedure_list = all_procedures, doctor_list = all_doctors)
+
+    if request.method == "POST":
+        procedureID= request.form['procedureID']
+        doctorID = request.form['doctorID']
+        
+        cur = mysql.connection.cursor()
+
+        cur.execute(f'INSERT INTO Doctors_Procedures (procedureID, doctorID) VALUES ("{procedureID}", "{doctorID}")')
+        cur = mysql.connection.cursor()
+        
+        cur.execute('SELECT * FROM Doctors_Procedures')
+        result = cur.fetchall()
+
+        cur.execute('SELECT * FROM Doctors')
+        all_doctors = cur.fetchall()
+
+        cur.execute('SELECT * FROM Procedures')
+        all_procedures = cur.fetchall()
+
+        mysql.connection.commit()
+        # print(result)
+        return render_template('doctors_procedures.html', rows=result, procedure_list = all_procedures, doctor_list =  all_doctors)
+
 
 # Listener
 

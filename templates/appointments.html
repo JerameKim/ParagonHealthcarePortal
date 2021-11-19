@@ -83,48 +83,43 @@
         <div class="second">
             <h3>Add Appointment</h3>
 
-            <form>
+            <form action="/appointments" method ="POST">
+                <label for="patientID">Patient Name: </label><br>
                 <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Patient Name
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="#">Darla Darling</a>
-                        <a class="dropdown-item" href="#">Sandra Sand</a>
-                        <a class="dropdown-item" href="#">Third Person</a>
-                    </div>
+                    <select name="patientID" id="patientID">
+                        {% for patient in patient_list %}
+                            <option name="patientName" value="{{patient.patientID}}" SELECTED> {{patient.patientFirst}} {{patient.patientLast}}</option>
+                        {% endfor %}
+                    </select>
                 </div>
                 <br>
+                <br>
+                <label for="doctorID">Doctor Name: </label><br>
                 <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Doctor Name
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="#">Flornce Flowers</a>
-                        <a class="dropdown-item" href="#">Doctor McDoctor</a>
-                        <a class="dropdown-item" href="#">Surgeon O'Surgeon</a>
-                    </div>
+                    <select name="doctorID" id="doctorID">
+                        {% for doctor in doctor_list %}
+                            <option name="doctorName" value="{{doctor.doctorID}}" SELECTED> {{doctor.doctorFirst}} {{doctor.doctorLast}}</option>
+                        {% endfor %}
+                    </select>
                 </div>
                 <br>
+                <br>                
+                <label for="procedureID">Procedure Name: </label><br>
                 <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Procedure Name
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="#">Hair implants</a>
-                        <a class="dropdown-item" href="#">Laser hair removal</a>
-                        <a class="dropdown-item" href="#">Hair Cut</a>
-                    </div>
+                    <select name="procedureID" id="procedureID">
+                        {% for procedure in procedure_list %}
+                            <option name="procedureName" value="{{procedure.procedureID}}" SELECTED> {{procedure.procedureName}}</option>
+                        {% endfor %}
+                    </select>
                 </div>
+                <br>
+                <br>
                 <br>
                 <label for="appointmentDate">Appointment Date: </label><br>
-                <input type="text" id="appointmentDate"><br><br>
+                <input type="text" name="appointmentDate" id="appointmentDate"><br><br>
+                <input type="submit" class="btn btn-primary">
             </form>
             <br>
-            <button type="button" class="btn btn-primary">Update Procedure</button>
         </div>
     </div>
     <hr>
