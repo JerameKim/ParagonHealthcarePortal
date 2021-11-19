@@ -101,13 +101,32 @@ def root():
 
 @app.route('/doctors', methods=['GET', 'PUT', 'POST', 'DELETE'])
 def show_doctors():
-    cur = mysql.connection.cursor() 
+    if request.method == 'GET':
+        cur = mysql.connection.cursor()
+        
+        cur.execute('SELECT * FROM Doctors')
+        result = cur.fetchall()
+        mysql.connection.commit()
 
-    cur.execute('SELECT * FROM Doctors') 
-    result = cur.fetchall()
-    mysql.connection.commit()
-    print(result)
-    return render_template('doctors.html', rows=result)
+        return render_template('doctors.html', rows=result)
+
+    if request.method == "POST": 
+
+        doctorFirst = request.form['doctorFirst']
+        doctorLast = request.form['doctorLast']
+        doctorDOB = request.form['doctorDOB']
+        departmentID = request.form['departmentID']
+
+
+        cur = mysql.connection.cursor()
+        
+        cur.execute(f'INSERT INTO Doctors (doctorFirst, doctorLast, doctorDOB, departmentID) VALUES ("{doctorFirst}", "{doctorLast}", "{doctorDOB}", "{departmentID}")')
+        cur.execute('SELECT * FROM Doctors')
+
+        result = cur.fetchall()
+        mysql.connection.commit()
+        # print(result)
+        return render_template('doctors.html', rows=result)
 
 @app.route('/patients', methods=['GET', 'PUT', 'POST', 'DELETE'])
 def patients():
