@@ -8,7 +8,7 @@ import os
 app = Flask(__name__)
 mysql = MySQL()
 
-# MySQL configurations
+# MySQL configurations for Heroku
 app.config['MYSQL_USER'] = 'b5144e26b93e3c'
 app.config['MYSQL_PASSWORD'] = '2e4abfe4'
 app.config['MYSQL_DB'] = 'heroku_5234e1c57267f61'
