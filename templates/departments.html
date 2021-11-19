@@ -33,11 +33,11 @@
 
             <form>
                 <label for="departmentID">Department ID: </label><br>
-                <input type="text" id="departmentID"><br><br>
+                <input type="text" name="departmentID" id="departmentID"><br><br>
                 <label for="departmentName">Department Name: </label><br>
-                <input type="text" id="departmentName"><br><br>
+                <input type="text" name="departmentName" id="departmentName"><br><br>
                 <label for="departmentHead">Department Head: </label><br>
-                <input type="text" id="departmentHead"><br><br>
+                <input type="text" name="departmentHead" id="departmentHead"><br><br>
                 <form>
                     <div class="dropdown">
                         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
@@ -51,9 +51,9 @@
                         </div>
                     </div>
                 </form>
+                <input type="submit" class="btn btn-primary">
             </form>
             <br>
-            <button type="button" class="btn btn-primary">Update Department</button>
         </div>
 
         <br>
@@ -61,25 +61,31 @@
         <div class="second">
             <h3>Add Department</h3>
 
-            <form>
+            <form action="/departments" method="POST">
                 <label for="departmentName">Department Name: </label><br>
-                <input type="text" id="departmentName"><br><br>
-                <label for="departmentHead">Department Head: </label><br>
-                <input type="text" id="departmentHead"><br><br>
+                <input type="text" name="departmentName"id="departmentName"><br><br>
                 <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Address: 
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="#">4757 East Greenway Road, Phoenix, AZ 85032</a>
-                        <a class="dropdown-item" href="#">44447 Miscavige Ct, Gilman Hot Springs, CA 92583</a>
-                        <a class="dropdown-item" href="#">167676 Main St, Carrolton, GA 30112</a>
-                    </div>
+                    <select name="departmentHead" id="departmentHead">
+                        {% for doctor in doctor_list %}
+                            <option name="departmentHead" value="{{doctor.doctorID}}" SELECTED> {{doctor.doctorFirst}} {{doctor.doctorLast}}</option>
+                        {% endfor %}
+                    </select>
                 </div>
+                <br>
+                <br>
+
+                <div class="dropdown">
+                    <select name="addressID" id="addressID">
+                        {% for address in address_list %}
+                            <option name="addressID" value="{{address.addressID}}" SELECTED> {{address.streetAddresss}} {{address.city}}, {{address.state}}, {{address.zipCode}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <br>
+                <br>
+                <input type="submit" class="btn btn-primary">
             </form>
             <br>
-            <button type="button" class="btn btn-primary">Update Department</button>
         </div>
     </div>
     <hr>
