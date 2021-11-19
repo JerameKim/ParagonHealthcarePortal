@@ -1,18 +1,20 @@
 from flask import Flask, render_template, request, redirect
 from flask_mysqldb import MySQL
-#from db_connector import connect_to_database, execute_query
+# from db_connector import connect_to_database, execute_query
 import os
 
 # Configuration
  
 app = Flask(__name__)
+# mysql = MySQL(app)
+mysql = MySQL()
 
 # Setup from Jerame's Heroku ClearDb databse
 app.config['MYSQL_USER'] = 'bdc01a681ed1c7'
 app.config['MYSQL_PASSWORD'] = '9f14e493'
 app.config['MYSQL_HOST'] = 'heroku_c6e527edabca668'
 app.config['MYSQL_DB'] = 'cs340_kimjera'
-
+mysql.init_app(app)
 
 # app.config['MYSQL_HOST'] = 'classmysql.engr.oregonstate.edu'
 # app.config['MYSQL_USER'] = 'cs340_kimjera'
@@ -25,7 +27,6 @@ app.config['MYSQL_DB'] = 'cs340_kimjera'
 
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 
-mysql = MySQL(app)
 
 # Variable to store name of all Tables, to facilitate dropping all when starting up.
 table_names = ["Addresses", "Procedures","Departments","Doctors", "Patients", "Appointments", "Doctors_Procedures"]
