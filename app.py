@@ -7,14 +7,21 @@ import os
  
 app = Flask(__name__)
 
-app.config['MYSQL_HOST'] = 'classmysql.engr.oregonstate.edu'
-# app.config['MYSQL_USER'] = 'cs340_coughlis'
-app.config['MYSQL_USER'] = 'cs340_kimjera'
-# app.config['MYSQL_PASSWORD'] = '8340'
-app.config['MYSQL_PASSWORD'] = '1572'
-
-# app.config['MYSQL_DB'] = 'cs340_coughlis'
+# Setup from Jerame's Heroku ClearDb databse
+app.config['MYSQL_USER'] = 'bdc01a681ed1c7'
+app.config['MYSQL_PASSWORD'] = '9f14e493'
+app.config['MYSQL_HOST'] = 'heroku_c6e527edabca668'
 app.config['MYSQL_DB'] = 'cs340_kimjera'
+
+
+# app.config['MYSQL_HOST'] = 'classmysql.engr.oregonstate.edu'
+# app.config['MYSQL_USER'] = 'cs340_kimjera'
+# app.config['MYSQL_PASSWORD'] = '1572'
+# app.config['MYSQL_DB'] = 'cs340_kimjera'
+
+# app.config['MYSQL_USER'] = 'cs340_coughlis'
+# app.config['MYSQL_PASSWORD'] = '8340'
+# app.config['MYSQL_DB'] = 'cs340_coughlis'
 
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 
