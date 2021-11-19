@@ -361,6 +361,6 @@ def show_doctors_procedures():
 # Listener
 
 if __name__ == "__main__":
-    #port = int(os.environ.get('PORT', 55557))
-    app.run(port=12345, debug= True)
-    #app.run(host="flip1.engr.oregonstate.edu", port=51515, debug=False) 
+    port = int(os.environ.get('PORT', 55557))
+    # app.run(port=12345, debug= True)
+    app.run(host="flip1.engr.oregonstate.edu", port=51515, debug=False) 
