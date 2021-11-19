@@ -14,9 +14,3 @@ CREATE TABLE Patients(patientID int(11) AUTO_INCREMENT PRIMARY KEY,patientFirst 
 CREATE TABLE Appointments(appointmentID int(11) AUTO_INCREMENT PRIMARY KEY,patientID int(11) NOT NULL,doctorID int(11) NOT NULL,procedureID int(11) NOT NULL,appointmentDate DATE NOT NULL,FOREIGN KEY (patientID) REFERENCES Patients(patientID),FOREIGN KEY (doctorID) REFERENCES Doctors(doctorID),FOREIGN KEY (procedureID) REFERENCES Procedures(procedureID));
 
 CREATE TABLE Doctors_Procedures(procedureID int(11) NOT NULL,doctorID int(11) NOT NULL,FOREIGN KEY (procedureID) REFERENCES Procedures(procedureID),FOREIGN KEY (doctorID) REFERENCES Doctors(doctorID));
-
-
--- Dummy data addition
-INSERT INTO Departments (departmentName, departmentHead, addressID) VALUES ("Bone Department", NULL, 1)
-INSERT INTO Departments (departmentName, departmentHead, addressID) VALUES ("Main Surgery", NULL, 2)
-INSERT INTO Departments (departmentName, departmentHead, addressID) VALUES ("Pharmacy", NULL, 2)
