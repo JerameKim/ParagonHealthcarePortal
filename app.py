@@ -6,8 +6,8 @@ import os
 # Configuration
  
 app = Flask(__name__)
-mysql = MySQL(app)
-# mysql = MySQL()
+# mysql = MySQL(app)
+mysql = MySQL()
 
 # MySQL configurations
 app.config['MYSQL_USER'] = 'bdc01a681ed1c7'
