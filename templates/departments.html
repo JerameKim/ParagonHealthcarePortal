@@ -66,7 +66,9 @@
             <form action="/departments" method="POST">
                 <label for="departmentName">Department Name: </label><br>
                 <input type="text" name="departmentName"id="departmentName"><br><br>
+
                 <div class="dropdown">
+                <label for="departmentName">Department Head: </label><br>
                     <select name="departmentHead" id="departmentHead">
                         {% for doctor in doctor_list %}
                             <option name="departmentHead" value="{{doctor.doctorID}}" SELECTED> {{doctor.doctorFirst}} {{doctor.doctorLast}}</option>
@@ -77,6 +79,7 @@
                 <br>
 
                 <div class="dropdown">
+                <label for="departmentName">Address: </label><br>
                     <select name="addressID" id="addressID">
                         {% for address in address_list %}
                             <option name="addressID" value="{{address.addressID}}" SELECTED> {{address.streetAddress}} {{address.city}}, {{address.state}}, {{address.zipCode}}</option>
