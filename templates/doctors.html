@@ -14,7 +14,6 @@
 {%endblock%}
 
 {%block body%}
-
 <body>
     <h1>Doctors</h1>
     <div class="wrapper">
@@ -51,8 +50,14 @@
                 <input type="text" id="doctorLast" name= "doctorLast"><br><br>
                 <label for="doctorDOB">Doctor Birthday: </label><br>
                 <input type="text" name = "doctorDOB" id="doctorDOB"><br><br>
-                <label for="departmentID">Department ID: </label><br>
-                <input type="text" name="departmentID" id="departmentID"><br><br>
+                <label for="doctorID">Department Name: </label><br>
+                <div class="dropdown">
+                    <select name="departmentID" id="departmentID">
+                        {% for department in department_list %}
+                            <option name="departmentName" value="{{department.departmentID}}" SELECTED> {{department.departmentName}}</option>
+                        {% endfor %}
+                    </select>
+                </div><br><br>
                 <input type="submit" class="btn btn-primary">
             </form>
             <br>

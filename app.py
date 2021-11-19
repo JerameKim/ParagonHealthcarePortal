@@ -46,8 +46,8 @@ def insert_sample_data():
 
     # Insert Procedures
     cur.execute('INSERT INTO Procedures (procedureName, inPatient) VALUES ("Eyebrow Removal", 1)')
-    cur.execute('INSERT INTO Procedures (procedureName, inPatient) VALUES ("Eyebrow Addition", 2)')
-    cur.execute('INSERT INTO Procedures (procedureName, inPatient) VALUES ("Aura Manipulation", 3)')
+    cur.execute('INSERT INTO Procedures (procedureName, inPatient) VALUES ("Eyebrow Addition", 1)')
+    cur.execute('INSERT INTO Procedures (procedureName, inPatient) VALUES ("Aura Manipulation", 0)')
 
 
     # Insert Departments
@@ -111,9 +111,13 @@ def show_doctors():
         
         cur.execute('SELECT * FROM Doctors')
         result = cur.fetchall()
+
+        cur.execute('SELECT * FROM Departments')
+        all_departments = cur.fetchall()
+
         mysql.connection.commit()
 
-        return render_template('doctors.html', rows=result)
+        return render_template('doctors.html', rows=result, department_list = all_departments)
 
     if request.method == "POST": 
 
@@ -122,16 +126,18 @@ def show_doctors():
         doctorDOB = request.form['doctorDOB']
         departmentID = request.form['departmentID']
 
-
         cur = mysql.connection.cursor()
         
         cur.execute(f'INSERT INTO Doctors (doctorFirst, doctorLast, doctorDOB, departmentID) VALUES ("{doctorFirst}", "{doctorLast}", "{doctorDOB}", "{departmentID}")')
-        cur.execute('SELECT * FROM Doctors')
+        
+        cur.execute('SELECT * FROM Departments')
+        all_departments = cur.fetchall()
 
+        cur.execute('SELECT * FROM Doctors')
         result = cur.fetchall()
         mysql.connection.commit()
         # print(result)
-        return render_template('doctors.html', rows=result)
+        return render_template('doctors.html', rows=result, department_list = all_departments)
 
 @app.route('/patients', methods=['GET', 'PUT', 'POST', 'DELETE'])
 def patients():
@@ -140,9 +146,13 @@ def patients():
         
         cur.execute('SELECT * FROM Patients')
         result = cur.fetchall()
+
+        cur.execute('SELECT * FROM Doctors')
+        all_doctors = cur.fetchall()
+
         mysql.connection.commit()
         # print(result)
-        return render_template('patients.html', rows=result)
+        return render_template('patients.html', rows=result, doctor_list = all_doctors)
     if request.method == "POST": 
 
         patientFirst = request.form['patientFirst']
@@ -154,12 +164,16 @@ def patients():
         cur = mysql.connection.cursor()
         
         cur.execute(f'INSERT INTO Patients (patientFirst, patientLast, patientDOB, patientDoc) VALUES ("{patientFirst}", "{patientLast}", "{patientDOB}", "{doctorID}")')
+        
+        cur.execute('SELECT * FROM Doctors')
+        all_doctors = cur.fetchall()
+
         cur.execute('SELECT * FROM Patients')
 
         result = cur.fetchall()
         mysql.connection.commit()
         # print(result)
-        return render_template('patients.html', rows=result)
+        return render_template('patients.html', rows=result, doctor_list = all_doctors)
 
 @app.route('/procedures', methods=['GET', 'PUT', 'POST', 'DELETE'])
 def procedures():
