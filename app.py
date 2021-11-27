@@ -207,10 +207,13 @@ def procedures():
         # print(result)
         return render_template('procedures.html', rows=result)
 
-@app.route('/departments', methods=['GET', 'PUT', 'POST', 'DELETE'])
+@app.route('/departments', methods=['GET', 'PATCH', 'POST', 'DELETE'])
 def departments():
+
+    cur = mysql.connection.cursor()
+
     if request.method == 'GET':
-        cur = mysql.connection.cursor()
+        print(request.method)
         
         cur.execute('SELECT * FROM Departments')
         result = cur.fetchall()
@@ -225,7 +228,7 @@ def departments():
 
         return render_template('departments.html', rows=result, address_list = all_addresses, doctor_list = all_doctors)
 
-    if request.method == "POST": 
+    if request.method == 'POST': 
 
         departmentName = request.form['departmentName']
         
@@ -234,9 +237,8 @@ def departments():
         if "departmentHead" in request.form:
             departmentHead = request.form['departmentHead']
         departmentAddress = request.form['addressID']
-
-        cur = mysql.connection.cursor()
         
+        # Check if submitted with no departmentHead, in which case pass NULL with this value.
         if departmentHead != "":
             cur.execute(f'INSERT INTO Departments (departmentName, departmentHead, addressID) VALUES ("{departmentName}", "{departmentHead}", "{departmentAddress}")')
         else:
@@ -251,8 +253,10 @@ def departments():
         all_doctors = cur.fetchall()
 
         mysql.connection.commit()
-        # print(result)
         return render_template('departments.html', rows=result, address_list = all_addresses, doctor_list = all_doctors)
+
+    if request.method == "PATCH":
+        return request.method
 
 @app.route('/appointments', methods=['GET', 'PUT', 'POST', 'DELETE'])
 def appointments():
