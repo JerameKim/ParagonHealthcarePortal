@@ -10,7 +10,7 @@ mysql = MySQL()
 mysql.init_app(app)
 
 # MySQL configurations for Heroku
-app.config['MYSQL_USER'] = 'b5144e26b93e3`c'
+app.config['MYSQL_USER'] = 'b5144e26b93e3c'
 app.config['MYSQL_PASSWORD'] = '2e4abfe4'
 app.config['MYSQL_DB'] = 'heroku_5234e1c57267f61'
 app.config['MYSQL_HOST'] = 'us-cdbr-east-04.cleardb.com'
