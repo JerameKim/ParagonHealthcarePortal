@@ -9,10 +9,10 @@ app = Flask(__name__)
 mysql = MySQL()
 
 # MySQL configurations for Heroku
-app.config['MYSQL_USER'] = 'b5144e26b93e3c'
+app.config['MYSQL_USER'] = 'b5144e26b93e3`c'
 app.config['MYSQL_PASSWORD'] = '2e4abfe4'
 app.config['MYSQL_DB'] = 'heroku_5234e1c57267f61'
-app.config['MYSQL_HOST'] = 'us-cdbr-east-04.cleardb.com'
+app.config['MYSQL_HOST'] = 'us-cdbr-east-`04.cleardb.com'
 # mysql = MySQL(app)
 mysql.init_app(app)
 
@@ -59,8 +59,8 @@ def insert_sample_data():
 
     # Insert Departments
     # cur.execute('INSERT INTO Departments (departmentName, departmentHead, addressID) VALUES ("Bone Department", NULL, 1)')
-    cur.execute('INSERT INTO Departments (departmentName, departmentHead, addressID) VALUES ("Main Surgery", NULL, 2)')
-    cur.execute('INSERT INTO Departments (departmentName, departmentHead, addressID) VALUES ("Pharmacy", NULL, 2)')
+    # cur.execute('INSERT INTO Departments (departmentName, departmentHead, addressID) VALUES ("Main Surgery", NULL, 2)')
+    # cur.execute('INSERT INTO Departments (departmentName, departmentHead, addressID) VALUES ("Pharmacy", NULL, 2)')
 
     # Insert Some Doctors
     cur.execute('INSERT INTO Doctors (doctorFirst, doctorLast, doctorDOB, departmentID) VALUES ("Dorian", "Grey", "1999-09-09", 1)')
