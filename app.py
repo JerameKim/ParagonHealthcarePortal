@@ -9,17 +9,17 @@ app = Flask(__name__)
 mysql = MySQL()
 
 # MySQL configurations for Heroku
-app.config['MYSQL_USER'] = 'b5144e26b93e3c'
-app.config['MYSQL_PASSWORD'] = '2e4abfe4'
-app.config['MYSQL_DB'] = 'heroku_5234e1c57267f61'
-app.config['MYSQL_HOST'] = 'us-cdbr-east-04.cleardb.com'
+# app.config['MYSQL_USER'] = 'b5144e26b93e3c'
+# app.config['MYSQL_PASSWORD'] = '2e4abfe4'
+# app.config['MYSQL_DB'] = 'heroku_5234e1c57267f61'
+# app.config['MYSQL_HOST'] = 'us-cdbr-east-04.cleardb.com'
 # mysql = MySQL(app)
 mysql.init_app(app)
 
-# app.config['MYSQL_HOST'] = 'classmysql.engr.oregonstate.edu'
-# app.config['MYSQL_USER'] = 'cs340_kimjera'
-# app.config['MYSQL_PASSWORD'] = '1572'
-# app.config['MYSQL_DB'] = 'cs340_kimjera'
+app.config['MYSQL_HOST'] = 'classmysql.engr.oregonstate.edu'
+app.config['MYSQL_USER'] = 'cs340_kimjera'
+app.config['MYSQL_PASSWORD'] = '1572'
+app.config['MYSQL_DB'] = 'cs340_kimjera'
 
 # app.config['MYSQL_USER'] = 'cs340_coughlis'
 # app.config['MYSQL_PASSWORD'] = '8340'
@@ -58,7 +58,7 @@ def insert_sample_data():
     cur.execute('INSERT INTO Procedures (procedureName, inPatient) VALUES ("Aura Manipulation", 0)')
 
     # Insert Departments
-    cur.execute('INSERT INTO Departments (departmentName, departmentHead, addressID) VALUES ("Bone Department", NULL, 1)')
+    # cur.execute('INSERT INTO Departments (departmentName, departmentHead, addressID) VALUES ("Bone Department", NULL, 1)')
     cur.execute('INSERT INTO Departments (departmentName, departmentHead, addressID) VALUES ("Main Surgery", NULL, 2)')
     cur.execute('INSERT INTO Departments (departmentName, departmentHead, addressID) VALUES ("Pharmacy", NULL, 2)')
 
