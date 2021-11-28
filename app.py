@@ -7,6 +7,7 @@ import os
  
 app = Flask(__name__)
 mysql = MySQL()
+mysql.init_app(app)
 
 # MySQL configurations for Heroku
 app.config['MYSQL_USER'] = 'b5144e26b93e3`c'
@@ -14,7 +15,6 @@ app.config['MYSQL_PASSWORD'] = '2e4abfe4'
 app.config['MYSQL_DB'] = 'heroku_5234e1c57267f61'
 app.config['MYSQL_HOST'] = 'us-cdbr-east-`04.cleardb.com'
 # mysql = MySQL(app)
-mysql.init_app(app)
 
 # app.config['MYSQL_HOST'] = 'classmysql.engr.oregonstate.edu'
 # app.config['MYSQL_USER'] = 'cs340_kimjera'
@@ -47,15 +47,15 @@ def insert_sample_data():
     cur = mysql.connection.cursor()
 
     # #Insert Addresses
-    cur.execute('INSERT INTO Addresses (streetAddress, city, state, zipCode) VALUES ("123 Party Street","Cool Town", "WA", "54321")')
-    cur.execute('INSERT INTO Addresses (streetAddress, city, state, zipCode) VALUES ("999 Random House Lane","Wherever", "GA", "01010")')
-    cur.execute('INSERT INTO Addresses (streetAddress, city, state, zipCode) VALUES ("1 More Court","Beverly Hills", "WI", "44444")')
+    # cur.execute('INSERT INTO Addresses (streetAddress, city, state, zipCode) VALUES ("123 Party Street","Cool Town", "WA", "54321")')
+    # cur.execute('INSERT INTO Addresses (streetAddress, city, state, zipCode) VALUES ("999 Random House Lane","Wherever", "GA", "01010")')
+    # cur.execute('INSERT INTO Addresses (streetAddress, city, state, zipCode) VALUES ("1 More Court","Beverly Hills", "WI", "44444")')
 
 
     # Insert Procedures
-    cur.execute('INSERT INTO Procedures (procedureName, inPatient) VALUES ("Eyebrow Removal", 1)')
-    cur.execute('INSERT INTO Procedures (procedureName, inPatient) VALUES ("Eyebrow Addition", 1)')
-    cur.execute('INSERT INTO Procedures (procedureName, inPatient) VALUES ("Aura Manipulation", 0)')
+    # cur.execute('INSERT INTO Procedures (procedureName, inPatient) VALUES ("Eyebrow Removal", 1)')
+    # cur.execute('INSERT INTO Procedures (procedureName, inPatient) VALUES ("Eyebrow Addition", 1)')
+    # cur.execute('INSERT INTO Procedures (procedureName, inPatient) VALUES ("Aura Manipulation", 0)')
 
     # Insert Departments
     # cur.execute('INSERT INTO Departments (departmentName, departmentHead, addressID) VALUES ("Bone Department", NULL, 1)')
@@ -63,22 +63,22 @@ def insert_sample_data():
     # cur.execute('INSERT INTO Departments (departmentName, departmentHead, addressID) VALUES ("Pharmacy", NULL, 2)')
 
     # Insert Some Doctors
-    cur.execute('INSERT INTO Doctors (doctorFirst, doctorLast, doctorDOB, departmentID) VALUES ("Dorian", "Grey", "1999-09-09", 1)')
-    cur.execute('INSERT INTO Doctors (doctorFirst, doctorLast, doctorDOB, departmentID) VALUES ("Frasier", "Crane", "2000-01-01", 2)')
-    cur.execute('INSERT INTO Doctors (doctorFirst, doctorLast, doctorDOB, departmentID) VALUES ("Simon", "Garfunkle", "2040-11-11", 2)')
+    # cur.execute('INSERT INTO Doctors (doctorFirst, doctorLast, doctorDOB, departmentID) VALUES ("Dorian", "Grey", "1999-09-09", 1)')
+    # cur.execute('INSERT INTO Doctors (doctorFirst, doctorLast, doctorDOB, departmentID) VALUES ("Frasier", "Crane", "2000-01-01", 2)')
+    # cur.execute('INSERT INTO Doctors (doctorFirst, doctorLast, doctorDOB, departmentID) VALUES ("Simon", "Garfunkle", "2040-11-11", 2)')
 
     # Insert Patients
-    cur.execute('INSERT INTO Patients (patientFirst, patientLast, patientDOB, patientDoc) VALUES ("Zachary","Zucchini", "1994-12-12", 1)')
-    cur.execute('INSERT INTO Patients (patientFirst, patientLast, patientDOB, patientDoc) VALUES ("Andrew","Armadillo", "1983-05-03", 1)')
-    cur.execute('INSERT INTO Patients (patientFirst, patientLast, patientDOB, patientDoc) VALUES ("Sally","Ride", "1951-05-26", 2)')
+    # cur.execute('INSERT INTO Patients (patientFirst, patientLast, patientDOB, patientDoc) VALUES ("Zachary","Zucchini", "1994-12-12", 1)')
+    # cur.execute('INSERT INTO Patients (patientFirst, patientLast, patientDOB, patientDoc) VALUES ("Andrew","Armadillo", "1983-05-03", 1)')
+    # cur.execute('INSERT INTO Patients (patientFirst, patientLast, patientDOB, patientDoc) VALUES ("Sally","Ride", "1951-05-26", 2)')
 
 
     # Insert Doctors_Procedures
-    cur.execute('INSERT INTO Doctors_Procedures (procedureID, doctorID) VALUES (1, 1)')
+    # cur.execute('INSERT INTO Doctors_Procedures (procedureID, doctorID) VALUES (1, 1)')
     
 
     # Insert Appointments
-    cur.execute('INSERT INTO Appointments (patientID, doctorID, procedureID, appointmentDate) VALUES (1, 1, 1, "2000-10-10")')
+    # cur.execute('INSERT INTO Appointments (patientID, doctorID, procedureID, appointmentDate) VALUES (1, 1, 1, "2000-10-10")')
 
     mysql.connection.commit()
 
