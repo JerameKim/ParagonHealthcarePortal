@@ -362,10 +362,9 @@ def addresses():
         cur = mysql.connection.cursor()
         
         cur.execute('SELECT * FROM Addresses')
-        result = cur.fetchall()
+        all_addresses = cur.fetchall()
         mysql.connection.commit()
-        # print(result)
-        return render_template('addresses.html', rows=result)
+        return render_template('addresses.html', address_list = all_addresses)
 
     if request.method == "POST":
         streetAddress= request.form['streetAddress']
@@ -432,4 +431,4 @@ if __name__ == "__main__":
     # port = int(os.environ.get('PORT', 55557))
     # app.run(port=12345, debug= True)
     # app.run(host="flip1.engr.oregonstate.edu", port=51515, debug=False) 
-    app.run()
+    app.run(debug=True)
