@@ -26,7 +26,8 @@
 <div class="first">
     <h3>Update Department</h3>
 
-    <form action="/departments" method="PATCH">
+    <form action="/departments" method="POST">
+        <input type="hidden" name="departmentID" id="departmentID" value={{department.departmentID}}>
         <label for="departmentName">Department Name: </label><br>
         <input type="text" value="{{department.departmentName}}" name="departmentName"id="departmentName"><br><br>
 
@@ -51,6 +52,7 @@
         </div>
         <br>
         <br>
+        <input type="hidden" id="mode" name="mode" value="update">
         <input type="submit" class="btn btn-primary">
     </form>
     <br>

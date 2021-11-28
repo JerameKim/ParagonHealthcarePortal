@@ -207,13 +207,10 @@ def procedures():
         # print(result)
         return render_template('procedures.html', rows=result)
 
-@app.route('/departments', methods=["GET", "PATCH", "POST", "DELETE"])
+@app.route('/departments', methods=["GET", "PUT", "POST", "DELETE"])
 def departments():
 
     cur = mysql.connection.cursor()
-
-    if request.method == "PATCH":
-        return "i'm a patch"
 
     if request.method == "GET":
         
@@ -231,22 +228,54 @@ def departments():
         return render_template('departments.html', rows=result, address_list = all_addresses, doctor_list = all_doctors)
 
     if request.method == "POST": 
+        print("We started the post route")
 
-        departmentName = request.form['departmentName']
+        mode = request.form['mode']
+
+        if mode == "add":
+            print("I'm in add mode")
+            departmentName = request.form['departmentName']
+            
+            # Initialize departmentHead and check if it exists in the request. If it doesn't, pass NULL for this to the query
+            departmentHead = ""
+            if "departmentHead" in request.form:
+                departmentHead = request.form['departmentHead']
+            departmentAddress = request.form['addressID']
+            
+            # Check if submitted with no departmentHead, in which case pass NULL with this value.
+            if departmentHead != "":
+                cur.execute(f'INSERT INTO Departments (departmentName, departmentHead, addressID) VALUES ("{departmentName}", "{departmentHead}", "{departmentAddress}")')
+            else:
+                cur.execute(f'INSERT INTO Departments (departmentName, departmentHead, addressID) VALUES ("{departmentName}", NULL, "{departmentAddress}")')
         
-        # Initialize departmentHead and check if it exists in the request. If it doesn't, pass NULL for this to the query
-        departmentHead = ""
-        if "departmentHead" in request.form:
-            departmentHead = request.form['departmentHead']
-        departmentAddress = request.form['addressID']
-        
-        # Check if submitted with no departmentHead, in which case pass NULL with this value.
-        if departmentHead != "":
-            cur.execute(f'INSERT INTO Departments (departmentName, departmentHead, addressID) VALUES ("{departmentName}", "{departmentHead}", "{departmentAddress}")')
         else:
-            cur.execute(f'INSERT INTO Departments (departmentName, departmentHead, addressID) VALUES ("{departmentName}", NULL, "{departmentAddress}")')
+            print("I'm in update mode")
+            # get the values from the request
+
+            departmentHead = ""
+            departmentID = request.form['departmentID']
+
+            if 'departmentName' in request.form:
+                departmentName = request.form['departmentName']
+            if 'departmentHead' in request.form:
+                departmentHead = request.form['departmentHead']
+            if 'addressID' in request.form:
+                addressID = request.form['addressID']
+
+            # build the query to update
+            update_query_not_null = f'UPDATE Departments SET departmentName = "{departmentName}", departmentHead = "{departmentHead}", addressID = "{addressID}" WHERE departmentID = {departmentID}'
+            update_query_null = f'UPDATE Departments SET departmentName = "{departmentName}", departmentHead = NULL, addressID = "{addressID}" WHERE departmentID = {departmentID}'
+
+            # execute the query
+            if departmentHead == "":
+                print(update_query_null)
+                cur.execute(update_query_null)
+            else:
+                print(update_query_not_null)
+                cur.execute(update_query_not_null)
+
         cur.execute('SELECT * FROM Departments')
-        result = cur.fetchall()
+        all_rows = cur.fetchall()
 
         cur.execute('SELECT * FROM Addresses')
         all_addresses = cur.fetchall()
@@ -255,7 +284,7 @@ def departments():
         all_doctors = cur.fetchall()
 
         mysql.connection.commit()
-        return render_template('departments.html', rows=result, address_list = all_addresses, doctor_list = all_doctors)
+        return render_template('departments.html', rows=all_rows, address_list = all_addresses, doctor_list = all_doctors)
 
 @app.route('/departments/update', methods=['POST'])
 def update_dept():
