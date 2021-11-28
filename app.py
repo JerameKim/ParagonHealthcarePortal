@@ -9,6 +9,11 @@ app = Flask(__name__)
 mysql = MySQL()
 
 # MySQL configurations for Heroku
+# app.config['MYSQL_DATABASE_USER'] = 'b5144e26b93e3c'
+# app.config['MYSQL_DATABASE_PASSWORD'] = '2e4abfe4'
+# app.config['MYSQL_DATABASE_DB'] = 'heroku_5234e1c57267f61'
+# app.config['MYSQL_DATABASE_HOST'] = 'us-cdbr-east-04.cleardb.com'
+
 app.config['MYSQL_USER'] = 'b5144e26b93e3c'
 app.config['MYSQL_PASSWORD'] = '2e4abfe4'
 app.config['MYSQL_DB'] = 'heroku_5234e1c57267f61'
@@ -92,15 +97,15 @@ def root():
     creationCommands = make_commands('./sql_queries/table_creation_queries.sql')
     
     # Disable foreign key checks temporarily, because foreign key collisions are not important when dropping all entities
-    cur.execute("SET FOREIGN_KEY_CHECKS=0")
+    # cur.execute("SET FOREIGN_KEY_CHECKS=0")
     
     # Drop all possible tables
-    for table in table_names:
-        drop_query = "DROP TABLE IF EXISTS %s" % table
-        cur.execute(drop_query)
+    # for table in table_names:
+    #     drop_query = "DROP TABLE IF EXISTS %s" % table
+    #     cur.execute(drop_query)
     
     # Re-enable foreign key checks after dropping all tables
-    cur.execute("SET FOREIGN_KEY_CHECKS=1")
+    # cur.execute("SET FOREIGN_KEY_CHECKS=1")
 
     for command in creationCommands:
         cur.execute(command)
