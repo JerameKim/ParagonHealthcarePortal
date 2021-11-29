@@ -185,12 +185,14 @@ def patients():
 @app.route('/delete/<string:table>/<int:id>')
 def delete(table, id):
     cur = mysql.connection.cursor()
-    cur.execute("SET FOREIGN_KEY_CHECKS=0")
 
-    # Delete from Patients Table
-    if table == "Patients": 
+    # Render Patients Table
+    if table == "patients": 
         print("=-=-=--==--= DELETING FROM THE PATIENTs TABLE SPECIFICALLy =-=-=--==--=")
-        cur.execute("DELETE FROM %s WHERE patientID = %s" % (table, id))    
+
+        # Do the deleting
+        cur.execute("SET FOREIGN_KEY_CHECKS=0")
+        cur.execute("DELETE FROM Patients WHERE patientID = %s" % (id))    
         cur.execute("SET FOREIGN_KEY_CHECKS=1")
 
         # Populate table
@@ -202,10 +204,116 @@ def delete(table, id):
         mysql.connection.commit()
         return render_template('patients.html', rows=all_patients, doctor_list = all_doctors)
 
+    # Render Doctors Table
+    if table == "doctors": 
+        print("=-=-=--==--= DELETING FROM THE DOCTORS TABLE SPECIFICALLy =-=-=--==--=")
+
+        # Do the Deleting
+        cur.execute("SET FOREIGN_KEY_CHECKS=0")
+        cur.execute("DELETE FROM Doctors WHERE doctorID = %s" % (id))    
+        cur.execute("SET FOREIGN_KEY_CHECKS=1")
+
+        # Populate table
+        cur.execute('SELECT * FROM Doctors')
+        result = cur.fetchall()
+        cur.execute('SELECT * FROM Departments')
+        all_departments = cur.fetchall()
+        mysql.connection.commit()
+        return render_template('doctors.html', rows=result, department_list = all_departments)
+
+    if table == "procedures":
+        print("=-=-=--==--= DELETING FROM THE PROCEDURES TABLE SPECIFICALLy =-=-=--==--=")
+
+        cur.execute("SET FOREIGN_KEY_CHECKS=0")
+        cur.execute("DELETE FROM Procedures WHERE procedureID = %s" % (id))    
+        cur.execute("SET FOREIGN_KEY_CHECKS=1")
+
+        # Populate table
+        cur.execute('SELECT * FROM Procedures')
+        result = cur.fetchall()
+        mysql.connection.commit()
+        # print(result)
+        return render_template('procedures.html', rows=result)
     
+    if table == "departments": 
+        print("=-=-=--==--= DELETING FROM THE DEPARTMENTS TABLE SPECIFICALLy =-=-=--==--=")
+        # Delete
+        cur.execute("SET FOREIGN_KEY_CHECKS=0")
+        cur.execute("DELETE FROM Departments WHERE departmentID= %s" % (id))    
+        cur.execute("SET FOREIGN_KEY_CHECKS=1")
+
+        # Render table
+        cur.execute('SELECT * FROM Departments')
+        result = cur.fetchall()
+
+        cur.execute('SELECT * FROM Addresses')
+        all_addresses = cur.fetchall()
+
+        cur.execute('SELECT * FROM Doctors')
+        all_doctors = cur.fetchall()
+
+        mysql.connection.commit()
+
+        return render_template('departments.html', rows=result, address_list = all_addresses, doctor_list = all_doctors)
+
+    if table == "appointments": 
+        print("=-=-=--==--= DELETING FROM THE APPOINTMENTS TABLE SPECIFICALLy =-=-=--==--=")
+        # Delete
+        cur.execute("SET FOREIGN_KEY_CHECKS=0")
+        cur.execute("DELETE FROM Appointments WHERE appointmentID= %s" % (id))    
+        cur.execute("SET FOREIGN_KEY_CHECKS=1")
+
+        # Render Table
+        cur.execute('SELECT * FROM Appointments')
+        all_appointments = cur.fetchall()
+
+        cur.execute('SELECT * FROM Patients')
+        all_patients = cur.fetchall()
+
+        cur.execute('SELECT * FROM Doctors')
+        all_doctors = cur.fetchall()
+
+        cur.execute('SELECT * FROM Procedures')
+        all_procedures = cur.fetchall()
+
+        mysql.connection.commit()
+
+        return render_template('appointments.html', rows=all_appointments, patient_list = all_patients, doctor_list = all_doctors, procedure_list=all_procedures)
+
+    if table == "addresses": 
+        print("=-=-=--==--= DELETING FROM THE ADDRESSES TABLE SPECIFICALLy =-=-=--==--=")
+        # Delete
+        cur.execute("SET FOREIGN_KEY_CHECKS=0")
+        cur.execute("DELETE FROM Addresses WHERE addressID= %s" % (id))    
+        cur.execute("SET FOREIGN_KEY_CHECKS=1")
+        cur = mysql.connection.cursor()
+        
+        cur.execute('SELECT * FROM Addresses')
+        all_addresses = cur.fetchall()
+        mysql.connection.commit()
+        return render_template('addresses.html', address_list = all_addresses)
+
+    if table == "doctors_procedures":
+        print("=-=-=--==--= DELETING FROM THE DOCTORS_PROCEDURES TABLE SPECIFICALLy =-=-=--==--=")
+        # Delete using doctor id
+        cur.execute("SET FOREIGN_KEY_CHECKS=0")
+        cur.execute("DELETE FROM Doctors_Procedures WHERE doctorID= %s" % (id))    
+        cur.execute("SET FOREIGN_KEY_CHECKS=1")
+
+        # Render table
+        cur.execute('SELECT * FROM Doctors_Procedures')
+        result = cur.fetchall()
+        cur.execute('SELECT * FROM Procedures')
+        all_procedures = cur.fetchall()
+        cur.execute('SELECT * FROM Doctors')
+        all_doctors = cur.fetchall()
+        mysql.connection.commit()
+        # print(result)
+        return render_template('doctors_procedures.html', rows=result, procedure_list = all_procedures, doctor_list = all_doctors)
 
 @app.route('/procedures', methods=['GET', 'PUT', 'POST', 'DELETE'])
 def procedures():
+    # Render procedures table
     if request.method == 'GET':
         cur = mysql.connection.cursor()
         
@@ -378,7 +486,7 @@ def appointments():
         return render_template('appointments.html', rows=all_appointments, patient_list = all_patients, doctor_list = all_doctors, procedure_list=all_procedures)
 
 @app.route('/addresses', methods=['GET','PUT', 'POST', 'DELETE'])
-# def show_addresses():
+
 def addresses():
     if request.method == 'GET': 
         cur = mysql.connection.cursor()

@@ -97,7 +97,7 @@
             <td>{{row["departmentName"]}}</td>
             <td>{{row["departmentHead"]}}</td>
             <td>{{row["addressID"]}}</td>
-            <th><button type="button" class="btn btn-primary">Delete</button></th>
+            <th><a href="/delete/departments/{{row['departmentID']}}" class="btn btn-primary">Delete</a></th>
         </tr>
         {%endfor%}
     </table>

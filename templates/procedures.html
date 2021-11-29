@@ -67,7 +67,7 @@
             <td>{{row["procedureID"]}}</td>
             <td>{{row["procedureName"]}}</td>
             <td>{{row["inPatient"]}}</td>
-            <th><button type="button" class="btn btn-primary">Delete</button></th>
+            <th><a href="/delete/procedures/{{row['procedureID']}}" class="btn btn-primary">Delete</a></th>
         </tr>
         {%endfor%}
     </table>

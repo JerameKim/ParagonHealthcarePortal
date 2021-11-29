@@ -140,7 +140,7 @@
             <td>{{row["doctorID"]}}</td>
             <td>{{row["procedureID"]}}</td>
             <td>{{row["appointmentDate"]}}</td>
-            <th><button type="button" class="btn btn-primary">Delete</button></th>
+            <th><a href="/delete/appointments/{{row['appointmentID']}}" class="btn btn-primary">Delete</a></th>
         </tr>
         {%endfor%}
     </table>
