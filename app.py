@@ -9,10 +9,10 @@ app = Flask(__name__)
 mysql = MySQL()
 
 # MySQL configurations for Heroku
-app.config['MYSQL_DATABASE_USER'] = 'b5144e26b93e3c'
-app.config['MYSQL_DATABASE_PASSWORD'] = '2e4abfe4'
-app.config['MYSQL_DATABASE_DB'] = 'heroku_5234e1c57267f61'
-app.config['MYSQL_DATABASE_HOST'] = 'us-cdbr-east-04.cleardb.com'
+app.config['MYSQL_USER'] = 'b5144e26b93e3c'
+app.config['MYSQL_PASSWORD'] = '2e4abfe4'
+app.config['MYSQL_DB'] = 'heroku_5234e1c57267f61'
+app.config['MYSQL_HOST'] = 'us-cdbr-east-04.cleardb.com'
 
 # mysql = MySQL(app)
 mysql.init_app(app)
@@ -186,13 +186,14 @@ def patients():
 def delete(table, id):
     cur = mysql.connection.cursor()
     cur.execute("SET FOREIGN_KEY_CHECKS=0")
-
-    cur.execute("DELETE FROM %s WHERE patientID = %s" % (table, id))
+    if table == "Patients": 
+        print("=-=-=--==--= DELETING FROM THE PATIENTs TABLE SPECIFICALLy =-=-=--==--=")
+        cur.execute("DELETE FROM %s WHERE patientID = %s" % (table, id))
+        
     cur.execute("SET FOREIGN_KEY_CHECKS=1")
 
     mysql.connection.commit()
     return render_template(f'{table}.html')
-
 
 
 @app.route('/procedures', methods=['GET', 'PUT', 'POST', 'DELETE'])
