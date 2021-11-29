@@ -24,7 +24,8 @@ DROP TABLE IF EXISTS `Procedures`;
 CREATE TABLE `Procedures`(
     `procedureID` int(11) AUTO_INCREMENT PRIMARY KEY,
     `procedureName` VARCHAR(80) NOT NULL,
-    `inPatient` BOOLEAN NOT NULL DEFAULT 0);
+    `inPatient` BOOLEAN NOT NULL DEFAULT 0)
+    ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- # INSERT PROCEDURES
 -- LOCK TABLES `Procedures` WRITE; 
@@ -42,9 +43,8 @@ CREATE TABLE `Departments`(
     `departmentHead` int(11),
     `addressID` int(11) NOT NULL,
     FOREIGN KEY (`addressID`) 
-    REFERENCES `Addresses`(`addressID`));
-        -- ON DELETE SET NULL
-        -- ON UPDATE CASCADE);
+    REFERENCES `Addresses`(`addressID`))
+    ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- # INSERT Departments
 -- LOCK TABLES `Departments` WRITE; 
@@ -62,9 +62,8 @@ CREATE TABLE `Doctors`(
     `doctorLast` VARCHAR(80) NOT NULL,
     `doctorDOB` DATE NOT NULL,
     `departmentID` int(11) NOT NULL,
-    FOREIGN KEY (`departmentID`) REFERENCES `Departments`(`departmentID`));
-        -- ON DELETE SET NULL
-        -- ON UPDATE CASCADE);
+    FOREIGN KEY (`departmentID`) REFERENCES `Departments`(`departmentID`))
+    ENGINE=InnoDB DEFAULT CHARSET=latin1;
 -- # INSERT Doctors 
 -- LOCK TABLES `Doctors`; 
 INSERT INTO `Doctors` (`doctorFirst`, `doctorLast`, `doctorDOB`, `departmentID`) VALUES 
@@ -84,9 +83,8 @@ CREATE TABLE `Patients`(
     `patientLast` VARCHAR(80) NOT NULL,
     `patientDOB` DATE NOT NULL,
     `patientDoc` int(11),
-    FOREIGN KEY (`patientDoc`) REFERENCES `Doctors`(`doctorID`) );
-        -- ON DELETE SET NULL
-        -- ON UPDATE CASCADE);
+    FOREIGN KEY (`patientDoc`) REFERENCES `Doctors`(`doctorID`) 
+    )ENGINE=InnoDB DEFAULT CHARSET=latin1;
 -- LOCK TABLES `Patients`;
 INSERT INTO Patients (patientFirst, patientLast, patientDOB, patientDoc) VALUES 
 ("Zachary","Zucchini", "1994-12-12", 1),
@@ -108,7 +106,8 @@ CREATE TABLE `Appointments`(
     FOREIGN KEY (`doctorID`) REFERENCES `Doctors`(`doctorID`), 
         -- ON DELETE SET NULL 
         -- ON UPDATE CASCADE,
-    FOREIGN KEY (`procedureID`) REFERENCES `Procedures`(`procedureID`));
+    FOREIGN KEY (`procedureID`) REFERENCES `Procedures`(`procedureID`))
+    ENGINE=InnoDB DEFAULT CHARSET=latin1;
         -- ON DELETE SET NULL
         -- ON UPDATE CASCADE);
 -- LOCK TABLES `Appointments`;
@@ -124,7 +123,8 @@ CREATE TABLE `Doctors_Procedures`(
     FOREIGN KEY (`procedureID`) REFERENCES `Procedures`(`procedureID`),
         -- ON DELETE SET NULL 
         -- ON UPDATE CASCADE,
-    FOREIGN KEY (`doctorID`) REFERENCES `Doctors`(`doctorID`));
+    FOREIGN KEY (`doctorID`) REFERENCES `Doctors`(`doctorID`))
+    ENGINE=InnoDB DEFAULT CHARSET=latin1;
         -- ON DELETE SET NULL
         -- ON UPDATE CASCADE);
 -- LOCK TABLES `Doctors_Procedures`;

@@ -58,8 +58,6 @@
             <h3>Add Patient</h3>
 
             <form action="/patients" method="POST">
-                <!-- <label for="patientID">Patient ID: </label><br>
-                <input type="text" name="patientID" id="patientID"><br><br> -->
                 <label for="patientFirst">Patient First: </label><br>
                 <input type="text" name="patientFirst" id="patientFirst"><br><br>
                 <label for="patientLast">Patient Last: </label><br>
@@ -113,7 +111,8 @@
             <td>{{row["patientLast"]}}</td>
             <td>{{row["patientDOB"]}}</td>
             <td>{{row["patientDoc"]}}</td>
-            <th><button type="button" class="btn btn-primary">Delete</button></th>
+            <th><a href="/delete/Patients/{{row['patientID']}}" class="btn btn-primary"></a></th>
+            <!-- <th><button type="button" class="btn btn-primary">Delete</button></th> -->
         </tr>
         {%endfor%}
     </table>
