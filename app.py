@@ -192,10 +192,17 @@ def delete(table, id):
         print("=-=-=--==--= DELETING FROM THE PATIENTs TABLE SPECIFICALLy =-=-=--==--=")
         cur.execute("DELETE FROM %s WHERE patientID = %s" % (table, id))    
         cur.execute("SET FOREIGN_KEY_CHECKS=1")
-        mysql.connection.commit()
-        return render_template('patients.html')
-    
 
+        # Populate table
+        cur.execute('SELECT * FROM Doctors')
+        all_doctors = cur.fetchall()
+        cur.execute('SELECT * FROM Patients')
+        all_patients = cur.fetchall()
+
+        mysql.connection.commit()
+        return render_template('patients.html', rows=all_patients, doctor_list = all_doctors)
+
+    
 
 @app.route('/procedures', methods=['GET', 'PUT', 'POST', 'DELETE'])
 def procedures():
