@@ -9,18 +9,18 @@ app = Flask(__name__)
 mysql = MySQL()
 
 # MySQL configurations for Heroku
-# app.config['MYSQL_DATABASE_USER'] = 'b5144e26b93e3c'
-# app.config['MYSQL_DATABASE_PASSWORD'] = '2e4abfe4'
-# app.config['MYSQL_DATABASE_DB'] = 'heroku_5234e1c57267f61'
-# app.config['MYSQL_DATABASE_HOST'] = 'us-cdbr-east-04.cleardb.com'
+app.config['MYSQL_DATABASE_USER'] = 'b5144e26b93e3c'
+app.config['MYSQL_DATABASE_PASSWORD'] = '2e4abfe4'
+app.config['MYSQL_DATABASE_DB'] = 'heroku_5234e1c57267f61'
+app.config['MYSQL_DATABASE_HOST'] = 'us-cdbr-east-04.cleardb.com'
 
 # mysql = MySQL(app)
 mysql.init_app(app)
 
-app.config['MYSQL_HOST'] = 'classmysql.engr.oregonstate.edu'
-app.config['MYSQL_USER'] = 'cs340_kimjera'
-app.config['MYSQL_PASSWORD'] = '1572'
-app.config['MYSQL_DB'] = 'cs340_kimjera'
+# app.config['MYSQL_HOST'] = 'classmysql.engr.oregonstate.edu'
+# app.config['MYSQL_USER'] = 'cs340_kimjera'
+# app.config['MYSQL_PASSWORD'] = '1572'
+# app.config['MYSQL_DB'] = 'cs340_kimjera'
 
 # app.config['MYSQL_USER'] = 'cs340_coughlis'
 # app.config['MYSQL_PASSWORD'] = '8340'
@@ -189,7 +189,7 @@ def delete(table, id):
 
     cur.execute("DELETE FROM %s WHERE patientID = %s" % (table, id))
     cur.execute("SET FOREIGN_KEY_CHECKS=1")
-    
+
     mysql.connection.commit()
     return render_template(f'{table}.html')
 
