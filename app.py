@@ -186,14 +186,15 @@ def patients():
 def delete(table, id):
     cur = mysql.connection.cursor()
     cur.execute("SET FOREIGN_KEY_CHECKS=0")
+
+    # Delete from Patients Table
     if table == "Patients": 
         print("=-=-=--==--= DELETING FROM THE PATIENTs TABLE SPECIFICALLy =-=-=--==--=")
-        cur.execute("DELETE FROM %s WHERE patientID = %s" % (table, id))
-        
-    cur.execute("SET FOREIGN_KEY_CHECKS=1")
-
-    mysql.connection.commit()
-    return render_template(f'{table}.html')
+        cur.execute("DELETE FROM %s WHERE patientID = %s" % (table, id))    
+        cur.execute("SET FOREIGN_KEY_CHECKS=1")
+        mysql.connection.commit()
+        return render_template('patients.html')
+    
 
 
 @app.route('/procedures', methods=['GET', 'PUT', 'POST', 'DELETE'])
@@ -446,5 +447,5 @@ if __name__ == "__main__":
     # app.run(port=12345, debug= True)
     # app.run(host="flip1.engr.oregonstate.edu", port=51515, debug=False) 
 
-    # app.run()
-    app.run(debug=True)
+    app.run()
+    # app.run(debug=True)
