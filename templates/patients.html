@@ -32,28 +32,25 @@
     <h1>Patients</h1>
     <div class="wrapper">
         <div class="first">
-            <br>
-            <br>
+
             <h3>Update Patient</h3>
 
-            <form>
-                <label for="patientID">Patient ID: </label><br>
-                <input type="text" name="patientID" id="patientID"><br><br>
-                <label for="patientFirst">Patient First: </label><br>
-                <input type="text" name="patientFirst" id="patientFirst"><br><br>
-                <label for="patientLast">Patient Last: </label><br>
-                <input type="text" name="patientLast" id="patientLast"><br><br>
-                <label for="patientDOB">Patient Birthday: </label><br>
-                <input type="date" name="patientDOB" id="patientDOB"><br><br>
-                <label for="doctorID">Doctor ID: </label><br>
-                <input type="text" name="doctorID" id="doctorID"><br><br>
+            <form action="/patients/update" method="POST">
+                <div class="dropdown">
+                    <label for="patientID">Choose a patient to update: </label><br>
+                    <select name="patientID" id="patientID">
+                        {% for patient in patient_list %}
+                            <option name="patientID" value="{{patient.patientID}}" SELECTED> {{patient.patientFirst}} {{patient.patientLast}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <br>
+                <input type="hidden" id="mode" name="mode" value="update">
                 <input type="submit" class="btn btn-primary">
             </form>
             <br>
         </div>
 
-        <br>
-        <br>
         <div class="second">
             <h3>Add Patient</h3>
 
@@ -74,6 +71,7 @@
                 </div>
                 <br>
                 <br>
+                <input type="hidden" id="mode" name="mode" value="add">
                 <input type="submit" class="btn btn-primary" >
             </form>
             <br>
@@ -104,14 +102,14 @@
             <th>Patient Primary Care Physician</th>
             <th></th>
         </tr>
-        {%for row in rows%}
+        {%for patient in patient_list%}
         <tr>
-            <td>{{row["patientID"]}}</td>
-            <td>{{row["patientFirst"]}}</td>
-            <td>{{row["patientLast"]}}</td>
-            <td>{{row["patientDOB"]}}</td>
-            <td>{{row["patientDoc"]}}</td>
-            <th><a href="/delete/patients/{{row['patientID']}}" class="btn btn-primary">Delete</a></th>
+            <td>{{patient["patientID"]}}</td>
+            <td>{{patient["patientFirst"]}}</td>
+            <td>{{patient["patientLast"]}}</td>
+            <td>{{patient["patientDOB"]}}</td>
+            <td>{{patient["patientDoc"]}}</td>
+            <th><a href="/delete/patients/{{patient['patientID']}}" class="btn btn-primary">Delete</a></th>
             <!-- <th><button type="button" class="btn btn-primary">Delete</button></th> -->
         </tr>
         {%endfor%}

@@ -152,15 +152,19 @@ def patients():
         cur = mysql.connection.cursor()
         
         cur.execute('SELECT * FROM Patients')
-        result = cur.fetchall()
+        all_patients = cur.fetchall()
 
         cur.execute('SELECT * FROM Doctors')
         all_doctors = cur.fetchall()
 
         mysql.connection.commit()
-        return render_template('patients.html', rows=result, doctor_list = all_doctors)
+        return render_template('patients.html', patient_list=all_patients, doctor_list = all_doctors)
+    
     if request.method == "POST": 
+        
+        mode = request.form['mode']
 
+        patientID = request.form['patientID']
         patientFirst = request.form['patientFirst']
         patientLast = request.form['patientLast']
         patientDOB = request.form['patientDOB']
@@ -168,16 +172,21 @@ def patients():
 
         cur = mysql.connection.cursor()
         
-        cur.execute(f'INSERT INTO Patients (patientFirst, patientLast, patientDOB, patientDoc) VALUES ("{patientFirst}", "{patientLast}", "{patientDOB}", "{doctorID}")')
+        if mode == 'add':
+            cur.execute(f'INSERT INTO Patients (patientFirst, patientLast, patientDOB, patientDoc) VALUES ("{patientFirst}", "{patientLast}", "{patientDOB}", "{doctorID}")')
         
+        else:
+            update_query = f'UPDATE Patients SET patientFirst="{patientFirst}", patientLast="{patientLast}", patientDOB="{patientDOB}", patientDoc={doctorID} WHERE patientID={patientID}'
+            cur.execute(update_query)
+
         cur.execute('SELECT * FROM Doctors')
         all_doctors = cur.fetchall()
 
         cur.execute('SELECT * FROM Patients')
-        result = cur.fetchall()
+        all_patients = cur.fetchall()
 
         mysql.connection.commit()
-        return render_template('patients.html', rows=result, doctor_list = all_doctors)
+        return render_template('patients.html', patient_list=all_patients, doctor_list = all_doctors)
 
 @app.route('/delete/<string:table>/<int:id>')
 def delete(table, id):
@@ -438,6 +447,18 @@ def update_dept(table):
 
         # Pass to the new template to be rendered
         return render_template('update_addresses.html', address = this_addr)
+
+    if table == 'patients':
+        # Get id for the chosen row
+        this_patientID = request.form['patientID']
+
+        # Get data for the chosen row
+        query = f'SELECT * FROM Patients WHERE patientID={this_patientID}'
+        cur.execute(query)
+        this_patient = cur.fetchone()
+
+        # Pass to the new template to be rendered
+        return render_template('update_patients.html', patient = this_patient)
 
 @app.route('/appointments', methods=['GET', 'PUT', 'POST', 'DELETE'])
 def appointments():

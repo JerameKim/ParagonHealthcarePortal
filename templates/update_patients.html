@@ -18,24 +18,25 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Departments</title>
+    <title>Patients</title>
 </head>
 {%endblock%}
 {%block body%}
 
 <div class="first">
 
-    <h3>Update Address</h3>
-    <form action='/addresses' method='POST'>
-        <input type="hidden" name="addressID" id="addressID" value={{address.addressID}}>
-        <label for="streetAddress">Street Address: </label><br>
-        <input type="text" name="streetAddress" id="streetAddress" value="{{address.streetAddress}}"><br><br>
-        <label for="city">City: </label><br>
-        <input type="text" name="city" id="city" value="{{address.city}}"><br><br>
-        <label for="state">State: </label><br>
-        <input type="text" name="state" maxlength="2" id="state" value={{address.state}}><br><br>
-        <label for="zipCode">Zip Code: </label><br>
-        <input type="number" name="zipCode" min="00001" max="99950" id="zipCode" value={{address.zipCode}}><br><br>
+    <h3>Update Patients</h3>
+    <form action='/patients' method='POST'>
+        <label for="patientID">Patient ID: </label><br>
+        <input type="hidden" name="patientID" id="patientID" value={{patient.patientID}}><br><br>
+        <label for="patientFirst">Patient First: </label><br>
+        <input type="text" name="patientFirst" id="patientFirst" value={{patient.patientFirst}}><br><br>
+        <label for="patientLast">Patient Last: </label><br>
+        <input type="text" name="patientLast" id="patientLast" value={{patient.patientLast}}><br><br>
+        <label for="patientDOB">Patient Birthday: </label><br>
+        <input type="date" name="patientDOB" id="patientDOB" value={{patient.patientDOB}}><br><br>
+        <label for="doctorID">Doctor ID: </label><br>
+        <input type="text" name="doctorID" id="doctorID" value={{patient.patientDoc}}><br><br>
         <input type="hidden" id="mode" name="mode" value="update">
         <input type="submit" class="btn btn-primary">
     </form>
