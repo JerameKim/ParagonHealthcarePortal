@@ -26,15 +26,17 @@
 <div class="first">
 
     <h3>Update Address</h3>
-        <form>
-            <label for="streetAddress">Street Address: </label><br>
-            <input type="text" name="streetAddress" id="streetAddress"><br><br>
-            <label for="city">City: </label><br>
-            <input type="text" name="city" id="city"><br><br>
-            <label for="state">State: </label><br>
-            <input type="text" name="state" maxlength="2" id="state"><br><br>
-            <label for="zipCode">Zip Code: </label><br>
-            <input type="number" name="zipCode" min="00001" max="99950" id="zipCode"><br><br>
+    <!-- Add action back to addresses page     -->
+    <form action='/addresses' method='POST'>
+        <input type="hidden" name="addressID" id="addressID" value={{address.addressID}}>
+        <label for="streetAddress">Street Address: </label><br>
+        <input type="text" name="streetAddress" id="streetAddress" value="{{address.streetAddress}}"><br><br>
+        <label for="city">City: </label><br>
+        <input type="text" name="city" id="city" value="{{address.city}}"><br><br>
+        <label for="state">State: </label><br>
+        <input type="text" name="state" maxlength="2" id="state" value={{address.state}}><br><br>
+        <label for="zipCode">Zip Code: </label><br>
+        <input type="number" name="zipCode" min="00001" max="99950" id="zipCode" value={{address.zipCode}}><br><br>
         <input type="hidden" id="mode" name="mode" value="update">
         <input type="submit" class="btn btn-primary">
     </form>

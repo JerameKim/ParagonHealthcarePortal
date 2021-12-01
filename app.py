@@ -144,7 +144,6 @@ def show_doctors():
         cur.execute('SELECT * FROM Doctors')
         result = cur.fetchall()
         mysql.connection.commit()
-        # print(result)
         return render_template('doctors.html', rows=result, department_list = all_departments)
 
 @app.route('/patients', methods=['GET', 'POST', 'DELETE'])
@@ -159,7 +158,6 @@ def patients():
         all_doctors = cur.fetchall()
 
         mysql.connection.commit()
-        # print(result)
         return render_template('patients.html', rows=result, doctor_list = all_doctors)
     if request.method == "POST": 
 
@@ -179,7 +177,6 @@ def patients():
         result = cur.fetchall()
 
         mysql.connection.commit()
-        # print(result)
         return render_template('patients.html', rows=result, doctor_list = all_doctors)
 
 @app.route('/delete/<string:table>/<int:id>')
@@ -232,7 +229,6 @@ def delete(table, id):
         cur.execute('SELECT * FROM Procedures')
         result = cur.fetchall()
         mysql.connection.commit()
-        # print(result)
         return render_template('procedures.html', rows=result)
     
     if table == "departments": 
@@ -308,7 +304,6 @@ def delete(table, id):
         cur.execute('SELECT * FROM Doctors')
         all_doctors = cur.fetchall()
         mysql.connection.commit()
-        # print(result)
         return render_template('doctors_procedures.html', rows=result, procedure_list = all_procedures, doctor_list = all_doctors)
 
 @app.route('/procedures', methods=['GET', 'PUT', 'POST', 'DELETE'])
@@ -320,7 +315,6 @@ def procedures():
         cur.execute('SELECT * FROM Procedures')
         result = cur.fetchall()
         mysql.connection.commit()
-        # print(result)
         return render_template('procedures.html', rows=result)
     if request.method == "POST": 
 
@@ -334,7 +328,6 @@ def procedures():
 
         result = cur.fetchall()
         mysql.connection.commit()
-        # print(result)
         return render_template('procedures.html', rows=result)
 
 @app.route('/departments', methods=["GET", "POST", "DELETE"])
@@ -362,7 +355,6 @@ def departments():
         mode = request.form['mode']
 
         if mode == "add":
-            print("I'm in add mode")
             departmentName = request.form['departmentName']
             
             # Initialize departmentHead and check if it exists in the request. If it doesn't, pass NULL for this to the query
@@ -396,10 +388,8 @@ def departments():
 
             # execute the query
             if departmentHead == "":
-                print(update_query_null)
                 cur.execute(update_query_null)
             else:
-                print(update_query_not_null)
                 cur.execute(update_query_not_null)
 
         cur.execute('SELECT * FROM Departments')
@@ -436,6 +426,18 @@ def update_dept(table):
 
         # Pass to the new template to be rendered
         return render_template('update_dept.html', department = this_dept, address_list = all_addresses, doctor_list = all_doctors)
+
+    if table == "addresses":
+        # Get id for the chosen row
+        this_addrID = request.form['addressID']
+
+        # Get data for the chosen row
+        query = f'SELECT * FROM Addresses WHERE addressID={this_addrID}'
+        cur.execute(query)
+        this_addr = cur.fetchone()
+
+        # Pass to the new template to be rendered
+        return render_template('update_addresses.html', address = this_addr)
 
 @app.route('/appointments', methods=['GET', 'PUT', 'POST', 'DELETE'])
 def appointments():
@@ -496,20 +498,32 @@ def addresses():
         return render_template('addresses.html', address_list = all_addresses)
 
     if request.method == "POST":
+
+        mode = request.form['mode']
+
+        cur = mysql.connection.cursor()
+        
         streetAddress= request.form['streetAddress']
         city = request.form['city']
         state = request.form['state']
         zipCode = request.form['zipCode']
         
-        cur = mysql.connection.cursor()
+        if mode == "add":
+            cur.execute(f'INSERT INTO Addresses (streetAddress, city, state, zipCode) VALUES ("{streetAddress}", "{city}", "{state}", "{zipCode}")')
+        
+        else:
+            # get values from request
+            addressID = request.form['addressID']
+            # Build query
+            update_query = f'UPDATE Addresses SET streetAddress="{streetAddress}", city="{city}", state="{state}", zipCode="{zipCode}" WHERE addressID={addressID}'
 
-        cur.execute(f'INSERT INTO Addresses (streetAddress, city, state, zipCode) VALUES ("{streetAddress}", "{city}", "{state}", "{zipCode}")')
+            # make query
+            cur.execute(update_query)
+
         cur.execute('SELECT * FROM Addresses')
-
-        result = cur.fetchall()
+        all_addresses = cur.fetchall()
         mysql.connection.commit()
-        # print(result)
-        return render_template('addresses.html', rows=result)
+        return render_template('addresses.html', address_list = all_addresses)
 
 
 @app.route('/doctors-procedures', methods=['GET', 'PUT', 'POST', 'DELETE'])
@@ -528,7 +542,6 @@ def show_doctors_procedures():
 
 
         mysql.connection.commit()
-        # print(result)
         return render_template('doctors_procedures.html', rows=result, procedure_list = all_procedures, doctor_list = all_doctors)
 
     if request.method == "POST":
@@ -550,7 +563,6 @@ def show_doctors_procedures():
         all_procedures = cur.fetchall()
 
         mysql.connection.commit()
-        # print(result)
         return render_template('doctors_procedures.html', rows=result, procedure_list = all_procedures, doctor_list =  all_doctors)
 
 
