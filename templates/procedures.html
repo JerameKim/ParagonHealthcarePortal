@@ -19,28 +19,27 @@
     <h1>Procedures</h1>
     <div class="wrapper">
         <div class="first">
-            <br>
-            <br>
             <h3>Update Procedure</h3>
 
-            <form>
-                <label for="procedureID">Procedure ID: </label><br>
-                <input type="text" id="procedureID" name="procedureID"><br><br>
-                <label for="procedureName" >Procedure Name: </label><br>
-                <input type="text" id="procedureName"name="procedureName"><br><br>
-                <label for="inPatient">Inpatient: </label><br>
-                <input type="radio" name="inPatient" id="patientFirst" value = "1">True<br>
-                <input type="radio" name="inPatient" id="patientFirst" value = "0">False<br>
+            <form action="/procedures/update" method="POST">
+                <div class="dropdown">
+                    <label for="procedureID">Choose a procedure to update: </label><br>
+                    <select name="procedureID" id="procedureID">
+                        {% for procedure in procedure_list %}
+                            <option name="procedureID" value="{{procedure.procedureID}}" SELECTED> {{procedure.procedureName}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <br>
+                <input type="hidden" id="mode" name="mode" value="update">
                 <input type="submit" class="btn btn-primary">
             </form>
             <br>
 
         </div>
 
-        <br>
-        <br>
         <div class="second">
-            <h3>Insert Procedure</h3>
+            <h3>Add Procedure</h3>
 
             <form action="/procedures" method="POST">
                 <label for="procedureName" >Procedure Name: </label><br>
@@ -48,9 +47,10 @@
                 <label for="inPatient">Inpatient: </label><br>
                 <input type="radio" name="inPatient" id="patientFirst" value = "1">True<br>
                 <input type="radio" name="inPatient" id="patientFirst" value = "0">False<br>
+                <input type="hidden" id="mode" name="mode" value="add">
+                <br>
                 <input type="submit" class="btn btn-primary">
             </form>
-            <br>
         </div>
     </div>
     <hr>
@@ -62,12 +62,16 @@
             <th>Inpatient</th>
             <th></th>
         </tr>
-        {%for row in rows%}
+        {%for procedure in procedure_list%}
         <tr>
-            <td>{{row["procedureID"]}}</td>
-            <td>{{row["procedureName"]}}</td>
-            <td>{{row["inPatient"]}}</td>
-            <th><a href="/delete/procedures/{{row['procedureID']}}" class="btn btn-primary">Delete</a></th>
+            <td>{{procedure["procedureID"]}}</td>
+            <td>{{procedure["procedureName"]}}</td>
+            {%if procedure["inPatient"] == 1%}
+                <td>True</td>
+            {%else%}
+                <td>False</td>
+            {%endif%}
+            <th><a href="/delete/procedures/{{procedure['procedureID']}}" class="btn btn-primary">Delete</a></th>
         </tr>
         {%endfor%}
     </table>

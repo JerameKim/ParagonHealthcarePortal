@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+{%extends 'base.html'%}
+
+{%block head%}
+
+<head>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/static/styles.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Procedures</title>
+</head>
+{%endblock%}
+{%block body%}
+
+<div class="first">
+
+    <h3>Update Procedures</h3>
+    <form action='/procedures' method='POST'>
+        <input type="hidden" name="procedureID" id="procedureID" value="{{procedure.procedureID}}"><br><br>
+        <label for="procedureName" >Procedure Name: </label><br>
+        <input type="text" id="procedureName"name="procedureName" value="{{procedure.procedureName}}"><br><br>
+        <label for="inPatient">Inpatient: </label><br>
+        {%if procedure.inPatient == 1%}
+            <input type="radio" name="inPatient" id="inPatient" value = "1" CHECKED>True<br>
+            <input type="radio" name="inPatient" id="outPatient" value = "0">False<br>
+        {%else%}
+            <input type="radio" name="inPatient" id="inPatient" value = "1">True<br>
+            <input type="radio" name="inPatient" id="outPatient" value = "0" CHECKED>False<br>
+        {%endif%}
+        <br>
+        <input type="hidden" id="mode" name="mode" value="update">
+        <input type="submit" class="btn btn-primary">
+    </form>
+    <br>
+</div>
+
+</body>
+{%endblock%}
+
+</html>

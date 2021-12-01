@@ -18,36 +18,36 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Patients</title>
+    <title>Doctors</title>
 </head>
 {%endblock%}
 {%block body%}
 
 <div class="first">
 
-    <h3>Update Patients</h3>
-    <form action='/patients' method='POST'>
-        <input type="hidden" name="patientID" id="patientID" value={{patient.patientID}}><br><br>
-        <label for="patientFirst">Patient First: </label><br>
-        <input type="text" name="patientFirst" id="patientFirst" value={{patient.patientFirst}}><br><br>
-        <label for="patientLast">Patient Last: </label><br>
-        <input type="text" name="patientLast" id="patientLast" value={{patient.patientLast}}><br><br>
-        <label for="patientDOB">Patient Birthday: </label><br>
-        <input type="date" name="patientDOB" id="patientDOB" value={{patient.patientDOB}}><br><br>
-
+    <h3>Update Doctors</h3>
+    <form action='/doctors' method='POST'>
+        <input type="hidden" name="doctorID" id="doctorID" value={{doctor.doctorID}}><br><br>
+        <label for="doctorFirst">Doctor First: </label><br>
+        <input type="text" name = "doctorFirst" id="doctorFirst" value={{doctor.doctorFirst}}><br><br>
+        <label for="doctorLast">Doctor Last: </label><br>
+        <input type="text" id="doctorLast" name= "doctorLast" value={{doctor.doctorLast}}><br><br>
+        <label for="doctorDOB">Doctor Birthday: </label><br>
+        <input type="date" name = "doctorDOB" id="doctorDOB" value={{doctor.doctorDOB}}><br><br>
         <div class="dropdown">
-            <label for="patientDoc">Primary Care Physician: </label><br>
-                <select name="patientDoc" value="patient.patientDoc" id="patientDoc">
-                    {% for doctor in doctor_list %}
-                        {%if doctor.doctorID == patient.patientDoc%}
-                        <option name="patientDoc" value="{{doctor.doctorID}}" SELECTED> {{doctor.doctorFirst}} {{doctor.doctorLast}}</option>
+            <label for="departmentID">Department: </label><br>
+                <select name="departmentID" value="doctor.departmentID" id="departmentID">
+                    {% for department in department_list %}
+                        {%if doctor.departmentID == department.departmentID%}
+                        <option name="departmentID" value="{{department.departmentID}}" SELECTED> {{department.departmentName}}</option>
                         {%else%}
-                        <option name="patientDoc" value="{{doctor.doctorID}}"> {{doctor.doctorFirst}} {{doctor.doctorLast}}</option>
+                        <option name="departmentID" value="{{department.departmentID}}"> {{department.departmentName}}</option>
                         {%endif%}
                     {% endfor %}
                 </select>
             </div>
             <br>
+
 
         <input type="hidden" id="mode" name="mode" value="update">
         <input type="submit" class="btn btn-primary">

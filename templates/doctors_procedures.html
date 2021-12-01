@@ -27,9 +27,8 @@
 <body>
     <h1>Doctors and Procedures</h1>
     <div class="wrapper">
+
         <div class="first">
-            <br>
-            <br>
             <h3>Assign a Procedure to a Doctor</h3>
 
             <form action="/doctors-procedures" method="POST"> 
@@ -42,8 +41,7 @@
                     </select>
                 </div>
                 <br>
-                <br>
-                <br>
+
                 <label for="procedureID">Procedure Name: </label><br>
                 <div class="dropdown">
                     <select name="procedureID" id="procedureID">
@@ -53,14 +51,11 @@
                     </select>
                 </div>
                 <br>
-                <br>
                 <input type="submit" class="btn btn-primary">
             </form>
             <br>
         </div>
 
-        <br>
-        <br>
     </div>
     <hr>
     <h3>All Doctors and Procedures</h3>
@@ -70,11 +65,11 @@
             <th>Procedure Name</th>
             <th></th>
         </tr>
-        {%for row in rows%}
+        {%for doc_proc in doc_proc_list%}
         <tr>
-            <td>{{row["doctorID"]}}</td>
-            <td>{{row["procedureID"]}}</td>
-            <th><a href="/delete/doctors_procedures/{{row['doctorID']}}" class="btn btn-primary">Delete</a></th>
+            <td>{{doc_proc["doctorID"]}}</td>
+            <td>{{doc_proc["procedureID"]}}</td>
+            <th><a href="/delete/doctors_procedures/{{doc_proc['doctorID']}}+{{doc_proc['procedureID']}}" class="btn btn-primary">Delete</a></th>
         </tr>
         {%endfor%}
     </table>

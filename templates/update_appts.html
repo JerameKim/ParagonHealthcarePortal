@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+{%extends 'base.html'%}
+
+{%block head%}
+
+<head>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/static/styles.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appointments</title>
+</head>
+{%endblock%}
+{%block body%}
+
+<div class="first">
+
+    <h3>Update Appointments</h3>
+    <form action='/appointments' method='POST'>
+        <input type="hidden" name="appointmentID" id="appointmentID" value={{appointment.appointmentID}}><br><br>
+        <div class="dropdown">
+        <label for="patientID">Patient Name: </label><br>
+            <select name="patientID" value="appointment.patientID" id="patientID">
+                {% for patient in patient_list %}
+                    {%if patient.patientID == appointment.patientID%}
+                    <option name="patientID" value="{{patient.patientID}}" SELECTED> {{patient.patientFirst}} {{patient.patientLast}}</option>
+                    {%else%}
+                    <option name="patientID" value="{{patient.patientID}}"> {{patient.patientFirst}} {{patient.patientLast}}</option>
+                    {%endif%}
+                {% endfor %}
+            </select>
+        </div>
+                <br>
+        <div class="dropdown">
+        <label for="doctorID">Doctor Name: </label><br>
+            <select name="doctorID" value="appointment.doctorID" id="doctorID">
+                {% for doctor in doctor_list %}
+                {%if doctor.doctorID == appointment.doctorID%}
+                    <option name="doctorID" value="{{doctor.doctorID}}" SELECTED> {{doctor.doctorFirst}} {{doctor.doctorLast}}</option>
+                {%else%}
+                    <option name="doctorID" value="{{doctor.doctorID}}"> {{doctor.doctorFirst}} {{doctor.doctorLast}}</option>
+                {%endif%}
+                {% endfor %}
+            </select>
+        </div>
+                <br>
+        <div class="dropdown">
+        <label for="procedureID">Procedure Name: </label><br>
+            <select name="procedureID" value="appointment.procedureID" id="procedureID">
+                {% for procedure in procedure_list %}
+                {%if procedure.procedureID == appointment.procedureID%}
+                    <option name="procedureID" value="{{procedure.procedureID}}" SELECTED> {{procedure.procedureName}}</option>
+                {%else%}
+                    <option name="procedureID" value="{{procedure.procedureID}}" SELECTED> {{procedure.procedureName}}</option>
+                {%endif%}
+                {% endfor %}
+            </select>
+        </div>
+                <br>
+        <label for="appointmentDate">Appointment Date: </label><br>
+        <input type="date" id="appointmentDate" name="appointmentDate" value="{{appointment.appointmentDate}}">
+    </br>
+    </br>
+        <input type="hidden" id="mode" name="mode" value="update">
+        <input type="submit" class="btn btn-primary">
+    </form>
+    <br>
+</div>
+
+</body>
+{%endblock%}
+
+</html>

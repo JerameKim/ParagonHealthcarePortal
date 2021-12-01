@@ -28,58 +28,24 @@
     <h1>Appointments</h1>
     <div class="wrapper">
         <div class="first">
-            <br>
-            <br>
             <h3>Update Appointment</h3>
 
-            <form>
-                <label for="appointmentID">Appointment ID: </label><br>
-                <input type="text" id="appointmentID"><br><br>
+            <form action="/appointments/update" method="POST">
                 <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Patient Name
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="#">Darla Darling</a>
-                        <a class="dropdown-item" href="#">Sandra Sand</a>
-                        <a class="dropdown-item" href="#">Third Person</a>
-                    </div>
+                    <label for="appointmentID">Choose an appointment to update: </label><br>
+                    <select name="appointmentID" id="appointmentID">
+                        {% for appointment in appointment_list %}
+                            <option name="appointmentID" value="{{appointment.appointmentID}}" SELECTED> {{appointment.patientID}}, {{appointment.procedureID}}</option>
+                        {% endfor %}
+                    </select>
                 </div>
                 <br>
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Doctor Name
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="#">Flornce Flowers</a>
-                        <a class="dropdown-item" href="#">Doctor McDoctor</a>
-                        <a class="dropdown-item" href="#">Surgeon O'Surgeon</a>
-                    </div>
-                </div>
-                <br>
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Procedure Name
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="#">Hair implants</a>
-                        <a class="dropdown-item" href="#">Laser hair removal</a>
-                        <a class="dropdown-item" href="#">Hair Cut</a>
-                    </div>
-                </div>
-                <br>
-                <label for="appointmentDate">Appointment Date: </label><br>
-                <input type="date" id="appointmentDate"><br><br>
+                <input type="hidden" id="mode" name="mode" value="update">
+                <input type="submit" class="btn btn-primary">
             </form>
             <br>
-            <button type="button" class="btn btn-primary">Update Appointment</button>
         </div>
 
-        <br>
-        <br>
         <div class="second">
             <h3>Add Appointment</h3>
 
@@ -93,7 +59,7 @@
                     </select>
                 </div>
                 <br>
-                <br>
+
                 <label for="doctorID">Doctor Name: </label><br>
                 <div class="dropdown">
                     <select name="doctorID" id="doctorID">
@@ -103,7 +69,7 @@
                     </select>
                 </div>
                 <br>
-                <br>                
+             
                 <label for="procedureID">Procedure Name: </label><br>
                 <div class="dropdown">
                     <select name="procedureID" id="procedureID">
@@ -113,10 +79,10 @@
                     </select>
                 </div>
                 <br>
-                <br>
-                <br>
+
                 <label for="appointmentDate">Appointment Date: </label><br>
                 <input type="date" name="appointmentDate" id="appointmentDate"><br><br>
+                <input type="hidden" id="mode" name="mode" value="add">
                 <input type="submit" class="btn btn-primary">
             </form>
             <br>
@@ -133,14 +99,14 @@
             <th>Date</th>
             <th></th>
         </tr>
-        {%for row in rows%}
+        {%for appointment in appointment_list%}
         <tr>
-            <td>{{row["appointmentID"]}}</td>
-            <td>{{row["patientID"]}}</td>
-            <td>{{row["doctorID"]}}</td>
-            <td>{{row["procedureID"]}}</td>
-            <td>{{row["appointmentDate"]}}</td>
-            <th><a href="/delete/appointments/{{row['appointmentID']}}" class="btn btn-primary">Delete</a></th>
+            <td>{{appointment["appointmentID"]}}</td>
+            <td>{{appointment["patientID"]}}</td>
+            <td>{{appointment["doctorID"]}}</td>
+            <td>{{appointment["procedureID"]}}</td>
+            <td>{{appointment["appointmentDate"]}}</td>
+            <th><a href="/delete/appointments/{{appointment['appointmentID']}}" class="btn btn-primary">Delete</a></th>
         </tr>
         {%endfor%}
     </table>

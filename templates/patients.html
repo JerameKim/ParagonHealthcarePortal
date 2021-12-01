@@ -60,7 +60,7 @@
                 <label for="patientLast">Patient Last: </label><br>
                 <input type="text" name="patientLast" id="patientLast"><br><br>
                 <label for="patientDOB">Patient Birthday: </label><br>
-                <input type="text" name="patientDOB" id="patientDOB"><br><br>
+                <input type="date" name="patientDOB" id="patientDOB"><br><br>
                 <label for="doctorID">Doctor Name: </label><br>
                 <div class="dropdown">
                     <select name="doctorID" id="doctorID">
@@ -110,7 +110,6 @@
             <td>{{patient["patientDOB"]}}</td>
             <td>{{patient["patientDoc"]}}</td>
             <th><a href="/delete/patients/{{patient['patientID']}}" class="btn btn-primary">Delete</a></th>
-            <!-- <th><button type="button" class="btn btn-primary">Delete</button></th> -->
         </tr>
         {%endfor%}
     </table>

@@ -34,8 +34,8 @@
                 <div class="dropdown">
                     <label for="departmentName">Choose a department to update: </label><br>
                     <select name="departmentID" id="departmentID">
-                        {% for row in rows %}
-                            <option name="departmentName" value="{{row.departmentID}}" SELECTED> {{row.departmentName}}</option>
+                        {% for department in department_list %}
+                            <option name="departmentName" value="{{department.departmentID}}" SELECTED> {{department.departmentName}}</option>
                         {% endfor %}
                     </select>
                 </div>
@@ -57,12 +57,12 @@
                 <div class="dropdown">
                 <label for="departmentName">Department Head: </label><br>
                     <select name="departmentHead" id="departmentHead">
+                        <option name=departmentHead value=NULL>None</option>
                         {% for doctor in doctor_list %}
                             <option name="departmentHead" value="{{doctor.doctorID}}" SELECTED> {{doctor.doctorFirst}} {{doctor.doctorLast}}</option>
                         {% endfor %}
                     </select>
                 </div>
-                <br>
                 <br>
 
                 <div class="dropdown">
@@ -91,13 +91,13 @@
             <th>Department Address</th>
             <th></th>
         </tr>
-        {%for row in rows%}
+        {%for department in department_list%}
         <tr>
-            <td>{{row["departmentID"]}}</td>
-            <td>{{row["departmentName"]}}</td>
-            <td>{{row["departmentHead"]}}</td>
-            <td>{{row["addressID"]}}</td>
-            <th><a href="/delete/departments/{{row['departmentID']}}" class="btn btn-primary">Delete</a></th>
+            <td>{{department["departmentID"]}}</td>
+            <td>{{department["departmentName"]}}</td>
+            <td>{{department["departmentHead"]}}</td>
+            <td>{{department["addressID"]}}</td>
+            <th><a href="/delete/departments/{{department['departmentID']}}" class="btn btn-primary">Delete</a></th>
         </tr>
         {%endfor%}
     </table>
