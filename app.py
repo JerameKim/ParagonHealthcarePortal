@@ -147,7 +147,7 @@ def show_doctors():
         # print(result)
         return render_template('doctors.html', rows=result, department_list = all_departments)
 
-@app.route('/patients', methods=['GET', 'PUT', 'POST', 'DELETE'])
+@app.route('/patients', methods=['GET', 'POST', 'DELETE'])
 def patients():
     if request.method == 'GET':
         cur = mysql.connection.cursor()
@@ -337,7 +337,7 @@ def procedures():
         # print(result)
         return render_template('procedures.html', rows=result)
 
-@app.route('/departments', methods=["GET", "PUT", "POST", "DELETE"])
+@app.route('/departments', methods=["GET", "POST", "DELETE"])
 def departments():
 
     cur = mysql.connection.cursor()
@@ -357,8 +357,7 @@ def departments():
 
         return render_template('departments.html', rows=result, address_list = all_addresses, doctor_list = all_doctors)
 
-    if request.method == "POST": 
-        print("We started the post route")
+    if request.method == "POST":
 
         mode = request.form['mode']
 
@@ -379,7 +378,6 @@ def departments():
                 cur.execute(f'INSERT INTO Departments (departmentName, departmentHead, addressID) VALUES ("{departmentName}", NULL, "{departmentAddress}")')
         
         else:
-            print("I'm in update mode")
             # get the values from the request
 
             departmentHead = ""
@@ -416,27 +414,28 @@ def departments():
         mysql.connection.commit()
         return render_template('departments.html', rows=all_rows, address_list = all_addresses, doctor_list = all_doctors)
 
-@app.route('/departments/update', methods=['POST'])
-def update_dept():
+@app.route('/<string:table>/update', methods=['POST'])
+def update_dept(table):
     # Set cursor
     cur = mysql.connection.cursor()
 
-    # Get id for the chosen row
-    this_deptID = request.form['departmentID']
+    if table == "departments":
+        # Get id for the chosen row
+        this_deptID = request.form['departmentID']
 
-    # Get data for the chosen row
-    query = f'SELECT * FROM Departments WHERE departmentID={this_deptID}'
-    cur.execute(query)
-    this_dept = cur.fetchone()
+        # Get data for the chosen row
+        query = f'SELECT * FROM Departments WHERE departmentID={this_deptID}'
+        cur.execute(query)
+        this_dept = cur.fetchone()
 
-    cur.execute('SELECT * FROM Addresses')
-    all_addresses = cur.fetchall()
+        cur.execute('SELECT * FROM Addresses')
+        all_addresses = cur.fetchall()
 
-    cur.execute('SELECT * FROM Doctors')
-    all_doctors = cur.fetchall()
+        cur.execute('SELECT * FROM Doctors')
+        all_doctors = cur.fetchall()
 
-    # Pass to the new template to be rendered
-    return render_template('update_dept.html', department = this_dept, address_list = all_addresses, doctor_list = all_doctors)
+        # Pass to the new template to be rendered
+        return render_template('update_dept.html', department = this_dept, address_list = all_addresses, doctor_list = all_doctors)
 
 @app.route('/appointments', methods=['GET', 'PUT', 'POST', 'DELETE'])
 def appointments():

@@ -35,7 +35,11 @@
         <label for="departmentHead">Department Head: </label><br>
             <select name="departmentHead" value="department.departmentHead" id="departmentHead">
                 {% for doctor in doctor_list %}
+                    {%if doctor.doctorID == department.departmentHead%}
                     <option name="departmentHead" value="{{doctor.doctorID}}" SELECTED> {{doctor.doctorFirst}} {{doctor.doctorLast}}</option>
+                    {%else%}
+                    <option name="departmentHead" value="{{doctor.doctorID}}"> {{doctor.doctorFirst}} {{doctor.doctorLast}}</option>
+                    {%endif%}
                 {% endfor %}
             </select>
         </div>
@@ -46,7 +50,11 @@
         <label for="departmentName">Address: </label><br>
             <select name="addressID" value="department.addressID" id="addressID">
                 {% for address in address_list %}
-                    <option name="addressID" value="{{address.addressID}}" SELECTED> {{address.streetAddress}} {{address.city}}, {{address.state}}, {{address.zipCode}}</option>
+                    {%if address.addressID == department.addressID%}
+                        <option name="addressID" value="{{address.addressID}}" SELECTED> {{address.streetAddress}} {{address.city}}, {{address.state}}, {{address.zipCode}}</option>
+                    {%else%}
+                    <option name="addressID" value="{{address.addressID}}"> {{address.streetAddress}} {{address.city}}, {{address.state}}, {{address.zipCode}}</option>
+                    {%endif%}
                 {% endfor %}
             </select>
         </div>
