@@ -6,6 +6,7 @@ import os
 # Configuration
  
 app = Flask(__name__)
+
 mysql = MySQL()
 
 # MySQL configurations for Heroku
@@ -177,12 +178,12 @@ def patients():
         cur.execute('SELECT * FROM Doctors;')
         all_doctors = cur.fetchall()
 
-
-        mysql.connection.commit()
-        
         for patient in all_patients: 
+            # print(f'Patient ID: {patient["patientID"]}')
+            print(f'SELECT * FROM Doctors WHERE doctorID = {patient["patientDoc"]};')
             cur.execute(f'SELECT * FROM Doctors WHERE doctorID = {patient["patientDoc"]};')
             single_doc = cur.fetchall()
+            print(f"SINGLE DOCTOR - {single_doc}=================================\n")
             doc_first = single_doc[0]["doctorFirst"]
             doc_last = single_doc[0]["doctorLast"]
             doctor_name = doc_first + " " + doc_last

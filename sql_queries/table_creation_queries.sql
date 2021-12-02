@@ -49,9 +49,9 @@ CREATE TABLE `Departments`(
 -- # INSERT Departments
 -- LOCK TABLES `Departments` WRITE; 
 INSERT INTO `Departments` (`departmentName`, `departmentHead`, `addressID`) VALUES 
-("Bone Department", NULL, 1), 
-("Main Surgery", NULL, 2),
-("Pharmacy", NULL, 2);
+("Bone Department", NULL, 5), 
+("Main Surgery", NULL, 15),
+("Pharmacy", NULL, 15);
 -- UNLOCK TABLES;
 
 -- ############# Doctors
@@ -67,9 +67,9 @@ CREATE TABLE `Doctors`(
 -- # INSERT Doctors 
 -- LOCK TABLES `Doctors`; 
 INSERT INTO `Doctors` (`doctorFirst`, `doctorLast`, `doctorDOB`, `departmentID`) VALUES 
-("Dorian", "Grey", "1999-09-09", 1), 
-("Frasier", "Crane", "2000-01-01", 2),
-("Simon", "Garfunkle", "2040-11-11", 2);
+("Dorian", "Grey", "1999-09-09", 5), 
+("Frasier", "Crane", "2000-01-01", 15),
+("Simon", "Garfunkle", "2040-11-11", 15);
 -- UNLOCK TABLES;
 
 -- This must be done as an alteration after Doctors is created, because Doctors must exist for the FOREIGN KEY statement to reference it.
@@ -87,9 +87,9 @@ CREATE TABLE `Patients`(
     )ENGINE=InnoDB DEFAULT CHARSET=latin1;
 -- LOCK TABLES `Patients`;
 INSERT INTO Patients (patientFirst, patientLast, patientDOB, patientDoc) VALUES 
-("Zachary","Zucchini", "1994-12-12", 1),
-("Andrew","Armadillo", "1983-05-03", 1),
-("Sally","Ride", "1951-05-26", 2);
+("Zachary","Zucchini", "1994-12-12", 5),
+("Andrew","Armadillo", "1983-05-03", 5),
+("Sally","Ride", "1951-05-26", 15);
 -- UNLOCK TABLES;
 
 -- ############# Appointments
@@ -112,8 +112,8 @@ CREATE TABLE `Appointments`(
         -- ON UPDATE CASCADE);
 -- LOCK TABLES `Appointments`;
 INSERT INTO `Appointments` (`patientID`, `doctorID`, `procedureID`, `appointmentDate`) VALUES 
-(1, 1, 1, "2000-10-10"),
-(1, 1, 1, "2000-10-10");
+(5, 15, 5, "2000-10-10"),
+(5, 25, 5, "2000-10-10");
 -- UNLOCK TABLES; 
 
 -- ############# Doctors_Procedures
@@ -130,7 +130,7 @@ CREATE TABLE `Doctors_Procedures`(
         -- ON UPDATE CASCADE);
 -- LOCK TABLES `Doctors_Procedures`;
 INSERT INTO Doctors_Procedures (procedureID, doctorID) VALUES 
-(1, 1);
+(5, 5);
 -- UNLOCK TABLES;
 
 SET FOREIGN_KEY_CHECKS=1;
