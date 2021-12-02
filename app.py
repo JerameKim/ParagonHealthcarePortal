@@ -10,18 +10,18 @@ app.jinja_env.filters['zip'] = zip
 mysql = MySQL()
 
 # MySQL configurations for Heroku
-# app.config['MYSQL_USER'] = 'b5144e26b93e3c'
-# app.config['MYSQL_PASSWORD'] = '2e4abfe4'
-# app.config['MYSQL_DB'] = 'heroku_5234e1c57267f61'
-# app.config['MYSQL_HOST'] = 'us-cdbr-east-04.cleardb.com'
+app.config['MYSQL_USER'] = 'b5144e26b93e3c'
+app.config['MYSQL_PASSWORD'] = '2e4abfe4'
+app.config['MYSQL_DB'] = 'heroku_5234e1c57267f61'
+app.config['MYSQL_HOST'] = 'us-cdbr-east-04.cleardb.com'
 
 # mysql = MySQL(app)
 mysql.init_app(app)
 
-app.config['MYSQL_HOST'] = 'classmysql.engr.oregonstate.edu'
-app.config['MYSQL_USER'] = 'cs340_kimjera'
-app.config['MYSQL_PASSWORD'] = '1572'
-app.config['MYSQL_DB'] = 'cs340_kimjera'
+# app.config['MYSQL_HOST'] = 'classmysql.engr.oregonstate.edu'
+# app.config['MYSQL_USER'] = 'cs340_kimjera'
+# app.config['MYSQL_PASSWORD'] = '1572'
+# app.config['MYSQL_DB'] = 'cs340_kimjera'
 
 # app.config['MYSQL_USER'] = 'cs340_coughlis'
 # app.config['MYSQL_PASSWORD'] = '8340'
@@ -124,8 +124,13 @@ def doctors():
         cur.execute('SELECT * FROM Departments')
         all_departments = cur.fetchall()
 
-        mysql.connection.commit()
+        for doctor in all_doctors: 
+            cur.execute(f'SELECT * FROM Departments WHERE departmentID = {doctor["departmentID"]};')
+            single_department = cur.fetchall()
+            department_name = single_department[0]["departmentName"]
+            doctor["departmentID"] = department_name
 
+        mysql.connection.commit()
         return render_template('doctors.html', doctor_list=all_doctors, department_list = all_departments)
 
     if request.method == "POST": 
@@ -152,6 +157,13 @@ def doctors():
 
         cur.execute('SELECT * FROM Doctors')
         all_doctors = cur.fetchall()
+
+        for doctor in all_doctors: 
+            cur.execute(f'SELECT * FROM Departments WHERE departmentID = {doctor["departmentID"]};')
+            single_department = cur.fetchall()
+            department_name = single_department[0]["departmentName"]
+            doctor["departmentID"] = department_name
+
         mysql.connection.commit()
         return render_template('doctors.html', doctor_list=all_doctors, department_list = all_departments)
 
@@ -396,6 +408,16 @@ def departments():
         cur.execute('SELECT * FROM Doctors')
         all_doctors = cur.fetchall()
 
+        for department in all_departments: 
+            cur.execute(f'SELECT * FROM Addresses WHERE addressID = {department["addressID"]};')
+            single_address = cur.fetchall()
+            streetAddress = single_address[0]['streetAddress']
+            city = single_address[0]['city']
+            state = single_address[0]['state']
+            zipCode = single_address[0]['zipCode']
+            full_address = streetAddress + ", " + city + ", " + state + " " + zipCode
+            department["addressID"] = full_address
+
         mysql.connection.commit()
 
         return render_template('departments.html', department_list= all_departments, address_list = all_addresses, doctor_list = all_doctors)
@@ -448,6 +470,16 @@ def departments():
 
         cur.execute('SELECT * FROM Doctors')
         all_doctors = cur.fetchall()
+        
+        for department in all_departments: 
+            cur.execute(f'SELECT * FROM Addresses WHERE addressID = {department["addressID"]};')
+            single_address = cur.fetchall()
+            streetAddress = single_address[0]['streetAddress']
+            city = single_address[0]['city']
+            state = single_address[0]['state']
+            zipCode = single_address[0]['zipCode']
+            full_address = streetAddress + ", " + city + ", " + state + " " + zipCode
+            department["addressID"] = full_address
 
         mysql.connection.commit()
         return render_template('departments.html', department_list=all_departments, address_list = all_addresses, doctor_list = all_doctors)
@@ -471,6 +503,19 @@ def update_entity(table):
 
         cur.execute('SELECT * FROM Doctors')
         all_doctors = cur.fetchall()
+
+        cur.execute('SELECT * FROM Departments')
+        all_departments = cur.fetchall()
+
+        for department in all_departments: 
+            cur.execute(f'SELECT * FROM Addresses WHERE addressID = {department["addressID"]};')
+            single_address = cur.fetchall()
+            streetAddress = single_address[0]['streetAddress']
+            city = single_address[0]['city']
+            state = single_address[0]['state']
+            zipCode = single_address[0]['zipCode']
+            full_address = streetAddress + ", " + city + ", " + state + " " + zipCode
+            department["addressID"] = full_address
 
         # Pass to the new template to be rendered
         return render_template('update_dept.html', department = this_dept, address_list = all_addresses, doctor_list = all_doctors)
@@ -498,6 +543,17 @@ def update_entity(table):
 
         cur.execute("SELECT * FROM Doctors")
         all_doctors = cur.fetchall()
+        
+        cur.execute("SELECT * FROM Patients") 
+        all_patients = cur.fetchall()
+
+        for patient in all_patients: 
+            cur.execute(f'SELECT * FROM Doctors WHERE doctorID = {patient["patientDoc"]};')
+            single_doc = cur.fetchall()
+            doc_first = single_doc[0]["doctorFirst"]
+            doc_last = single_doc[0]["doctorLast"]
+            doctor_name = doc_first + " " + doc_last
+            patient["patientDoc"] = doctor_name
 
         # Pass to the new template to be rendered
         return render_template('update_patients.html', patient = this_patient, doctor_list=all_doctors)
@@ -513,6 +569,16 @@ def update_entity(table):
 
         cur.execute('SELECT * FROM Departments')
         all_departments = cur.fetchall()
+
+        cur.execute('SELECT * FROM Doctors')
+        all_doctors = cur.fetchall()
+
+        for doctor in all_doctors: 
+            cur.execute(f'SELECT * FROM Departments WHERE departmentID = {doctor["departmentID"]};')
+            single_department = cur.fetchall()
+            department_name = single_department[0]["departmentName"]
+            # replace patientDoc with string
+            doctor["departmentID"] = department_name
 
         # Pass to the new template to be rendered
         return render_template('update_doctors.html', doctor = this_doctor, department_list = all_departments)
@@ -535,6 +601,33 @@ def update_entity(table):
         cur.execute("SELECT * FROM Procedures")
         all_procedures = cur.fetchall()
 
+        cur.execute("SELECT * FROM Appointments")
+        all_appointments = cur.fetchall()
+
+        for appointment in all_appointments: 
+            # Patient Replacement
+            cur.execute(f'SELECT * FROM Patients WHERE patientID = {appointment["patientID"]};')
+            single_patient = cur.fetchall()
+            first_name = single_patient[0]['patientFirst']
+            last_name = single_patient[0]['patientLast']
+            patient_name = first_name + " " + last_name
+
+            # Doctor Replacement 
+            cur.execute(f'SELECT * FROM Doctors WHERE doctorID = {appointment["doctorID"]};')
+            single_doc = cur.fetchall()
+            doc_first = single_doc[0]["doctorFirst"]
+            doc_last = single_doc[0]["doctorLast"]
+            doctor_name = doc_first + " " + doc_last
+
+            # Procedure Replacement
+            cur.execute(f'SELECT * FROM Procedures WHERE procedureID = {appointment["procedureID"]};')
+            single_procedure = cur.fetchall()
+            procedure_name = single_procedure[0]["procedureName"]
+
+
+            appointment["procedureID"] = procedure_name
+            appointment["doctorID"] = doctor_name
+            appointment["patientID"] = patient_name
         # Pass to the new template to be rendered
         return render_template('update_appts.html', appointment = this_appt, patient_list = all_patients, doctor_list = all_doctors, procedure_list = all_procedures)
 
@@ -566,8 +659,32 @@ def appointments():
         cur.execute('SELECT * FROM Procedures')
         all_procedures = cur.fetchall()
 
-        mysql.connection.commit()
+        for appointment in all_appointments: 
+            # Patient Replacement
+            cur.execute(f'SELECT * FROM Patients WHERE patientID = {appointment["patientID"]};')
+            single_patient = cur.fetchall()
+            first_name = single_patient[0]['patientFirst']
+            last_name = single_patient[0]['patientLast']
+            patient_name = first_name + " " + last_name
 
+            # Doctor Replacement 
+            cur.execute(f'SELECT * FROM Doctors WHERE doctorID = {appointment["doctorID"]};')
+            single_doc = cur.fetchall()
+            doc_first = single_doc[0]["doctorFirst"]
+            doc_last = single_doc[0]["doctorLast"]
+            doctor_name = doc_first + " " + doc_last
+
+            # Procedure Replacement
+            cur.execute(f'SELECT * FROM Procedures WHERE procedureID = {appointment["procedureID"]};')
+            single_procedure = cur.fetchall()
+            procedure_name = single_procedure[0]["procedureName"]
+
+
+            appointment["procedureID"] = procedure_name
+            appointment["doctorID"] = doctor_name
+            appointment["patientID"] = patient_name
+
+        mysql.connection.commit()
         return render_template('appointments.html', appointment_list=all_appointments, patient_list = all_patients, doctor_list = all_doctors, procedure_list=all_procedures)
 
     if request.method == "POST": 
@@ -603,8 +720,32 @@ def appointments():
         cur.execute('SELECT * FROM Procedures')
         all_procedures = cur.fetchall()
 
-        mysql.connection.commit()
+        for appointment in all_appointments: 
+            # Patient Replacement
+            cur.execute(f'SELECT * FROM Patients WHERE patientID = {appointment["patientID"]};')
+            single_patient = cur.fetchall()
+            first_name = single_patient[0]['patientFirst']
+            last_name = single_patient[0]['patientLast']
+            patient_name = first_name + " " + last_name
 
+            # Doctor Replacement 
+            cur.execute(f'SELECT * FROM Doctors WHERE doctorID = {appointment["doctorID"]};')
+            single_doc = cur.fetchall()
+            doc_first = single_doc[0]["doctorFirst"]
+            doc_last = single_doc[0]["doctorLast"]
+            doctor_name = doc_first + " " + doc_last
+
+            # Procedure Replacement
+            cur.execute(f'SELECT * FROM Procedures WHERE procedureID = {appointment["procedureID"]};')
+            single_procedure = cur.fetchall()
+            procedure_name = single_procedure[0]["procedureName"]
+
+
+            appointment["procedureID"] = procedure_name
+            appointment["doctorID"] = doctor_name
+            appointment["patientID"] = patient_name
+
+        mysql.connection.commit()
         return render_template('appointments.html', appointment_list=all_appointments, patient_list = all_patients, doctor_list = all_doctors, procedure_list=all_procedures)
 
 @app.route('/addresses', methods=['GET','PUT', 'POST', 'DELETE'])
@@ -659,6 +800,22 @@ def doctors_procedures():
         cur.execute('SELECT * FROM Doctors')
         all_doctors = cur.fetchall()
 
+        for doc_proc in all_doc_procs: 
+
+            # Doctor Replacement 
+            cur.execute(f'SELECT * FROM Doctors WHERE doctorID = {doc_proc["doctorID"]};')
+            single_doc = cur.fetchall()
+            doc_first = single_doc[0]["doctorFirst"]
+            doc_last = single_doc[0]["doctorLast"]
+            doctor_name = doc_first + " " + doc_last
+
+            # Procedure Replacement
+            cur.execute(f'SELECT * FROM Procedures WHERE procedureID = {doc_proc["procedureID"]};')
+            single_procedure = cur.fetchall()
+            procedure_name = single_procedure[0]["procedureName"]
+
+            doc_proc["procedureID"] = procedure_name
+            doc_proc["doctorID"] = doctor_name
 
         mysql.connection.commit()
         return render_template('doctors_procedures.html', doc_proc_list=all_doc_procs, procedure_list = all_procedures, doctor_list = all_doctors)
@@ -683,6 +840,23 @@ def doctors_procedures():
         cur.execute('SELECT * FROM Procedures')
         all_procedures = cur.fetchall()
 
+        for doc_proc in all_doc_procs: 
+
+            # Doctor Replacement 
+            cur.execute(f'SELECT * FROM Doctors WHERE doctorID = {doc_proc["doctorID"]};')
+            single_doc = cur.fetchall()
+            doc_first = single_doc[0]["doctorFirst"]
+            doc_last = single_doc[0]["doctorLast"]
+            doctor_name = doc_first + " " + doc_last
+
+            # Procedure Replacement
+            cur.execute(f'SELECT * FROM Procedures WHERE procedureID = {doc_proc["procedureID"]};')
+            single_procedure = cur.fetchall()
+            procedure_name = single_procedure[0]["procedureName"]
+
+            doc_proc["procedureID"] = procedure_name
+            doc_proc["doctorID"] = doctor_name
+
         mysql.connection.commit()
         return render_template('doctors_procedures.html', doc_proc_list=all_doc_procs, procedure_list = all_procedures, doctor_list =  all_doctors)
 
@@ -694,5 +868,5 @@ if __name__ == "__main__":
     # app.run(port=12345, debug= True)
     # app.run(host="flip1.engr.oregonstate.edu", port=51515, debug=False) 
 
-    # app.run()
-    app.run(debug=True)
+    app.run()
+    # app.run(debug=True)
