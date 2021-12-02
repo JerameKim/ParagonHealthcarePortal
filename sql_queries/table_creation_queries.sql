@@ -112,7 +112,9 @@ CREATE TABLE `Appointments`(
         -- ON UPDATE CASCADE);
 -- LOCK TABLES `Appointments`;
 INSERT INTO `Appointments` (`patientID`, `doctorID`, `procedureID`, `appointmentDate`) VALUES 
-(1, 1, 1, "2000-10-10");
+(1, 2, 1, "2000-10-10"),
+(2, 1, 2, "2003-16-30"),
+(1, 3, 3, "1966-03-22");
 -- UNLOCK TABLES; 
 
 -- ############# Doctors_Procedures
@@ -129,40 +131,10 @@ CREATE TABLE `Doctors_Procedures`(
         -- ON UPDATE CASCADE);
 -- LOCK TABLES `Doctors_Procedures`;
 INSERT INTO Doctors_Procedures (procedureID, doctorID) VALUES 
-(1, 1);
+(2, 2),
+(3, 2),
+(1, 2);
+
 -- UNLOCK TABLES;
 
 SET FOREIGN_KEY_CHECKS=1;
-
--- ######## Sample data ######## -- 
-    -- # Insert Addresses
--- INSERT INTO Addresses (streetAddress, city, state, zipCode) VALUES ("123 Party Street","Cool Town", "WA", "54321");
--- INSERT INTO Addresses (streetAddress, city, state, zipCode) VALUES ("999 Random House Lane","Wherever", "GA", "01010");
--- INSERT INTO Addresses (streetAddress, city, state, zipCode) VALUES ("1 More Court","Beverly Hills", "WI", "44444");
-
-
-    -- # Insert Procedures 
--- INSERT INTO Procedures (procedureName, inPatient) VALUES ("Eyebrow Removal", 1);
--- INSERT INTO Procedures (procedureName, inPatient) VALUES ("Eyebrow Addition", 1);
--- INSERT INTO Procedures (procedureName, inPatient) VALUES ("Aura Manipulation", 0);
-
-    -- # Insert Departments
--- INSERT INTO Departments (departmentName, departmentHead, addressID) VALUES ("Bone Department", NULL, 1);
--- INSERT INTO Departments (departmentName, departmentHead, addressID) VALUES ("Main Surgery", NULL, 2);
--- INSERT INTO Departments (departmentName, departmentHead, addressID) VALUES ("Pharmacy", NULL, 2);
-
-    -- # Insert Some Doctors
--- INSERT INTO Doctors (doctorFirst, doctorLast, doctorDOB, departmentID) VALUES ("Dorian", "Grey", "1999-09-09", 1);
--- INSERT INTO Doctors (doctorFirst, doctorLast, doctorDOB, departmentID) VALUES ("Frasier", "Crane", "2000-01-01", 2);
--- INSERT INTO Doctors (doctorFirst, doctorLast, doctorDOB, departmentID) VALUES ("Simon", "Garfunkle", "2040-11-11", 2);
-
-    -- # Insert Patients
--- INSERT INTO Patients (patientFirst, patientLast, patientDOB, patientDoc) VALUES ("Zachary","Zucchini", "1994-12-12", 1);
--- INSERT INTO Patients (patientFirst, patientLast, patientDOB, patientDoc) VALUES ("Andrew","Armadillo", "1983-05-03", 1);
--- INSERT INTO Patients (patientFirst, patientLast, patientDOB, patientDoc) VALUES ("Sally","Ride", "1951-05-26", 2);
-
-    -- # Insert Doctors_Procedures
--- INSERT INTO Doctors_Procedures (procedureID, doctorID) VALUES (1, 1);
-
-    -- # Insert Appointments
--- INSERT INTO Appointments (patientID, doctorID, procedureID, appointmentDate) VALUES (1, 1, 1, "2000-10-10");

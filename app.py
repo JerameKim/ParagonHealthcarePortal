@@ -113,7 +113,7 @@ def root():
     return render_template('home.html')
 
 @app.route('/doctors', methods=['GET', 'POST', 'DELETE'])
-def show_doctors():
+def doctors():
     if request.method == 'GET':
         cur = mysql.connection.cursor()
         
@@ -630,7 +630,7 @@ def addresses():
 
 
 @app.route('/doctors-procedures', methods=['GET', 'PUT', 'POST', 'DELETE'])
-def show_doctors_procedures():
+def doctors_procedures():
     if request.method == 'GET': 
         cur = mysql.connection.cursor()
         
