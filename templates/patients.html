@@ -102,13 +102,13 @@
             <th>Patient Primary Care Physician</th>
             <th></th>
         </tr>
-        {%for patient, doctors in patient_list|zip(doctor_names_list)%}
+        {%for patient in patient_list%}
         <tr>
             <td>{{patient["patientID"]}}</td>
             <td>{{patient["patientFirst"]}}</td>
             <td>{{patient["patientLast"]}}</td>
             <td>{{patient["patientDOB"]}}</td>
-            <td>{{doctors["doctorFirst"]}} {{doctors["doctorLast"]}}</td>
+            <td>{{patient["patientDoc"]}}</td>
             <th><a href="/delete/patients/{{patient['patientID']}}" class="btn btn-primary">Delete</a></th>
         </tr>
         {%endfor%}

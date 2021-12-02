@@ -37,7 +37,7 @@
 
         <div class="dropdown">
             <label for="patientDoc">Primary Care Physician: </label><br>
-                <select name="patientDoc" value="patient.patientDoc" id="patientDoc">
+                <select name="doctorID" value="patient.patientDoc" id="doctorID">
                     {% for doctor in doctor_list %}
                         {%if doctor.doctorID == patient.patientDoc%}
                         <option name="patientDoc" value="{{doctor.doctorID}}" SELECTED> {{doctor.doctorFirst}} {{doctor.doctorLast}}</option>

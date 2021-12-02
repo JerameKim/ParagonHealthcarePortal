@@ -160,19 +160,23 @@ def patients():
     if request.method == 'GET':
         cur = mysql.connection.cursor()
         
-        cur.execute('SELECT * FROM Patients')
+        cur.execute('SELECT * FROM Patients;')
         all_patients = cur.fetchall()
 
-        cur.execute('SELECT * FROM Doctors')
+        cur.execute('SELECT * FROM Doctors;')
         all_doctors = cur.fetchall()
 
-        # Get the doctors with their ids with this JOIN statement
-        cur.execute('SELECT doctor.* FROM Doctors AS doctor INNER JOIN Patients AS patient ON doctor.doctorID = patient.patientDoc;')
-        doctor_names = cur.fetchall()
-        
+        for patient in all_patients: 
+            cur.execute(f'SELECT * FROM Doctors WHERE doctorID = {patient["patientDoc"]};')
+            single_doc = cur.fetchall()
+            doc_first = single_doc[0]["doctorFirst"]
+            doc_last = single_doc[0]["doctorLast"]
+            doctor_name = doc_first + " " + doc_last
+            patient["patientDoc"] = doctor_name
+
         mysql.connection.commit()
-        return render_template('patients.html', patient_list=all_patients, doctor_list = all_doctors, doctor_names_list = doctor_names)
-    
+        return render_template('patients.html', patient_list=all_patients, doctor_list = all_doctors)
+
     if request.method == "POST": 
         
         mode = request.form['mode']
@@ -197,12 +201,18 @@ def patients():
 
         cur.execute('SELECT * FROM Patients')
         all_patients = cur.fetchall()
-
-        cur.execute('SELECT doctor.* FROM Doctors AS doctor INNER JOIN Patients AS patient ON doctor.doctorID = patient.patientDoc;')
-        doctor_names = cur.fetchall()
         
+        for patient in all_patients: 
+            cur.execute(f'SELECT * FROM Doctors WHERE doctorID = {patient["patientDoc"]};')
+            single_doc = cur.fetchall()
+            doc_first = single_doc[0]["doctorFirst"]
+            doc_last = single_doc[0]["doctorLast"]
+            doctor_name = doc_first + " " + doc_last
+            # replace patientDoc with string
+            patient["patientDoc"] = doctor_name
+    
         mysql.connection.commit()
-        return render_template('patients.html', patient_list=all_patients, doctor_list = all_doctors, doctor_names_list = doctor_names)
+        return render_template('patients.html', patient_list=all_patients, doctor_list = all_doctors)
 
 @app.route('/delete/doctors_procedures/<string:id>')
 def delete_doc_proc(id):
@@ -230,7 +240,6 @@ def delete_doc_proc(id):
 @app.route('/delete/<string:table>/<int:id>')
 def delete(table, id):
     cur = mysql.connection.cursor()
-
     # Render Patients Table
     if table == "patients": 
         print("=-=-=--==--= DELETING FROM THE PATIENTs TABLE SPECIFICALLy =-=-=--==--=")
@@ -245,7 +254,7 @@ def delete(table, id):
         all_doctors = cur.fetchall()
         cur.execute('SELECT * FROM Patients')
         all_patients = cur.fetchall()
-
+        
         mysql.connection.commit()
         return render_template('patients.html', patient_list=all_patients, doctor_list = all_doctors)
 
@@ -635,7 +644,6 @@ def addresses():
         all_addresses = cur.fetchall()
         mysql.connection.commit()
         return render_template('addresses.html', address_list = all_addresses)
-
 
 @app.route('/doctors-procedures', methods=['GET', 'PUT', 'POST', 'DELETE'])
 def doctors_procedures():
