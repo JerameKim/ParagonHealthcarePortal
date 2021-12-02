@@ -112,9 +112,9 @@ CREATE TABLE `Appointments`(
         -- ON UPDATE CASCADE);
 -- LOCK TABLES `Appointments`;
 INSERT INTO `Appointments` (`patientID`, `doctorID`, `procedureID`, `appointmentDate`) VALUES 
-(1, 2, 1, "2000-10-10"),
-(2, 1, 2, "2003-16-30"),
-(1, 3, 3, "1966-03-22");
+(1, 1, 1, "2000-10-10"),
+(1, 1, 1, "2003-16-30"),
+(1, 1, 1, "1966-03-22");
 -- UNLOCK TABLES; 
 
 -- ############# Doctors_Procedures
