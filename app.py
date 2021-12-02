@@ -6,21 +6,22 @@ import os
 # Configuration
  
 app = Flask(__name__)
+app.jinja_env.filters['zip'] = zip
 mysql = MySQL()
 
 # MySQL configurations for Heroku
-app.config['MYSQL_USER'] = 'b5144e26b93e3c'
-app.config['MYSQL_PASSWORD'] = '2e4abfe4'
-app.config['MYSQL_DB'] = 'heroku_5234e1c57267f61'
-app.config['MYSQL_HOST'] = 'us-cdbr-east-04.cleardb.com'
+# app.config['MYSQL_USER'] = 'b5144e26b93e3c'
+# app.config['MYSQL_PASSWORD'] = '2e4abfe4'
+# app.config['MYSQL_DB'] = 'heroku_5234e1c57267f61'
+# app.config['MYSQL_HOST'] = 'us-cdbr-east-04.cleardb.com'
 
 # mysql = MySQL(app)
 mysql.init_app(app)
 
-# app.config['MYSQL_HOST'] = 'classmysql.engr.oregonstate.edu'
-# app.config['MYSQL_USER'] = 'cs340_kimjera'
-# app.config['MYSQL_PASSWORD'] = '1572'
-# app.config['MYSQL_DB'] = 'cs340_kimjera'
+app.config['MYSQL_HOST'] = 'classmysql.engr.oregonstate.edu'
+app.config['MYSQL_USER'] = 'cs340_kimjera'
+app.config['MYSQL_PASSWORD'] = '1572'
+app.config['MYSQL_DB'] = 'cs340_kimjera'
 
 # app.config['MYSQL_USER'] = 'cs340_coughlis'
 # app.config['MYSQL_PASSWORD'] = '8340'
@@ -165,8 +166,14 @@ def patients():
         cur.execute('SELECT * FROM Doctors')
         all_doctors = cur.fetchall()
 
+        # Get the doctors with their ids with this JOIN statement
+        cur.execute('SELECT doctor.* FROM Doctors AS doctor INNER JOIN Patients AS patient ON doctor.doctorID = patient.patientDoc;')
+        doctor_names = cur.fetchall()
+        
+        # print(f"=============DOCTORS ARE {doctor_names}================")
+        
         mysql.connection.commit()
-        return render_template('patients.html', patient_list=all_patients, doctor_list = all_doctors)
+        return render_template('patients.html', patient_list=all_patients, doctor_list = all_doctors, doctor_names_list = doctor_names)
     
     if request.method == "POST": 
         
@@ -678,5 +685,5 @@ if __name__ == "__main__":
     # app.run(port=12345, debug= True)
     # app.run(host="flip1.engr.oregonstate.edu", port=51515, debug=False) 
 
-    app.run()
-    # app.run(debug=True)
+    # app.run()
+    app.run(debug=True)
