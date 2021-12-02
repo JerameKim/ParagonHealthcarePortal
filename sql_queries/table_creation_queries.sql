@@ -106,12 +106,13 @@ CREATE TABLE `Appointments`(
     FOREIGN KEY (`doctorID`) REFERENCES `Doctors`(`doctorID`), 
         -- ON DELETE SET NULL 
         -- ON UPDATE CASCADE,
-    FOREIGN KEY (`procedureID`) REFERENCES `Procedures`(`procedureID`))
-    ENGINE=InnoDB DEFAULT CHARSET=latin1;
+    FOREIGN KEY (`procedureID`) REFERENCES `Procedures`(`procedureID`)
+    )ENGINE=InnoDB DEFAULT CHARSET=latin1;
         -- ON DELETE SET NULL
         -- ON UPDATE CASCADE);
 -- LOCK TABLES `Appointments`;
 INSERT INTO `Appointments` (`patientID`, `doctorID`, `procedureID`, `appointmentDate`) VALUES 
+(1, 1, 1, "2000-10-10"),
 (1, 1, 1, "2000-10-10");
 -- UNLOCK TABLES; 
 
