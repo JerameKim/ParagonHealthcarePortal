@@ -113,7 +113,8 @@ CREATE TABLE `Appointments`(
 -- LOCK TABLES `Appointments`;
 INSERT INTO `Appointments` (`patientID`, `doctorID`, `procedureID`, `appointmentDate`) VALUES 
 (5, 15, 5, "2000-10-10"),
-(5, 25, 5, "2000-10-10");
+(5, 25, 5, "1990-02-19"),
+(15, 15, 15, "3030-03-09");
 -- UNLOCK TABLES; 
 
 -- ############# Doctors_Procedures
@@ -130,7 +131,10 @@ CREATE TABLE `Doctors_Procedures`(
         -- ON UPDATE CASCADE);
 -- LOCK TABLES `Doctors_Procedures`;
 INSERT INTO Doctors_Procedures (procedureID, doctorID) VALUES 
-(5, 5);
+(5, 5),
+(15, 15),
+(25, 25);
+
 -- UNLOCK TABLES;
 
 SET FOREIGN_KEY_CHECKS=1;
