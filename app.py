@@ -170,8 +170,6 @@ def patients():
         cur.execute('SELECT doctor.* FROM Doctors AS doctor INNER JOIN Patients AS patient ON doctor.doctorID = patient.patientDoc;')
         doctor_names = cur.fetchall()
         
-        # print(f"=============DOCTORS ARE {doctor_names}================")
-        
         mysql.connection.commit()
         return render_template('patients.html', patient_list=all_patients, doctor_list = all_doctors, doctor_names_list = doctor_names)
     
@@ -182,7 +180,7 @@ def patients():
         patientFirst = request.form['patientFirst']
         patientLast = request.form['patientLast']
         patientDOB = request.form['patientDOB']
-        doctorID = request.form['patientDoc']
+        doctorID = request.form['doctorID']
 
         cur = mysql.connection.cursor()
         
@@ -200,8 +198,11 @@ def patients():
         cur.execute('SELECT * FROM Patients')
         all_patients = cur.fetchall()
 
+        cur.execute('SELECT doctor.* FROM Doctors AS doctor INNER JOIN Patients AS patient ON doctor.doctorID = patient.patientDoc;')
+        doctor_names = cur.fetchall()
+        
         mysql.connection.commit()
-        return render_template('patients.html', patient_list=all_patients, doctor_list = all_doctors)
+        return render_template('patients.html', patient_list=all_patients, doctor_list = all_doctors, doctor_names_list = doctor_names)
 
 @app.route('/delete/doctors_procedures/<string:id>')
 def delete_doc_proc(id):
