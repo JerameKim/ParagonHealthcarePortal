@@ -177,14 +177,16 @@ def patients():
         cur.execute('SELECT * FROM Doctors;')
         all_doctors = cur.fetchall()
 
+
+        mysql.connection.commit()
+        
         for patient in all_patients: 
             cur.execute(f'SELECT * FROM Doctors WHERE doctorID = {patient["patientDoc"]};')
             single_doc = cur.fetchall()
-            if len(single_doc) > 0: 
-                doc_first = single_doc[0]["doctorFirst"]
-                doc_last = single_doc[0]["doctorLast"]
-                doctor_name = doc_first + " " + doc_last
-                patient["patientDoc"] = doctor_name
+            doc_first = single_doc[0]["doctorFirst"]
+            doc_last = single_doc[0]["doctorLast"]
+            doctor_name = doc_first + " " + doc_last
+            patient["patientDoc"] = doctor_name
 
         mysql.connection.commit()
         return render_template('patients.html', patient_list=all_patients, doctor_list = all_doctors)
