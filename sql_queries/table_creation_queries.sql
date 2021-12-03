@@ -41,9 +41,9 @@ CREATE TABLE `Departments`(
     `departmentID` int(11) AUTO_INCREMENT PRIMARY KEY,
     `departmentName` VARCHAR(80) NOT NULL,
     `departmentHead` int(11),
-    `addressID` int(11) NOT NULL,
+    `addressID` int(11),
     FOREIGN KEY (`addressID`) 
-    REFERENCES `Addresses`(`addressID`))
+    REFERENCES `Addresses`(`addressID`) ON DELETE SET NULL)
     ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- # INSERT Departments
@@ -61,8 +61,8 @@ CREATE TABLE `Doctors`(
     `doctorFirst` VARCHAR(80) NOT NULL,
     `doctorLast` VARCHAR(80) NOT NULL,
     `doctorDOB` DATE NOT NULL,
-    `departmentID` int(11) NOT NULL,
-    FOREIGN KEY (`departmentID`) REFERENCES `Departments`(`departmentID`))
+    `departmentID` int(11),
+    FOREIGN KEY (`departmentID`) REFERENCES `Departments`(`departmentID`) ON DELETE SET NULL)
     ENGINE=InnoDB DEFAULT CHARSET=latin1;
 -- # INSERT Doctors 
 -- LOCK TABLES `Doctors`; 
@@ -73,7 +73,7 @@ INSERT INTO `Doctors` (`doctorFirst`, `doctorLast`, `doctorDOB`, `departmentID`)
 -- UNLOCK TABLES;
 
 -- This must be done as an alteration after Doctors is created, because Doctors must exist for the FOREIGN KEY statement to reference it.
-ALTER TABLE `Departments` ADD FOREIGN KEY (`departmentHead`) REFERENCES `Doctors`(`doctorID`);
+ALTER TABLE `Departments` ADD FOREIGN KEY (`departmentHead`) REFERENCES `Doctors`(`doctorID`) ON DELETE SET NULL;
 
 -- ############# Patients
 DROP TABLE IF EXISTS `Patients`;
@@ -83,7 +83,7 @@ CREATE TABLE `Patients`(
     `patientLast` VARCHAR(80) NOT NULL,
     `patientDOB` DATE NOT NULL,
     `patientDoc` int(11),
-    FOREIGN KEY (`patientDoc`) REFERENCES `Doctors`(`doctorID`) 
+    FOREIGN KEY (`patientDoc`) REFERENCES `Doctors`(`doctorID`) ON DELETE SET NULL
     )ENGINE=InnoDB DEFAULT CHARSET=latin1;
 -- LOCK TABLES `Patients`;
 INSERT INTO Patients (patientFirst, patientLast, patientDOB, patientDoc) VALUES 
@@ -97,16 +97,16 @@ DROP TABLE IF EXISTS `Appointments`;
 CREATE TABLE `Appointments`(
     `appointmentID` int(11) AUTO_INCREMENT PRIMARY KEY,
     `patientID` int(11) NOT NULL,
-    `doctorID` int(11) NOT NULL,
+    `doctorID` int(11),
     `procedureID` int(11) NOT NULL,
     `appointmentDate` DATE NOT NULL,
-    FOREIGN KEY (`patientID`) REFERENCES `Patients`(`patientID`),
+    FOREIGN KEY (`patientID`) REFERENCES `Patients`(`patientID`) ON DELETE CASCADE,
         -- ON DELETE SET NULL
         -- ON UPDATE CASCADE,
-    FOREIGN KEY (`doctorID`) REFERENCES `Doctors`(`doctorID`), 
+    FOREIGN KEY (`doctorID`) REFERENCES `Doctors`(`doctorID`) ON DELETE SET NULL, 
         -- ON DELETE SET NULL 
         -- ON UPDATE CASCADE,
-    FOREIGN KEY (`procedureID`) REFERENCES `Procedures`(`procedureID`)
+    FOREIGN KEY (`procedureID`) REFERENCES `Procedures`(`procedureID`) ON DELETE CASCADE
     )ENGINE=InnoDB DEFAULT CHARSET=latin1;
         -- ON DELETE SET NULL
         -- ON UPDATE CASCADE);
@@ -122,10 +122,10 @@ DROP TABLE IF EXISTS `Doctors_Procedures`;
 CREATE TABLE `Doctors_Procedures`(
     `procedureID` int(11) NOT NULL,
     `doctorID` int(11) NOT NULL,
-    FOREIGN KEY (`procedureID`) REFERENCES `Procedures`(`procedureID`),
+    FOREIGN KEY (`procedureID`) REFERENCES `Procedures`(`procedureID`) ON DELETE CASCADE,
         -- ON DELETE SET NULL 
         -- ON UPDATE CASCADE,
-    FOREIGN KEY (`doctorID`) REFERENCES `Doctors`(`doctorID`))
+    FOREIGN KEY (`doctorID`) REFERENCES `Doctors`(`doctorID`) ON DELETE CASCADE)
     ENGINE=InnoDB DEFAULT CHARSET=latin1;
         -- ON DELETE SET NULL
         -- ON UPDATE CASCADE);

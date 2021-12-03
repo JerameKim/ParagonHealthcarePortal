@@ -44,46 +44,6 @@ def make_commands(sql_file):
 
     return creationCommands
 
-# Under constructoion: was thinking we could call this to populate sample data in the home route down the road.
-def insert_sample_data():
-    cur = mysql.connection.cursor()
-
-    # #Insert Addresses
-    # cur.execute('INSERT INTO Addresses (streetAddress, city, state, zipCode) VALUES ("123 Party Street","Cool Town", "WA", "54321")')
-    # cur.execute('INSERT INTO Addresses (streetAddress, city, state, zipCode) VALUES ("999 Random House Lane","Wherever", "GA", "01010")')
-    # cur.execute('INSERT INTO Addresses (streetAddress, city, state, zipCode) VALUES ("1 More Court","Beverly Hills", "WI", "44444")')
-
-
-    # Insert Procedures
-    # cur.execute('INSERT INTO Procedures (procedureName, inPatient) VALUES ("Eyebrow Removal", 1)')
-    # cur.execute('INSERT INTO Procedures (procedureName, inPatient) VALUES ("Eyebrow Addition", 1)')
-    # cur.execute('INSERT INTO Procedures (procedureName, inPatient) VALUES ("Aura Manipulation", 0)')
-
-    # Insert Departments
-    # cur.execute('INSERT INTO Departments (departmentName, departmentHead, addressID) VALUES ("Bone Department", NULL, 1)')
-    # cur.execute('INSERT INTO Departments (departmentName, departmentHead, addressID) VALUES ("Main Surgery", NULL, 2)')
-    # cur.execute('INSERT INTO Departments (departmentName, departmentHead, addressID) VALUES ("Pharmacy", NULL, 2)')
-
-    # Insert Some Doctors
-    # cur.execute('INSERT INTO Doctors (doctorFirst, doctorLast, doctorDOB, departmentID) VALUES ("Dorian", "Grey", "1999-09-09", 1)')
-    # cur.execute('INSERT INTO Doctors (doctorFirst, doctorLast, doctorDOB, departmentID) VALUES ("Frasier", "Crane", "2000-01-01", 2)')
-    # cur.execute('INSERT INTO Doctors (doctorFirst, doctorLast, doctorDOB, departmentID) VALUES ("Simon", "Garfunkle", "2040-11-11", 2)')
-
-    # Insert Patients
-    # cur.execute('INSERT INTO Patients (patientFirst, patientLast, patientDOB, patientDoc) VALUES ("Zachary","Zucchini", "1994-12-12", 1)')
-    # cur.execute('INSERT INTO Patients (patientFirst, patientLast, patientDOB, patientDoc) VALUES ("Andrew","Armadillo", "1983-05-03", 1)')
-    # cur.execute('INSERT INTO Patients (patientFirst, patientLast, patientDOB, patientDoc) VALUES ("Sally","Ride", "1951-05-26", 2)')
-
-
-    # Insert Doctors_Procedures
-    # cur.execute('INSERT INTO Doctors_Procedures (procedureID, doctorID) VALUES (1, 1)')
-    
-
-    # Insert Appointments
-    # cur.execute('INSERT INTO Appointments (patientID, doctorID, procedureID, appointmentDate) VALUES (1, 1, 1, "2000-10-10")')
-
-    mysql.connection.commit()
-
 # Routes 
 @app.route('/')
 def root():
@@ -92,17 +52,6 @@ def root():
     
     # Get a list of commands to run to create tables
     creationCommands = make_commands('./sql_queries/table_creation_queries.sql')
-    
-    # Disable foreign key checks temporarily, because foreign key collisions are not important when dropping all entities
-    # cur.execute("SET FOREIGN_KEY_CHECKS=0")
-    
-    # Drop all possible tables
-    # for table in table_names:
-    #     drop_query = "DROP TABLE IF EXISTS %s" % table
-    #     cur.execute(drop_query)
-    
-    # Re-enable foreign key checks after dropping all tables
-    # cur.execute("SET FOREIGN_KEY_CHECKS=1")
 
     for command in creationCommands:
         cur.execute(command)
@@ -125,10 +74,11 @@ def doctors():
         all_departments = cur.fetchall()
 
         for doctor in all_doctors: 
-            cur.execute(f'SELECT * FROM Departments WHERE departmentID = {doctor["departmentID"]};')
-            single_department = cur.fetchall()
-            department_name = single_department[0]["departmentName"]
-            doctor["departmentID"] = department_name
+            if doctor["departmentID"] != None:
+                cur.execute(f'SELECT * FROM Departments WHERE departmentID = {doctor["departmentID"]};')
+                single_department = cur.fetchall()
+                department_name = single_department[0]["departmentName"]
+                doctor["departmentID"] = department_name
 
         mysql.connection.commit()
         return render_template('doctors.html', doctor_list=all_doctors, department_list = all_departments)
@@ -180,14 +130,17 @@ def patients():
 
         for patient in all_patients: 
             # print(f'Patient ID: {patient["patientID"]}')
-            print(f'SELECT * FROM Doctors WHERE doctorID = {patient["patientDoc"]};')
-            cur.execute(f'SELECT * FROM Doctors WHERE doctorID = {patient["patientDoc"]};')
-            single_doc = cur.fetchall()
-            print(f"SINGLE DOCTOR - {single_doc}=================================\n")
-            doc_first = single_doc[0]["doctorFirst"]
-            doc_last = single_doc[0]["doctorLast"]
-            doctor_name = doc_first + " " + doc_last
-            patient["patientDoc"] = doctor_name
+            if patient["patientDoc"] != None:
+
+                print(f'SELECT * FROM Doctors WHERE doctorID = {patient["patientDoc"]};')
+                print(type(patient["patientDoc"]))
+                cur.execute(f'SELECT * FROM Doctors WHERE doctorID = {patient["patientDoc"]};')
+                single_doc = cur.fetchall()
+                print(f"SINGLE DOCTOR - {single_doc}=================================\n")
+                doc_first = single_doc[0]["doctorFirst"]
+                doc_last = single_doc[0]["doctorLast"]
+                doctor_name = doc_first + " " + doc_last
+                patient["patientDoc"] = doctor_name
 
         mysql.connection.commit()
         return render_template('patients.html', patient_list=all_patients, doctor_list = all_doctors)
@@ -218,13 +171,14 @@ def patients():
         all_patients = cur.fetchall()
         
         for patient in all_patients: 
-            cur.execute(f'SELECT * FROM Doctors WHERE doctorID = {patient["patientDoc"]};')
-            single_doc = cur.fetchall()
-            doc_first = single_doc[0]["doctorFirst"]
-            doc_last = single_doc[0]["doctorLast"]
-            doctor_name = doc_first + " " + doc_last
-            # replace patientDoc with string
-            patient["patientDoc"] = doctor_name
+            if patient["patientDoc"] != None:
+                cur.execute(f'SELECT * FROM Doctors WHERE doctorID = {patient["patientDoc"]};')
+                single_doc = cur.fetchall()
+                doc_first = single_doc[0]["doctorFirst"]
+                doc_last = single_doc[0]["doctorLast"]
+                doctor_name = doc_first + " " + doc_last
+                # replace patientDoc with string
+                patient["patientDoc"] = doctor_name
     
         mysql.connection.commit()
         return render_template('patients.html', patient_list=all_patients, doctor_list = all_doctors)
@@ -260,9 +214,7 @@ def delete(table, id):
         print("=-=-=--==--= DELETING FROM THE PATIENTs TABLE SPECIFICALLy =-=-=--==--=")
 
         # Do the deleting
-        cur.execute("SET FOREIGN_KEY_CHECKS=0")
         cur.execute("DELETE FROM Patients WHERE patientID = %s" % (id))    
-        cur.execute("SET FOREIGN_KEY_CHECKS=1")
 
         # Populate table
         cur.execute('SELECT * FROM Doctors')
@@ -278,9 +230,7 @@ def delete(table, id):
         print("=-=-=--==--= DELETING FROM THE DOCTORS TABLE SPECIFICALLy =-=-=--==--=")
 
         # Do the Deleting
-        cur.execute("SET FOREIGN_KEY_CHECKS=0")
         cur.execute("DELETE FROM Doctors WHERE doctorID = %s" % (id))    
-        cur.execute("SET FOREIGN_KEY_CHECKS=1")
 
         # Populate table
         cur.execute('SELECT * FROM Doctors')
@@ -293,9 +243,7 @@ def delete(table, id):
     if table == "procedures":
         print("=-=-=--==--= DELETING FROM THE PROCEDURES TABLE SPECIFICALLy =-=-=--==--=")
 
-        cur.execute("SET FOREIGN_KEY_CHECKS=0")
         cur.execute("DELETE FROM Procedures WHERE procedureID = %s" % (id))    
-        cur.execute("SET FOREIGN_KEY_CHECKS=1")
 
         # Populate table
         cur.execute('SELECT * FROM Procedures')
@@ -306,9 +254,7 @@ def delete(table, id):
     if table == "departments": 
         print("=-=-=--==--= DELETING FROM THE DEPARTMENTS TABLE SPECIFICALLy =-=-=--==--=")
         # Delete
-        cur.execute("SET FOREIGN_KEY_CHECKS=0")
         cur.execute("DELETE FROM Departments WHERE departmentID= %s" % (id))    
-        cur.execute("SET FOREIGN_KEY_CHECKS=1")
 
         # Render table
         cur.execute('SELECT * FROM Departments')
@@ -327,9 +273,7 @@ def delete(table, id):
     if table == "appointments": 
         print("=-=-=--==--= DELETING FROM THE APPOINTMENTS TABLE SPECIFICALLy =-=-=--==--=")
         # Delete
-        cur.execute("SET FOREIGN_KEY_CHECKS=0")
         cur.execute("DELETE FROM Appointments WHERE appointmentID= %s" % (id))    
-        cur.execute("SET FOREIGN_KEY_CHECKS=1")
 
         # Render Table
         cur.execute('SELECT * FROM Appointments')
@@ -351,9 +295,7 @@ def delete(table, id):
     if table == "addresses": 
         print("=-=-=--==--= DELETING FROM THE ADDRESSES TABLE SPECIFICALLy =-=-=--==--=")
         # Delete
-        cur.execute("SET FOREIGN_KEY_CHECKS=0")
         cur.execute("DELETE FROM Addresses WHERE addressID= %s" % (id))    
-        cur.execute("SET FOREIGN_KEY_CHECKS=1")
         cur = mysql.connection.cursor()
         
         cur.execute('SELECT * FROM Addresses')
@@ -412,14 +354,29 @@ def departments():
         all_doctors = cur.fetchall()
 
         for department in all_departments: 
-            cur.execute(f'SELECT * FROM Addresses WHERE addressID = {department["addressID"]};')
-            single_address = cur.fetchall()
-            streetAddress = single_address[0]['streetAddress']
-            city = single_address[0]['city']
-            state = single_address[0]['state']
-            zipCode = single_address[0]['zipCode']
-            full_address = streetAddress + ", " + city + ", " + state + " " + zipCode
-            department["addressID"] = full_address
+            print(department)
+            if department["addressID"] != None:
+                cur.execute(f'SELECT * FROM Addresses WHERE addressID = {department["addressID"]};')
+                single_address = cur.fetchall()
+                streetAddress = single_address[0]['streetAddress']
+                city = single_address[0]['city']
+                state = single_address[0]['state']
+                zipCode = single_address[0]['zipCode']
+                full_address = streetAddress + ", " + city + ", " + state + " " + zipCode
+                department["addressID"] = full_address
+
+            if department["departmentHead"] != None:
+
+                print(f'SELECT * FROM Doctors WHERE doctorID = {department["departmentHead"]};')
+                cur.execute(f'SELECT * FROM Doctors WHERE doctorID = {department["departmentHead"]};')
+                single_doc = cur.fetchall()
+                print(single_doc)
+                print(f"SINGLE DOCTOR - {single_doc}=================================\n")
+                doc_first = single_doc[0]["doctorFirst"]
+                doc_last = single_doc[0]["doctorLast"]
+                doctor_name = doc_first + " " + doc_last
+                department["departmentHead"] = doctor_name
+                print(department["departmentHead"])
 
         mysql.connection.commit()
 
@@ -475,14 +432,26 @@ def departments():
         all_doctors = cur.fetchall()
         
         for department in all_departments: 
-            cur.execute(f'SELECT * FROM Addresses WHERE addressID = {department["addressID"]};')
-            single_address = cur.fetchall()
-            streetAddress = single_address[0]['streetAddress']
-            city = single_address[0]['city']
-            state = single_address[0]['state']
-            zipCode = single_address[0]['zipCode']
-            full_address = streetAddress + ", " + city + ", " + state + " " + zipCode
-            department["addressID"] = full_address
+            if department["addressID"] != None:
+                cur.execute(f'SELECT * FROM Addresses WHERE addressID = {department["addressID"]};')
+                single_address = cur.fetchall()
+                streetAddress = single_address[0]['streetAddress']
+                city = single_address[0]['city']
+                state = single_address[0]['state']
+                zipCode = single_address[0]['zipCode']
+                full_address = streetAddress + ", " + city + ", " + state + " " + zipCode
+                department["addressID"] = full_address
+
+            if department["departmentHead"] != None:
+
+                print(f'SELECT * FROM Doctors WHERE doctorID = {department["departmentHead"]};')
+                cur.execute(f'SELECT * FROM Doctors WHERE doctorID = {department["departmentHead"]};')
+                single_doc = cur.fetchall()
+                print(f"SINGLE DOCTOR - {single_doc}=================================\n")
+                doc_first = single_doc[0]["doctorFirst"]
+                doc_last = single_doc[0]["doctorLast"]
+                doctor_name = doc_first + " " + doc_last
+                department["departmentHead"] = doctor_name
 
         mysql.connection.commit()
         return render_template('departments.html', department_list=all_departments, address_list = all_addresses, doctor_list = all_doctors)
@@ -511,14 +480,15 @@ def update_entity(table):
         all_departments = cur.fetchall()
 
         for department in all_departments: 
-            cur.execute(f'SELECT * FROM Addresses WHERE addressID = {department["addressID"]};')
-            single_address = cur.fetchall()
-            streetAddress = single_address[0]['streetAddress']
-            city = single_address[0]['city']
-            state = single_address[0]['state']
-            zipCode = single_address[0]['zipCode']
-            full_address = streetAddress + ", " + city + ", " + state + " " + zipCode
-            department["addressID"] = full_address
+            if department["addressID"] != None:
+                cur.execute(f'SELECT * FROM Addresses WHERE addressID = {department["addressID"]};')
+                single_address = cur.fetchall()
+                streetAddress = single_address[0]['streetAddress']
+                city = single_address[0]['city']
+                state = single_address[0]['state']
+                zipCode = single_address[0]['zipCode']
+                full_address = streetAddress + ", " + city + ", " + state + " " + zipCode
+                department["addressID"] = full_address
 
         # Pass to the new template to be rendered
         return render_template('update_dept.html', department = this_dept, address_list = all_addresses, doctor_list = all_doctors)
@@ -551,12 +521,13 @@ def update_entity(table):
         all_patients = cur.fetchall()
 
         for patient in all_patients: 
-            cur.execute(f'SELECT * FROM Doctors WHERE doctorID = {patient["patientDoc"]};')
-            single_doc = cur.fetchall()
-            doc_first = single_doc[0]["doctorFirst"]
-            doc_last = single_doc[0]["doctorLast"]
-            doctor_name = doc_first + " " + doc_last
-            patient["patientDoc"] = doctor_name
+            if patient["patientDoc"] != None:
+                cur.execute(f'SELECT * FROM Doctors WHERE doctorID = {patient["patientDoc"]};')
+                single_doc = cur.fetchall()
+                doc_first = single_doc[0]["doctorFirst"]
+                doc_last = single_doc[0]["doctorLast"]
+                doctor_name = doc_first + " " + doc_last
+                patient["patientDoc"] = doctor_name
 
         # Pass to the new template to be rendered
         return render_template('update_patients.html', patient = this_patient, doctor_list=all_doctors)
@@ -577,11 +548,12 @@ def update_entity(table):
         all_doctors = cur.fetchall()
 
         for doctor in all_doctors: 
-            cur.execute(f'SELECT * FROM Departments WHERE departmentID = {doctor["departmentID"]};')
-            single_department = cur.fetchall()
-            department_name = single_department[0]["departmentName"]
-            # replace patientDoc with string
-            doctor["departmentID"] = department_name
+            if doctor["departmentID"] != None:
+                cur.execute(f'SELECT * FROM Departments WHERE departmentID = {doctor["departmentID"]};')
+                single_department = cur.fetchall()
+                department_name = single_department[0]["departmentName"]
+                # replace patientDoc with string
+                doctor["departmentID"] = department_name
 
         # Pass to the new template to be rendered
         return render_template('update_doctors.html', doctor = this_doctor, department_list = all_departments)
@@ -616,11 +588,13 @@ def update_entity(table):
             patient_name = first_name + " " + last_name
 
             # Doctor Replacement 
-            cur.execute(f'SELECT * FROM Doctors WHERE doctorID = {appointment["doctorID"]};')
-            single_doc = cur.fetchall()
-            doc_first = single_doc[0]["doctorFirst"]
-            doc_last = single_doc[0]["doctorLast"]
-            doctor_name = doc_first + " " + doc_last
+            if appointment["doctorID"] != None:
+                cur.execute(f'SELECT * FROM Doctors WHERE doctorID = {appointment["doctorID"]};')
+                single_doc = cur.fetchall()
+                doc_first = single_doc[0]["doctorFirst"]
+                doc_last = single_doc[0]["doctorLast"]
+                doctor_name = doc_first + " " + doc_last
+                appointment["doctorID"] = doctor_name
 
             # Procedure Replacement
             cur.execute(f'SELECT * FROM Procedures WHERE procedureID = {appointment["procedureID"]};')
@@ -629,7 +603,6 @@ def update_entity(table):
 
 
             appointment["procedureID"] = procedure_name
-            appointment["doctorID"] = doctor_name
             appointment["patientID"] = patient_name
         # Pass to the new template to be rendered
         return render_template('update_appts.html', appointment = this_appt, patient_list = all_patients, doctor_list = all_doctors, procedure_list = all_procedures)
@@ -666,16 +639,19 @@ def appointments():
             # Patient Replacement
             cur.execute(f'SELECT * FROM Patients WHERE patientID = {appointment["patientID"]};')
             single_patient = cur.fetchall()
+            print(single_patient)
             first_name = single_patient[0]['patientFirst']
             last_name = single_patient[0]['patientLast']
             patient_name = first_name + " " + last_name
 
             # Doctor Replacement 
-            cur.execute(f'SELECT * FROM Doctors WHERE doctorID = {appointment["doctorID"]};')
-            single_doc = cur.fetchall()
-            doc_first = single_doc[0]["doctorFirst"]
-            doc_last = single_doc[0]["doctorLast"]
-            doctor_name = doc_first + " " + doc_last
+            if appointment["doctorID"] != None:
+                cur.execute(f'SELECT * FROM Doctors WHERE doctorID = {appointment["doctorID"]};')
+                single_doc = cur.fetchall()
+                doc_first = single_doc[0]["doctorFirst"]
+                doc_last = single_doc[0]["doctorLast"]
+                doctor_name = doc_first + " " + doc_last
+                appointment["doctorID"] = doctor_name
 
             # Procedure Replacement
             cur.execute(f'SELECT * FROM Procedures WHERE procedureID = {appointment["procedureID"]};')
@@ -684,7 +660,7 @@ def appointments():
 
 
             appointment["procedureID"] = procedure_name
-            appointment["doctorID"] = doctor_name
+            
             appointment["patientID"] = patient_name
 
         mysql.connection.commit()
@@ -732,11 +708,13 @@ def appointments():
             patient_name = first_name + " " + last_name
 
             # Doctor Replacement 
-            cur.execute(f'SELECT * FROM Doctors WHERE doctorID = {appointment["doctorID"]};')
-            single_doc = cur.fetchall()
-            doc_first = single_doc[0]["doctorFirst"]
-            doc_last = single_doc[0]["doctorLast"]
-            doctor_name = doc_first + " " + doc_last
+            if appointment["doctorID"] != None:
+                cur.execute(f'SELECT * FROM Doctors WHERE doctorID = {appointment["doctorID"]};')
+                single_doc = cur.fetchall()
+                doc_first = single_doc[0]["doctorFirst"]
+                doc_last = single_doc[0]["doctorLast"]
+                doctor_name = doc_first + " " + doc_last
+                appointment["doctorID"] = doctor_name
 
             # Procedure Replacement
             cur.execute(f'SELECT * FROM Procedures WHERE procedureID = {appointment["procedureID"]};')
@@ -745,7 +723,7 @@ def appointments():
 
 
             appointment["procedureID"] = procedure_name
-            appointment["doctorID"] = doctor_name
+            
             appointment["patientID"] = patient_name
 
         mysql.connection.commit()

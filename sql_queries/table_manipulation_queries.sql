@@ -1,5 +1,10 @@
 ------------------------------------------- Patients page -------------------------------------------
 -----------------------------------------------------------------------------------------------------
+-- Get all Patients
+SELECT * FROM Patients
+
+-- Get Patient by patiendID
+SELECT * FROM Patients WHERE patientID=:patientID
 
 -- Update Patient from patientID
 UPDATE Patients SET patientFirst = :patientFirstUpdate, patientLast = :patientLastUpdate, patientDOB = :patientDOBUpdate, doctorID = :doctorIDUpdate WHERE patientID = :patientUpdateID
@@ -15,6 +20,11 @@ DELETE FROM Patients WHERE patientID = :patientIDSelected
 
 ------------------------------------------- Doctors page -------------------------------------------
 -----------------------------------------------------------------------------------------------------
+-- Get all Doctors
+SELECT * FROM Doctors
+
+-- Get Patient by procedureID
+SELECT * FROM Doctors WHERE doctorID=:doctorID
 
 -- Update Doctor from doctorID
 UPDATE Doctors SET doctorFirst = :doctorFirstUpdate, doctorLast = :doctorLastUpdate, doctorDOB = :doctorDOBUpdate, departmentID = :departmentIDUpdate WHERE doctorID = :doctorUpdateID
@@ -27,6 +37,11 @@ DELETE FROM Doctors WHERE doctorID = :doctorIDSelected
 
 ------------------------------------------- Procedures page -------------------------------------------
 -----------------------------------------------------------------------------------------------------
+-- Get all Procedures
+SELECT * FROM Procedures
+
+-- Get Patient by procedureID
+SELECT * FROM Procedures WHERE procedureID=:procedureID
 
 -- Update Procedure from procedureID
 UPDATE Procedures SET procdureName = :procedureNameUpdate, inPatient = :inPatientUpdate WHERE  procedureID = :procedureIDUpdate
@@ -39,6 +54,11 @@ DELETE FROM Procedures WHERE procedureID = :procedureIDSelected
 
 ------------------------------------------- Departments page -------------------------------------------
 -----------------------------------------------------------------------------------------------------
+-- Get all Departments
+SELECT * FROM Departments
+
+-- Get Patient by departmentID
+SELECT * FROM Departments WHERE departmentID=:departmentID
 
 -- Update Department from departmentID
 UPDATE Departments SET departmentName = :departmentNameUpdate, departmentHead = :departmentHeadUpdate, addressID = :updateDepartmentAddress WHERE  departmentID = :departmentIDUpdate
@@ -54,6 +74,9 @@ DELETE FROM Departments WHERE departmentID= :departmentIDSelected
 
 ------------------------------------------- Appointments page -------------------------------------------
 -----------------------------------------------------------------------------------------------------
+
+-- Select all Appointments
+SELECT * FROM Appointments
 
 -- Update Appointments from appointmentsID
 UPDATE Appointments SET doctorID = :doctorIDUpdate, procedureID = :procedureIDUpdate, appointmentDate = :appointmentDateUpdate WHERE  appointmentID = :appointmentIDUpdate
@@ -76,6 +99,12 @@ DELETE FROM Appointments WHERE appointmentID = :appointmentIDSelected
 ------------------------------------------- Addresses page -------------------------------------------
 -----------------------------------------------------------------------------------------------------
 
+-- Select all Addresses
+SELECT * FROM Addresses
+
+-- Get Address by addressID
+SELECT * FROM Addresses WHERE addressID=:addressID
+
 -- Update Address from addressID
 UPDATE Addresses SET streetAddress = :streetAddressUpdate, city = :cityUpdate, state = :stateUpdate, zipCode = :zipCodeUpdate WHERE addressID = :addressIDUpdate
 
@@ -88,6 +117,8 @@ DELETE FROM Addresses WHERE addressID = :addressIDSelected
 
 ------------------------------------------- Doctors-procedures page -------------------------------------------
 -----------------------------------------------------------------------------------------------------
+-- Select all Doctors-Procedures
+SELECT * FROM Doctors-Procedures
 
 -- Select Doctor name for dropdown
 SELECT doctorFirst, doctorLast, doctorID FROM Doctors 
