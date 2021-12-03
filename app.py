@@ -89,7 +89,6 @@ def doctors():
         
         else:
             doctorID = request.form['doctorID']
-            print(doctorID)
             update_query = f'UPDATE Doctors SET doctorFirst="{doctorFirst}", doctorLast="{doctorLast}", doctorDOB="{doctorDOB}", departmentID="{departmentID}" WHERE doctorID={doctorID}'
             cur.execute(update_query)
         
@@ -120,14 +119,10 @@ def patients():
         all_doctors = cur.fetchall()
 
         for patient in all_patients: 
-            # print(f'Patient ID: {patient["patientID"]}')
             if patient["patientDoc"] != None:
 
-                print(f'SELECT * FROM Doctors WHERE doctorID = {patient["patientDoc"]};')
-                print(type(patient["patientDoc"]))
                 cur.execute(f'SELECT * FROM Doctors WHERE doctorID = {patient["patientDoc"]};')
                 single_doc = cur.fetchall()
-                print(f"SINGLE DOCTOR - {single_doc}=================================\n")
                 doc_first = single_doc[0]["doctorFirst"]
                 doc_last = single_doc[0]["doctorLast"]
                 doctor_name = doc_first + " " + doc_last
@@ -178,7 +173,6 @@ def patients():
 def delete_doc_proc(id):
     cur = mysql.connection.cursor()
 
-    print("=-=-=--==--= DELETING FROM THE DOCTORS_PROCEDURES TABLE SPECIFICALLy =-=-=--==--=")
     # Delete using doctor id
     id_list = id.split('+')
     doc_id=id_list[0]
@@ -202,7 +196,6 @@ def delete(table, id):
     cur = mysql.connection.cursor()
     # Render Patients Table
     if table == "patients": 
-        print("=-=-=--==--= DELETING FROM THE PATIENTs TABLE SPECIFICALLy =-=-=--==--=")
 
         # Do the deleting
         cur.execute("DELETE FROM Patients WHERE patientID = %s" % (id))    
@@ -218,7 +211,6 @@ def delete(table, id):
 
     # Render Doctors Table
     if table == "doctors": 
-        print("=-=-=--==--= DELETING FROM THE DOCTORS TABLE SPECIFICALLy =-=-=--==--=")
 
         # Do the Deleting
         cur.execute("DELETE FROM Doctors WHERE doctorID = %s" % (id))    
@@ -232,7 +224,6 @@ def delete(table, id):
         return render_template('doctors.html', doctor_list=result, department_list = all_departments)
 
     if table == "procedures":
-        print("=-=-=--==--= DELETING FROM THE PROCEDURES TABLE SPECIFICALLy =-=-=--==--=")
 
         cur.execute("DELETE FROM Procedures WHERE procedureID = %s" % (id))    
 
@@ -243,7 +234,6 @@ def delete(table, id):
         return render_template('procedures.html', procedure_list=all_procedures)
     
     if table == "departments": 
-        print("=-=-=--==--= DELETING FROM THE DEPARTMENTS TABLE SPECIFICALLy =-=-=--==--=")
         # Delete
         cur.execute("DELETE FROM Departments WHERE departmentID= %s" % (id))    
 
@@ -262,7 +252,6 @@ def delete(table, id):
         return render_template('departments.html', department_list=all_departments, address_list = all_addresses, doctor_list = all_doctors)
 
     if table == "appointments": 
-        print("=-=-=--==--= DELETING FROM THE APPOINTMENTS TABLE SPECIFICALLy =-=-=--==--=")
         # Delete
         cur.execute("DELETE FROM Appointments WHERE appointmentID= %s" % (id))    
 
@@ -284,7 +273,6 @@ def delete(table, id):
         return render_template('appointments.html', appointment_list=all_appointments, patient_list = all_patients, doctor_list = all_doctors, procedure_list=all_procedures)
 
     if table == "addresses": 
-        print("=-=-=--==--= DELETING FROM THE ADDRESSES TABLE SPECIFICALLy =-=-=--==--=")
         # Delete
         cur.execute("DELETE FROM Addresses WHERE addressID= %s" % (id))    
         cur = mysql.connection.cursor()
@@ -345,7 +333,6 @@ def departments():
         all_doctors = cur.fetchall()
 
         for department in all_departments: 
-            print(department)
             if department["addressID"] != None:
                 cur.execute(f'SELECT * FROM Addresses WHERE addressID = {department["addressID"]};')
                 single_address = cur.fetchall()
@@ -358,16 +345,13 @@ def departments():
 
             if department["departmentHead"] != None:
 
-                print(f'SELECT * FROM Doctors WHERE doctorID = {department["departmentHead"]};')
                 cur.execute(f'SELECT * FROM Doctors WHERE doctorID = {department["departmentHead"]};')
                 single_doc = cur.fetchall()
-                print(single_doc)
-                print(f"SINGLE DOCTOR - {single_doc}=================================\n")
                 doc_first = single_doc[0]["doctorFirst"]
                 doc_last = single_doc[0]["doctorLast"]
                 doctor_name = doc_first + " " + doc_last
                 department["departmentHead"] = doctor_name
-                print(department["departmentHead"])
+
 
         mysql.connection.commit()
 
@@ -435,10 +419,8 @@ def departments():
 
             if department["departmentHead"] != None:
 
-                print(f'SELECT * FROM Doctors WHERE doctorID = {department["departmentHead"]};')
                 cur.execute(f'SELECT * FROM Doctors WHERE doctorID = {department["departmentHead"]};')
                 single_doc = cur.fetchall()
-                print(f"SINGLE DOCTOR - {single_doc}=================================\n")
                 doc_first = single_doc[0]["doctorFirst"]
                 doc_last = single_doc[0]["doctorLast"]
                 doctor_name = doc_first + " " + doc_last
@@ -630,7 +612,6 @@ def appointments():
             # Patient Replacement
             cur.execute(f'SELECT * FROM Patients WHERE patientID = {appointment["patientID"]};')
             single_patient = cur.fetchall()
-            print(single_patient)
             first_name = single_patient[0]['patientFirst']
             last_name = single_patient[0]['patientLast']
             patient_name = first_name + " " + last_name
@@ -659,8 +640,6 @@ def appointments():
 
     if request.method == "POST": 
         mode = request.form['mode']
-        print(mode)
-        print(request.form)
 
         
         patientID = request.form['patientID']
