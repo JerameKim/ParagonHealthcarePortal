@@ -52,7 +52,7 @@
 
             <form action="/departments" method="POST">
                 <label for="departmentName">Department Name: </label><br>
-                <input type="text" name="departmentName"id="departmentName"><br><br>
+                <input class="form-control" required type="text" name="departmentName"id="departmentName"><br><br>
 
                 <div class="dropdown">
                 <label for="departmentName">Department Head: </label><br>
@@ -66,7 +66,7 @@
                 <br>
 
                 <div class="dropdown">
-                <label for="departmentName">Address: </label><br>
+                <label for="addressID">Address: </label><br>
                     <select name="addressID" id="addressID">
                         {% for address in address_list %}
                             <option name="addressID" value="{{address.addressID}}" SELECTED> {{address.streetAddress}} {{address.city}}, {{address.state}}, {{address.zipCode}}</option>

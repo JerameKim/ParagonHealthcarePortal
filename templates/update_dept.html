@@ -29,7 +29,7 @@
     <form action="/departments" method="POST">
         <input type="hidden" name="departmentID" id="departmentID" value={{department.departmentID}}>
         <label for="departmentName">Department Name: </label><br>
-        <input type="text" value="{{department.departmentName}}" name="departmentName"id="departmentName"><br><br>
+        <input class="form-control" required type="text" value="{{department.departmentName}}" name="departmentName"id="departmentName"><br><br>
 
         <div class="dropdown">
         <label for="departmentHead">Department Head: </label><br>

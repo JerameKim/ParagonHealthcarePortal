@@ -29,11 +29,11 @@
     <form action='/patients' method='POST'>
         <input type="hidden" name="patientID" id="patientID" value={{patient.patientID}}><br><br>
         <label for="patientFirst">Patient First: </label><br>
-        <input type="text" name="patientFirst" id="patientFirst" value={{patient.patientFirst}}><br><br>
+        <input class="form-control" required type="text" name="patientFirst" id="patientFirst" value={{patient.patientFirst}}><br><br>
         <label for="patientLast">Patient Last: </label><br>
-        <input type="text" name="patientLast" id="patientLast" value={{patient.patientLast}}><br><br>
+        <input class="form-control" required type="text" name="patientLast" id="patientLast" value={{patient.patientLast}}><br><br>
         <label for="patientDOB">Patient Birthday: </label><br>
-        <input type="date" name="patientDOB" id="patientDOB" value={{patient.patientDOB}}><br><br>
+        <input class="form-control" required type="date" name="patientDOB" id="patientDOB" value={{patient.patientDOB}}><br><br>
 
         <div class="dropdown">
             <label for="patientDoc">Primary Care Physician: </label><br>

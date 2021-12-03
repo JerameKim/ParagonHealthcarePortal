@@ -29,7 +29,7 @@
     <form action='/procedures' method='POST'>
         <input type="hidden" name="procedureID" id="procedureID" value="{{procedure.procedureID}}"><br><br>
         <label for="procedureName" >Procedure Name: </label><br>
-        <input type="text" id="procedureName"name="procedureName" value="{{procedure.procedureName}}"><br><br>
+        <input class="form-control" required type="text" id="procedureName"name="procedureName" value="{{procedure.procedureName}}"><br><br>
         <label for="inPatient">Inpatient: </label><br>
         {%if procedure.inPatient == 1%}
             <input type="radio" name="inPatient" id="inPatient" value = "1" CHECKED>True<br>
