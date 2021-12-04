@@ -306,8 +306,34 @@ def delete(table, id):
         cur.execute('SELECT * FROM Procedures')
         all_procedures = cur.fetchall()
 
-        mysql.connection.commit()
+        for appointment in all_appointments: 
+            # Patient Replacement
+            cur.execute(f'SELECT * FROM Patients WHERE patientID = {appointment["patientID"]};')
+            single_patient = cur.fetchall()
+            first_name = single_patient[0]['patientFirst']
+            last_name = single_patient[0]['patientLast']
+            patient_name = first_name + " " + last_name
 
+            # Doctor Replacement 
+            if appointment["doctorID"] != None:
+                cur.execute(f'SELECT * FROM Doctors WHERE doctorID = {appointment["doctorID"]};')
+                single_doc = cur.fetchall()
+                doc_first = single_doc[0]["doctorFirst"]
+                doc_last = single_doc[0]["doctorLast"]
+                doctor_name = doc_first + " " + doc_last
+                appointment["doctorID"] = doctor_name
+
+            # Procedure Replacement
+            cur.execute(f'SELECT * FROM Procedures WHERE procedureID = {appointment["procedureID"]};')
+            single_procedure = cur.fetchall()
+            procedure_name = single_procedure[0]["procedureName"]
+
+
+            appointment["procedureID"] = procedure_name
+            
+            appointment["patientID"] = patient_name
+
+        mysql.connection.commit()
         return render_template('appointments.html', appointment_list=all_appointments, patient_list = all_patients, doctor_list = all_doctors, procedure_list=all_procedures)
 
     if table == "addresses": 
