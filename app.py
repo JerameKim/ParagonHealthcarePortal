@@ -264,9 +264,30 @@ def delete(table, id):
         cur.execute('SELECT * FROM Doctors')
         all_doctors = cur.fetchall()
 
+        for department in all_departments: 
+            if department["addressID"] != None:
+                cur.execute(f'SELECT * FROM Addresses WHERE addressID = {department["addressID"]};')
+                single_address = cur.fetchall()
+                streetAddress = single_address[0]['streetAddress']
+                city = single_address[0]['city']
+                state = single_address[0]['state']
+                zipCode = single_address[0]['zipCode']
+                full_address = streetAddress + ", " + city + ", " + state + " " + zipCode
+                department["addressID"] = full_address
+
+            if department["departmentHead"] != None:
+
+                cur.execute(f'SELECT * FROM Doctors WHERE doctorID = {department["departmentHead"]};')
+                single_doc = cur.fetchall()
+                doc_first = single_doc[0]["doctorFirst"]
+                doc_last = single_doc[0]["doctorLast"]
+                doctor_name = doc_first + " " + doc_last
+                department["departmentHead"] = doctor_name
+
+
         mysql.connection.commit()
 
-        return render_template('departments.html', department_list=all_departments, address_list = all_addresses, doctor_list = all_doctors)
+        return render_template('departments.html', department_list= all_departments, address_list = all_addresses, doctor_list = all_doctors)
 
     if table == "appointments": 
         # Delete
