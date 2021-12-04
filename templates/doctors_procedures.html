@@ -65,13 +65,14 @@
             <th>Procedure Name</th>
             <th></th>
         </tr>
-        {%for doc_proc in doc_proc_list%}
+        {%for doc_proc_name, doc_proc_id in doc_proc_list|zip(doc_proc_ids)%}
         <tr>
-            <td>{{doc_proc["doctorID"]}}</td>
-            <td>{{doc_proc["procedureID"]}}</td>
-            <th><a href="/delete/doctors_procedures/{{doc_proc['doctorID']}}+{{doc_proc['procedureID']}}" class="btn btn-primary">Delete</a></th>
+            <td>{{doc_proc_name["doctorID"]}}</td>
+            <td>{{doc_proc_name["procedureID"]}}</td>
+            <th><a href="/delete/doctors_procedures/{{doc_proc_id[0]}}+{{doc_proc_id[1]}}" class="btn btn-primary">Delete</a></th>
         </tr>
         {%endfor%}
+        
     </table>
 </body>
 {%endblock%}

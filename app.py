@@ -7,6 +7,9 @@ import os
  
 app = Flask(__name__)
 
+app.jinja_env.filters['zip'] = zip
+
+
 mysql = MySQL()
 
 # MySQL configurations for Heroku
@@ -184,15 +187,29 @@ def delete_doc_proc(id):
     # Render table
     cur.execute('SELECT * FROM Doctors_Procedures')
     all_doc_procs = cur.fetchall()
-
     cur.execute('SELECT * FROM Procedures')
     all_procedures = cur.fetchall()
-
     cur.execute('SELECT * FROM Doctors')
     all_doctors = cur.fetchall()
+    # Create an identical array with the IDS of the doctors
+    # Render
+    all_doc_proc_ids = []
+    for doc_proc in all_doc_procs: 
+        # Doctor Replacement 
+        cur.execute(f'SELECT * FROM Doctors WHERE doctorID = {doc_proc["doctorID"]};')
+        single_doc = cur.fetchall()
+        doc_id = single_doc[0]["doctorID"]
+
+        # Procedure Replacement
+        cur.execute(f'SELECT * FROM Procedures WHERE procedureID = {doc_proc["procedureID"]};')
+        single_procedure = cur.fetchall()
+        procedure_id = single_procedure[0]["procedureID"]
+
+        # create
+        doc_proc_tuple = [doc_id, procedure_id]
+        all_doc_proc_ids.append(doc_proc_tuple)
 
     for doc_proc in all_doc_procs: 
-
         # Doctor Replacement 
         cur.execute(f'SELECT * FROM Doctors WHERE doctorID = {doc_proc["doctorID"]};')
         single_doc = cur.fetchall()
@@ -209,7 +226,7 @@ def delete_doc_proc(id):
         doc_proc["doctorID"] = doctor_name
 
     mysql.connection.commit()
-    return render_template('doctors_procedures.html', doc_proc_list=all_doc_procs, procedure_list = all_procedures, doctor_list = all_doctors)
+    return render_template('doctors_procedures.html', doc_proc_ids = all_doc_proc_ids, doc_proc_list=all_doc_procs, procedure_list = all_procedures, doctor_list = all_doctors)    
 
 @app.route('/delete/<string:table>/<int:id>')
 def delete(table, id):
@@ -284,30 +301,9 @@ def delete(table, id):
         cur.execute('SELECT * FROM Doctors')
         all_doctors = cur.fetchall()
 
-        for department in all_departments: 
-            if department["addressID"] != None:
-                cur.execute(f'SELECT * FROM Addresses WHERE addressID = {department["addressID"]};')
-                single_address = cur.fetchall()
-                streetAddress = single_address[0]['streetAddress']
-                city = single_address[0]['city']
-                state = single_address[0]['state']
-                zipCode = single_address[0]['zipCode']
-                full_address = streetAddress + ", " + city + ", " + state + " " + zipCode
-                department["addressID"] = full_address
-
-            if department["departmentHead"] != None:
-
-                cur.execute(f'SELECT * FROM Doctors WHERE doctorID = {department["departmentHead"]};')
-                single_doc = cur.fetchall()
-                doc_first = single_doc[0]["doctorFirst"]
-                doc_last = single_doc[0]["doctorLast"]
-                doctor_name = doc_first + " " + doc_last
-                department["departmentHead"] = doctor_name
-
-
         mysql.connection.commit()
 
-        return render_template('departments.html', department_list= all_departments, address_list = all_addresses, doctor_list = all_doctors)
+        return render_template('departments.html', department_list=all_departments, address_list = all_addresses, doctor_list = all_doctors)
 
     if table == "appointments": 
         # Delete
@@ -326,34 +322,8 @@ def delete(table, id):
         cur.execute('SELECT * FROM Procedures')
         all_procedures = cur.fetchall()
 
-        for appointment in all_appointments: 
-            # Patient Replacement
-            cur.execute(f'SELECT * FROM Patients WHERE patientID = {appointment["patientID"]};')
-            single_patient = cur.fetchall()
-            first_name = single_patient[0]['patientFirst']
-            last_name = single_patient[0]['patientLast']
-            patient_name = first_name + " " + last_name
-
-            # Doctor Replacement 
-            if appointment["doctorID"] != None:
-                cur.execute(f'SELECT * FROM Doctors WHERE doctorID = {appointment["doctorID"]};')
-                single_doc = cur.fetchall()
-                doc_first = single_doc[0]["doctorFirst"]
-                doc_last = single_doc[0]["doctorLast"]
-                doctor_name = doc_first + " " + doc_last
-                appointment["doctorID"] = doctor_name
-
-            # Procedure Replacement
-            cur.execute(f'SELECT * FROM Procedures WHERE procedureID = {appointment["procedureID"]};')
-            single_procedure = cur.fetchall()
-            procedure_name = single_procedure[0]["procedureName"]
-
-
-            appointment["procedureID"] = procedure_name
-            
-            appointment["patientID"] = patient_name
-
         mysql.connection.commit()
+
         return render_template('appointments.html', appointment_list=all_appointments, patient_list = all_patients, doctor_list = all_doctors, procedure_list=all_procedures)
 
     if table == "addresses": 
@@ -835,8 +805,25 @@ def doctors_procedures():
         cur.execute('SELECT * FROM Doctors')
         all_doctors = cur.fetchall()
 
+        # Create an identical array with the IDS of the doctors
+        # Render
+        all_doc_proc_ids = []
         for doc_proc in all_doc_procs: 
+            # Doctor Replacement 
+            cur.execute(f'SELECT * FROM Doctors WHERE doctorID = {doc_proc["doctorID"]};')
+            single_doc = cur.fetchall()
+            doc_id = single_doc[0]["doctorID"]
 
+            # Procedure Replacement
+            cur.execute(f'SELECT * FROM Procedures WHERE procedureID = {doc_proc["procedureID"]};')
+            single_procedure = cur.fetchall()
+            procedure_id = single_procedure[0]["procedureID"]
+
+            # create
+            doc_proc_tuple = [doc_id, procedure_id]
+            all_doc_proc_ids.append(doc_proc_tuple)
+
+        for doc_proc in all_doc_procs: 
             # Doctor Replacement 
             cur.execute(f'SELECT * FROM Doctors WHERE doctorID = {doc_proc["doctorID"]};')
             single_doc = cur.fetchall()
@@ -853,7 +840,7 @@ def doctors_procedures():
             doc_proc["doctorID"] = doctor_name
 
         mysql.connection.commit()
-        return render_template('doctors_procedures.html', doc_proc_list=all_doc_procs, procedure_list = all_procedures, doctor_list = all_doctors)
+        return render_template('doctors_procedures.html', doc_proc_ids = all_doc_proc_ids, doc_proc_list=all_doc_procs, procedure_list = all_procedures, doctor_list = all_doctors)
 
     if request.method == "POST":
 
@@ -875,8 +862,25 @@ def doctors_procedures():
         cur.execute('SELECT * FROM Procedures')
         all_procedures = cur.fetchall()
 
+        # Create an identical array with the IDS of the doctors
+        # Render
+        all_doc_proc_ids = []
         for doc_proc in all_doc_procs: 
+            # Doctor Replacement 
+            cur.execute(f'SELECT * FROM Doctors WHERE doctorID = {doc_proc["doctorID"]};')
+            single_doc = cur.fetchall()
+            doc_id = single_doc[0]["doctorID"]
 
+            # Procedure Replacement
+            cur.execute(f'SELECT * FROM Procedures WHERE procedureID = {doc_proc["procedureID"]};')
+            single_procedure = cur.fetchall()
+            procedure_id = single_procedure[0]["procedureID"]
+
+            # create
+            doc_proc_tuple = [doc_id, procedure_id]
+            all_doc_proc_ids.append(doc_proc_tuple)
+
+        for doc_proc in all_doc_procs: 
             # Doctor Replacement 
             cur.execute(f'SELECT * FROM Doctors WHERE doctorID = {doc_proc["doctorID"]};')
             single_doc = cur.fetchall()
@@ -893,7 +897,7 @@ def doctors_procedures():
             doc_proc["doctorID"] = doctor_name
 
         mysql.connection.commit()
-        return render_template('doctors_procedures.html', doc_proc_list=all_doc_procs, procedure_list = all_procedures, doctor_list =  all_doctors)
+        return render_template('doctors_procedures.html', doc_proc_ids = all_doc_proc_ids, doc_proc_list=all_doc_procs, procedure_list = all_procedures, doctor_list = all_doctors)
 
 
 # Listener
