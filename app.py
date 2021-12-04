@@ -183,13 +183,33 @@ def delete_doc_proc(id):
 
     # Render table
     cur.execute('SELECT * FROM Doctors_Procedures')
-    all_doc_procs = cur.fetchall()
-    cur.execute('SELECT * FROM Procedures')
-    all_procedures = cur.fetchall()
-    cur.execute('SELECT * FROM Doctors')
-    all_doctors = cur.fetchall()
-    mysql.connection.commit()
-    return render_template('doctors_procedures.html', doc_proc_list=all_doc_procs, procedure_list = all_procedures, doctor_list = all_doctors)
+        all_doc_procs = cur.fetchall()
+
+        cur.execute('SELECT * FROM Procedures')
+        all_procedures = cur.fetchall()
+
+        cur.execute('SELECT * FROM Doctors')
+        all_doctors = cur.fetchall()
+
+        for doc_proc in all_doc_procs: 
+
+            # Doctor Replacement 
+            cur.execute(f'SELECT * FROM Doctors WHERE doctorID = {doc_proc["doctorID"]};')
+            single_doc = cur.fetchall()
+            doc_first = single_doc[0]["doctorFirst"]
+            doc_last = single_doc[0]["doctorLast"]
+            doctor_name = doc_first + " " + doc_last
+
+            # Procedure Replacement
+            cur.execute(f'SELECT * FROM Procedures WHERE procedureID = {doc_proc["procedureID"]};')
+            single_procedure = cur.fetchall()
+            procedure_name = single_procedure[0]["procedureName"]
+
+            doc_proc["procedureID"] = procedure_name
+            doc_proc["doctorID"] = doctor_name
+
+        mysql.connection.commit()
+        return render_template('doctors_procedures.html', doc_proc_list=all_doc_procs, procedure_list = all_procedures, doctor_list = all_doctors)
 
 @app.route('/delete/<string:table>/<int:id>')
 def delete(table, id):
