@@ -227,12 +227,19 @@ def delete(table, id):
 
         # Populate table
         cur.execute('SELECT * FROM Doctors')
-        result = cur.fetchall()
+        all_doctors = cur.fetchall()
         cur.execute('SELECT * FROM Departments')
         all_departments = cur.fetchall()
-        mysql.connection.commit()
-        return render_template('doctors.html', doctor_list=result, department_list = all_departments)
 
+        for doctor in all_doctors: 
+            if doctor["departmentID"] != None:
+                cur.execute(f'SELECT * FROM Departments WHERE departmentID = {doctor["departmentID"]};')
+                single_department = cur.fetchall()
+                department_name = single_department[0]["departmentName"]
+                doctor["departmentID"] = department_name
+
+        mysql.connection.commit()
+        return render_template('doctors.html', doctor_list=all_doctors, department_list = all_departments)
     if table == "procedures":
 
         cur.execute("DELETE FROM Procedures WHERE procedureID = %s" % (id))    
