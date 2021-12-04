@@ -206,6 +206,16 @@ def delete(table, id):
         cur.execute('SELECT * FROM Patients')
         all_patients = cur.fetchall()
         
+        for patient in all_patients: 
+            if patient["patientDoc"] != None:
+
+                cur.execute(f'SELECT * FROM Doctors WHERE doctorID = {patient["patientDoc"]};')
+                single_doc = cur.fetchall()
+                doc_first = single_doc[0]["doctorFirst"]
+                doc_last = single_doc[0]["doctorLast"]
+                doctor_name = doc_first + " " + doc_last
+                patient["patientDoc"] = doctor_name
+
         mysql.connection.commit()
         return render_template('patients.html', patient_list=all_patients, doctor_list = all_doctors)
 
